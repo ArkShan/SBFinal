@@ -53,35 +53,32 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                                </nav>
-                            </div>
+                            
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
+                                Menu
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Pergudangan
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="gudangmasuk.php">Barang Masuk</a>
-                                            <a class="nav-link" href="gudangkeluar.php">Barang Keluar</a>
-                                            <a class="nav-link" href="gudangtables.php">List Barang</a>
-                                        </nav>
-                                    </div>
+                                    <a class="nav-link" href="owneruser.php">List User</a>
+                                    <a class="nav-link" href="ownertoko.php">List Toko</a>
+                                    <a class="nav-link" href="ownertables.php">List Barang Gudang</a>
+                                    <a class="nav-link" href="ownermasuk.php">List Barang Masuk</a>
+                                    <a class="nav-link" href="ownerkeluar.php">List Barang Keluar</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Laporan
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="laporanbarangmasuk.php">Laporan  Barang Masuk</a>
+                                    <a class="nav-link" href="laporanstockbarangkeluar.php">Laporan Barang Keluar</a>
+                                    <a class="nav-link" href="laporanstockgudang.php">Laporan Barang Gudang</a>
+                                    <a class="nav-link" href="laporanharga.php">Laporan Barang Gudang</a>
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">Addons</div>
@@ -97,7 +94,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Kepala Gudang
+                        Start Bootstrap
                     </div>
                 </nav>
             </div>
@@ -169,15 +166,14 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <!-- Button to Open the Modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                  Tambah Barang Masuk
                                 </button>
                                 <!-- End Notifikasi warning -->
-                                <button type="button" class="btn btn-danger" onclick="window.location.href='gudanglap_m.php'"><i class="fa fa-file-pdf"></i>
-                                 Export
-                                </button>
+                                <a href="laporanbarangkeluar.php" id="exportmasuk" class="btn btn-info">Export Data</a>
                                 <br>
                                 <!-- end Button to Open the Modal  -->
+                                <!-- <i class="fas fa-table mr-1"></i> -->
                                 
                             </div>
                             <div class="card-body">
@@ -235,7 +231,7 @@
                                         <!-- Aksi CRUD -->
                                         <!-- Modal Barang Masuk -->
                                         <!-- The Modal -->
-                                        <div class="modal fade" id="myModal1">
+                                        <div class="modal fade" id="myModal">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <!-- Modal Header -->
@@ -364,5 +360,42 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
     </body>
-
+    <!-- Modal Barang Masuk -->
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Barang Masuk</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <!-- Modal body -->
+                        <form method="POST" >
+                            <div class="modal-body">
+                                <select name="barangnya" class="form-control mb-2">
+                                    <?php
+                                        $ambilsemuadatanya = mysqli_query($koneks,"SELECT * FROM tb_barang");
+                                        while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                            $namab = $fetcharray['nama_b'];
+                                            $idb = $fetcharray['id_b'];
+                                    ?>
+                                    <option value="<?=$idb;?>"><?=$namab;?></option> 
+                                    <?php };?>
+                                </select>
+                                <input  type="number"  name="qtym"            class="form-control mb-2  "   placeholder="Qty" required  />
+                                <input  type="text"    name="pengirim"        class="form-control mb-2  "   placeholder="Pengirim" required  />
+                                <!-- <input  type="text"   name="harga"          class="form-control mb-2  "   placeholder="Hargabarang" required  /> -->
+                                <button type="submit" name="barangmasuk"    class="btn btn-primary" >Submit</button>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Selesai modal barang masuk -->
 </html>

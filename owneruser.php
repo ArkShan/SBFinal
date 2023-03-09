@@ -79,12 +79,6 @@
                                     <a class="nav-link" href="laporanharga.php">Laporan Barang Gudang</a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Master Main
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
@@ -205,10 +199,10 @@
                                             </div>
                                             </div>
                                         </div>
-                                                <!-- Modal stock Gudang -->
-                                                <!-- The  delete Modal -->
-                                                <div class="modal fade" id="delete<?=$idu;?>">
-                                                <div class="modal-dialog">
+                                        <!-- Modal stock Gudang -->
+                                        <!-- The  delete Modal -->
+                                        <div class="modal fade" id="delete<?=$idu;?>">
+                                            <div class="modal-dialog">
                                                 <div class="modal-content">
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">

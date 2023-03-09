@@ -147,7 +147,7 @@
                                         <?php
                                         // Fungsi Filter tanggal
                                         
-                                            $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  tb_toko");
+                                            $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  tb_wilayah w, tb_toko t  WHERE w.id_w = t.id_w");
                                         
                                         $i=1;
                                         while($data=mysqli_fetch_array($ambilsemuadatastock)){
@@ -195,7 +195,16 @@
                                                 <input class="form-control py-4 mb-2" id="inputEmailAddress" name="cs_toko" type="text"     placeholder="CS Toko"  value="<?=$cst;?>" required/>
                                                 <input class="form-control py-4 mb-2" id="inputEmailAddress" name="no_telp"    type="text"     placeholder="No. Telepon"      value="<?=$notelp;?>"/>
                                                 <input class="form-control py-4 mb-2" id="inputEmailAddress" name="alamat"         type="text"   placeholder="Alamat"  value="<?=$alamat;?>"required/>
-                                                <input class="form-control py-4 mb-2" id="inputEmailAddress" name="wilayah"         type="text"   placeholder="Wilayah"  value="<?=$wilayah;?>"required/>
+                                                <select name="barang" class="form-control mb-2">
+                                                    <?php
+                                                        $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_wilayah");
+                                                        while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
+                                                            $wilayah = $fetcharray['wilayah'];
+                                                            $idw = $fetcharray['id_w'];
+                                                    ?>
+                                                    <option value="<?=$idw;?>"><?=$wilayah;?></option> 
+                                                    <?php }; ?>
+                                                </select>
                                                 <input type="hidden" name="idkeluar" value="<?=$idt;?>">
                                                 <button type="submit" class="btn btn-primary" name="updatetoko">Submit</button>
                                                 </div>
@@ -292,7 +301,16 @@
                     <input  type="text" name="cs_toko"   class="form-control mb-2  " placeholder="CS Toko"     required  />
                     <input  type="text" name="no_telp"   class="form-control mb-2  " placeholder="No. Telepon" required  />
                     <input  type="text" name="alamat"    class="form-control mb-2  " placeholder="Alamat"      required  />
-                    <input  type="text" name="wilayah"   class="form-control mb-2  " placeholder="Wilayah"     required  />
+                    <select name="barang" class="form-control mb-2">
+                        <?php
+                            $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_wilayah");
+                            while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
+                                $wilayah = $fetcharray['wilayah'];
+                                $idw = $fetcharray['id_w'];
+                        ?>
+                        <option value="<?=$idw;?>"><?=$wilayah;?></option> 
+                        <?php }; ?>
+                    </select>
                     <!-- <input  type="text"   name="harga"          class="form-control mb-2  "   placeholder="Hargabarang" required  /> -->
                     <button type="submit" name="tambahtoko"    class="btn btn-primary" >Submit</button>
                     </div>

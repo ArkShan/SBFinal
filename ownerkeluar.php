@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>SJM - Sales_Home</title>
+        <title>SJM - Gudang_Barang Keluar</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -43,23 +43,24 @@
             </ul>
         </nav>
         <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
+        <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
-                    <div class="nav">
+                        <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="ownerhome.php">
+                            <a class="nav-link" href="gudanghome.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Home
+                                Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 Menu
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <a class="nav-link" href="owneruser.php">List User</a>
                                     <a class="nav-link" href="ownertoko.php">List Toko</a>
                                     <a class="nav-link" href="ownertables.php">List Barang Gudang</a>
@@ -67,12 +68,12 @@
                                     <a class="nav-link" href="ownerkeluar.php">List Barang Keluar</a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Laporan
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="laporanbarangmasuk.php">Laporan  Barang Masuk</a>
                                     <a class="nav-link" href="laporanstockbarangkeluar.php">Laporan Barang Keluar</a>
@@ -80,11 +81,6 @@
                                     <a class="nav-link" href="laporanharga.php">Laporan Barang Gudang</a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Master Main
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
                             <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
@@ -97,18 +93,15 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                    <div class="High">Logged in as: Owner</div>
-                        <!-- Start Bootstrap -->
+                        <div class="small">Logged in as:</div>
+                        Start Bootstrap
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
+                        <h1 class="mt-4">Daftar Barang Keluar</h1>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
@@ -169,19 +162,20 @@
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                DataTable Example
+                                <a href="laporanbarangkeluar.php" id="exportmasuk" class="btn btn-info">Export Data</a>
+                                <br>
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>ID Barang Keluar</th>
+                                            <th>Kode Barang</th>
+                                            <th>Nama Barang</th>
+                                            <th>Kategori</th>
+                                            <th>Tanggal</th>
+                                            <th>Tujuan</th>
+                                            <th>Qty</th>
                                         </tr>
                                     </thead>
                                     <!-- <tfoot>
@@ -195,7 +189,30 @@
                                         </tr>
                                     </tfoot> -->
                                     <tbody>
-                                        
+                                        <?php
+                                            $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_keluar k, tb_toko t WHERE b.id_b = k.id_b && k.id_t = t.id_toko");
+                                            $i=1;
+                                            while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                $idk        = $data['id_bk'];
+                                                $idb        = $data['id_b'];
+                                                $kodebarang = $data['kode_b'];
+                                                $namabarang = $data['nama_b'];
+                                                $kategori   = $data['kategori'];
+                                                $tanggal    = $data['tanggal'];
+                                                $tujuan     = $data['nama_toko'];
+                                                $qtyk       = $data['qtyk'];
+                                        ?>
+                                        <tr>
+                                            <td><?=$i++;?></td>
+                                            <td><?=$kodebarang;?></td>
+                                            <td><?=$namabarang;?></td>
+                                            <td><?=$kategori;?></td>
+                                            <td><?=$tanggal;?></td>
+                                            <td><?=$tujuan;?></td>
+                                            <td><?=$qtyk;?></td>
+                                        </tr>
+                                        <!-- END Selesai Field Table -->
+                                        <?php }; ?>
                                     </tbody>
                                 </table>
                             </div>
