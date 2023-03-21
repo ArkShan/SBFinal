@@ -21,7 +21,6 @@ include 'cek.php';
         
         <hr>
             <div class="row">
-                <button type="button" class="btn btn-success"  onclick="window.location.href='salesorder.php'">Kembali</button>
                 <div class="col text-center">
                     <h3 class="h3 text-dark">Nota Pesanan</h3>
                 </div>
@@ -29,15 +28,25 @@ include 'cek.php';
 	        <div class="row">
                 <div class="col-md-4">
                     <table class="table table-borderless">
-                        <select name="tokonya" class="form-control mb-2">
-                            <?php
-                                $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_toko");
-                                while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
-                                    $nama_t = $fetcharray['nama_toko'];
-                                    $idt = $fetcharray['id_toko'];
-                            ?>
-                            <?php }; ?>
-                        </select>
+                        <?php
+                            $ido=$_GET['id_o'];
+
+                            $sSQL=mysqli_query($koneksi, "SELECT * FROM tb_barang b, orderan o, tb_toko t, tb_wilayah w WHERE o.id_o = '$ido' AND b.id_b = o.id_b and o.id_toko = t.id_toko and o.id_w = w.id_w limit 1");
+                            $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  orderan o, tb_barang b, tb_toko t, tb_wilayah w WHERE o.id_b = b.id_b && o.id_toko = t.id_toko && o.id_w = w.id_w");
+                            $i=1;
+                            while($data=mysqli_fetch_array($sSQL)){
+                                $ido        = $data['id_o'];
+                                $nop        = $data['no_order'];
+                                $kodeb      = $data['kode_b'];
+                                $namab      = $data['nama_b'];
+                                $wilayah    = $data['wilayah'];
+                                $Harga      = $data['harga'];
+                                $qtyp       = $data['qtyp'];
+                                $namat      = $data['nama_toko'];
+                                $total      = $qtyp * $Harga;
+                                $tglo       = $data['tgl_order'];
+                                $alamat     = $data['alamat'];
+                        ?>
                         <tr>
                             <td><strong>Tn / Toko</strong></td>  
                             <td><strong>:</strong></td> 
@@ -60,7 +69,7 @@ include 'cek.php';
                 </div>
             </div>
 
-		<div class="data-tables datatable-dark">
+		<div class="tables datatable-dark">
             <table class="table table-bordered" id="exportorder" width="100%" cellspacing="0">
                 <thead>
                     <tr>
@@ -76,24 +85,6 @@ include 'cek.php';
                 </thead>
                 <!-- Mulai Field Table -->
                 <tbody>
-                    <?php
-                        $ido=$_GET['id_o'];
-
-                        $sSQL=mysqli_query($koneksi, "SELECT * FROM tb_barang b, orderan o WHERE o.id_o = '1' AND b id_b = o.id_b limit 1");
-                        $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  orderan o, tb_barang b, tb_toko t, tb_wilayah w WHERE o.id_b = b.id_b && o.id_toko = t.id_toko && o.id_w = w.id_w");
-                        $i=1;
-                        while($data=mysqli_fetch_array($sSQL)){
-                            $ido        = $data['id_o'];
-                            $nop        = $data['no_order'];
-                            $kodeb      = $data['kode_b'];
-                            $namab      = $data['nama_b'];
-                            $wilayah    = $data['wilayah'];
-                            $Harga      = $data['harga'];
-                            $qtyp       = $data['qtyp'];
-                            $namat      = $data['nama_toko'];
-                            $total      = $qtyp * $Harga;
-                            $tglo       = $data['tgl_order'];
-                    ?>
                     <tr>
                         <td><?=$i++?></td>
                         <td><?php echo $nop;?></td>
@@ -110,7 +101,7 @@ include 'cek.php';
         </div>
         <!--  -->
     </div>
-
+<!-- 
         <script>
             $(document).ready(function() {
                 $('#exportorder').DataTable( {
@@ -120,6 +111,9 @@ include 'cek.php';
                         ]
                 } );
             } );
+        </script> -->
+        <script>
+            window.print();
         </script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>

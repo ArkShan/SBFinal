@@ -20,7 +20,6 @@ include 'cek.php';
     <div class="container">
         <hr>
             <div class="row">
-                <button type="button" class="btn btn-success"  onclick="window.location.href='gudangmasuk.php'">Kembali</button>
                 <div class="col text-center">
                     <h3 class="h3 text-dark">Laporan Barang Masuk</h3>
                 </div>
@@ -73,14 +72,7 @@ include 'cek.php';
     </div>
 
         <script>
-            $(document).ready(function() {
-                $('#exportmasuk').DataTable( {
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copy','csv','excel', 'pdf', 'print'
-                        ]
-                } );
-            } );
+            window.print();
         </script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>

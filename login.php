@@ -1,40 +1,46 @@
 <?php 
 include 'function.php';
-include 'cek.php';
+if(empty($_SESSION['isLoggedin'])){
 
+}else{
+        header('location:home.php');
+}
 // Function Login multi user berdasarakan Lvl
 if (isset($_POST['login'])){
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-  $role = $_POST['role'];
-  // Cocokan dengan database, cari data
-  $cekdatabase = mysqli_query($koneksi, "SELECT * FROM tb_register where email='$email' and password='$password'");
-  // Hitung jumlah data
-  $hitung = mysqli_num_rows($cekdatabase);
-  if ($hitung > 0) {
-      // Kalau data ditemukan
-      // $_SESSION['log']= 'TRUE';
-      $ambilrole = mysqli_fetch_array($cekdatabase);
-      $role = $ambilrole['role'];
-      if ($role == 'Owner') {
-          // Kalau dia owner
-          $_SESSION['log'] = 'Logged';
-          $_SESSION['role'] = 'Owner';
-          header('location: ownerhome.php'); //halaman utama
-      } else if ($role == 'Sales') {
-          // Kalau bukan owner
-          $_SESSION['log'] = 'Logged';
-          $_SESSION['role'] = 'Sales';
-          header('location: saleshome.php');
-      } else if ($role == 'Gudang') {
-          //Kalau bukan manager
-          $_SESSION['log'] = 'Logged';
-          $_SESSION['role'] = 'Gudang';
-          header('location: gudanghome.php');
-      } else {
-          echo 'Data tidak ada';
-      }
-  }
+    $namad    = $_POST['namadepan'];
+    $password = $_POST['password'];
+    $role     = $_POST['role'];
+    // Cocokan dengan database, cari data
+    $cekdatabase = mysqli_query($koneksi, "SELECT * FROM tb_register where namadepan='$namad' and password='$password'");
+    $_SESSION['isLoggedin']= '1';
+    // Hitung jumlah data
+    // die (mysqli_error ($koneksi));
+    $hitung = mysqli_num_rows($cekdatabase);
+    if ($hitung > 0) {
+        // Kalau data ditemukan
+        // $_SESSION['log']= 'TRUE';
+        $ambilrole = mysqli_fetch_array($cekdatabase);
+        $role = $ambilrole['role'];
+        if ($role == 'Owner') {
+            // Kalau dia owner
+            $_SESSION['log'] = 'Logged';
+            $_SESSION['role'] = 'Owner';
+            header('location: home.php'); //halaman utama
+        } else if ($role == 'Sales') {
+            // Kalau bukan owner
+            $_SESSION['log'] = 'Logged';
+            $_SESSION['role'] = 'Sales';
+            header('location: home.php');
+        } else if ($role == 'Gudang') {
+            //Kalau bukan manager
+            $_SESSION['log'] = 'Logged';
+            $_SESSION['role'] = 'Gudang';
+            header('location: home.php');
+        } else {
+            echo 'Data tidak ada';
+        }
+        
+    }
 };
 ?>
 <!DOCTYPE html>
@@ -59,14 +65,18 @@ if (isset($_POST['login'])){
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                        <form method="POST">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" name="email" type="email" placeholder="name@example.com" />
-                                                <label for="inputEmail">Email address</label>
+                                                <input class="form-control" id="inputNamaD" name="namadepan" type="text" placeholder="Nama Depan" />
+                                                <label for="text">Nama Depan</label>
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputPassword" name="password" type="password" placeholder="Password" />
                                                 <label for="inputPassword">Password</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputRole" name="role" type="text" placeholder="Role" />
+                                                <label for="text">Role</label>
                                             </div>
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />

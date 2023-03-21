@@ -25,9 +25,9 @@ if(isset($_POST['addnewbarang'])){
     $harga      = $_POST['harga'];
     $qtyd       = $_POST['pcs_dus'];
     $hargapromo = $_POST['harga_p'];
-    // $keterangan= $_POST['keterangan'];
+    $qty       = $_POST['qty'];
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_barang (kode_b,nama_b,tipe_mobil,kategori,harga,pcs_dus,harga_p) VALUES ('$kodebarang','$namabarang','$tipemobil','$kategori','$harga','$qtyd','$hargapromo')");
+    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_barang (kode_b,nama_b,tipe_mobil,kategori,harga,pcs_dus,harga_p, qty) VALUES ('$kodebarang','$namabarang','$tipemobil','$kategori','$harga','$qtyd','$hargapromo','$qty')");
     if($addtotable){
         echo "berhasil";
        
@@ -37,7 +37,7 @@ if(isset($_POST['addnewbarang'])){
 }
 
 if(isset($_POST['updatebarang'])){
-    $idb       = $_POST['id_b'];
+    $idb        = $_POST['id_b'];
     $kodebarang = $_POST['kode_b'];
     $namabarang = $_POST['nama_b'];
     $tipemobil  = $_POST['tipe_mobil'];
@@ -45,8 +45,9 @@ if(isset($_POST['updatebarang'])){
     $harga      = $_POST['harga'];
     $qtyd       = $_POST['pcs_dus'];
     $hargapromo = $_POST['harga_p'];
+    $qty        = $_POST['qty'];
 
-    $update = mysqli_query($koneksi,"UPDATE tb_barang set kode_b='$kodebarang',nama_b='$namabarang',tipe_mobil='$tipemobil',kategori='$kategori',harga='$harga',pcs_dus='$qtyd',harga_p='$hargapromo' WHERE id_b='$idb'");
+    $update = mysqli_query($koneksi,"UPDATE tb_barang set kode_b='$kodebarang',nama_b='$namabarang',tipe_mobil='$tipemobil',kategori='$kategori',harga='$harga',pcs_dus='$qtyd',harga_p='$hargapromo', qty='$qty' WHERE id_b='$idb'");
     if($update){
         header('location:ownertables.php');
     } else {
@@ -75,11 +76,14 @@ if(isset($_POST['barangmasuk'])){
     $cekqtyskrg = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$barang'"); 
     $ambildata = mysqli_fetch_array($cekqtyskrg);
     $qtysekarang= $ambildata['qty'];
-    $tambahkanstocksekarangdenganquantity = $qtysekarang+$qtym;
+    $updateqty = $qtysekarang+$qtym;
+    
+    $pilihbmasuk = mysqli_query($koneksi,"SELECT * FROM b_masuk WHERE id_b='$barang' && id_p='$pengirim'"); 
+    $ambilbmasuk = mysqli_fetch_array($pilihbmasuk);
+    $addtomasuk = mysqli_query($koneksi,"INSERT INTO b_masuk (id_b,id_p,qtym) VALUES ('$barang','$pengirim','$qtym')");
+    $updatesqtymasuk = mysqli_query($koneksi," UPDATE tb_barang set qty='$updateqty' WHERE id_b='$barang'");
 
-    $addtomasuk = mysqli_query($koneksi,"INSERT INTO b_masuk (id_b,qtym,pengirim) VALUES ('$barang','$qtym','$pengirim')");
-    $updatesqtymasuk = mysqli_query($koneksi," UPDATE tb_barang set qty='$tambahkanstocksekarangdenganquantity' WHERE id_b='$barang'");
-    if($addtomasuk && $updateqtymasuk){
+    if($ambilbmasuk && $addtomasuk && $updateqtymasuk){
         header('location:gudangmasuk.php');
     } else {
         echo 'gagal';
@@ -87,54 +91,6 @@ if(isset($_POST['barangmasuk'])){
     }
 }
 
-if(isset($_POST['updatebarangmasuk']))
-{
-    $idb = $_POST ['id_b'];
-    $idm = $_POST ['id_bm'];
-    $namabarang = $_POST ['nama_b'];
-    $kategori= $_POST ['kategori'];
-    $keterangan= $_POST ['pengirim'];
-    $qtym = $_POST ['qtym'];
-
-    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang where id_b='$idb'"); //lihat stock
-    $stocknya = mysqli_fetch_array($lihatstock);// mengambil data
-    $stockskrg=$stocknya['qty'];
-    
-    $qtyskrg= mysqli_query($koneksi,"SELECT * FROM b_masuk WHERE id_bm='$idm'");//lihat qty saat ini
-    $qtynya = mysqli_fetch_array($qtyskrg);
-    $qtyskrg = $qtynya['qtym'];
-
-    if($qty>=$qtyskrg){ 
-        //ternyata inputan baru lebih besar jumlah masuknya, maka tambahi lagi stock barang
-        $selisih=$stockskrg-$qtyskrg;
-        $tambahinstock= $stockskrg + $selisih;
-        $updatenya = mysqli_query($koneksi, "UPDATE tb_barang set qty='$tambahinstock'WHERE id_b='$idb'");
-        $kurangistocknya = mysqli_query($koneksi,"UPDATE b_masuk set qtym='$qtym', pengirim='$keterangan'WHERE id_bm='$idm'");
-
-        if($kurangistocknya&&$updatenya){
-            header('location :gudangmasuk.php');
-        }else{
-            echo 'gagal say';
-            header('location:gudanghome.php');
-        } 
-
-    }else {
-        //ternyata inputan baru lebih kecil jumlah masuknya, maka kurangi lagi stock barang
-        $selisih = $qtyskrg-$qty;
-        $kurangin = $stockskrg - $selisih;
-        $kurangistocknya = mysqli_query($koneksi,"UPDATE tb_barang set qty='$kurangin' WHERE id_b='$idb'");
-        $updatenya = mysqli_query($koneksi, "UPDATE b_masuk set qtym='$qtym', penerima='$keterangan' WHERE id_bm='$idm'");
-
-        if($kurangistocknya&&$updatenya){
-            header(' location:gudangmasuk.php');
-        }else{
-            echo 'gagal say';
-            header(' location:gudanghome.php');
-        }
-    }
-}
-
-// Menghapus barang masuk 
 if(isset($_POST['hapusbarangmasuk'])){
     $idb = $_POST['id_b'];
     $idm = $_POST['id_bm'];
@@ -153,88 +109,42 @@ if(isset($_POST['hapusbarangmasuk'])){
     
     // Check apakah ini akan berhasil
     if($update && $hapusdata){
-     header('location : gudangmasuk.php');
+        header('location : gudangmasuk.php');
     }else{
-        header('location : gudanghome.php');
+        header('location : gudangmasuk.php');
     }
 };
 
 if(isset($_POST['barangkeluar'])){
     $barang = $_POST['barang'];
-    $tujuan = $_POST['tokonya'];
+    $tujuan = $_POST['tujuan'];
     $qtyk = $_POST['qtyk'];
    
     $cekstocksekarang = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$barang'"); 
     $ambildatanya = mysqli_fetch_array($cekstocksekarang);
     $stocksekarang= $ambildatanya['qty'];
-    $tambahkanstocksekarangdenganquantity = $stocksekarang-$qtyk;
+    $updateqty = $stocksekarang-$qtyk;
 
-    $addtokeluar = mysqli_query($koneksi," INSERT INTO b_keluar (id_bk, qtyk, tujuan) VALUES ('$barang','$qtyk','$tujuan')");
-    $updatestokgudang = mysqli_query($koneksi," UPDATE tb_barang set qty='$tambahkanstocksekarangdenganquantity' WHERE id_b='$barang'");
-    if($addtokeluar && $updatestokgudang){
+    $pilihbkeluar = mysqli_query($koneksi,"SELECT * FROM b_keluar WHERE id_b='$barang' && id_toko='$tujuan'"); 
+    $ambilbkeluar = mysqli_fetch_array($pilihbkeluar);
+
+    $addtokeluar = mysqli_query($koneksi," INSERT INTO b_keluar (id_b,id_toko,qtyk) VALUES ('$barang','$tujuan','$qtyk')");
+    $updatestokgudang = mysqli_query($koneksi," UPDATE tb_barang set qty='$updateqty' WHERE id_b='$barang'");
+    if($ambilbkeluar && $addtokeluar && $updatestokgudang){
         header('location:gudangkeluar.php');
     } else {
         echo 'gagal';
-        header('location:gudanghome.php');
+        header('location:gudangkeluar.php');
     }
 }
 
-if(isset($_POST['updatebarangkeluar'])){
-    $idk        = $_POST['id_bk'];
-    $idb        = $_POST['id_b'];
-    $qty       = $_POST['qtyk'];
-    $tujuan     = $_POST['tokonya'];
-
-    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$idb'"); //lihat stock barang itu saat ini
-    $stocknya = mysqli_fetch_array($lihatstock); //ambil datanya
-    $stockskrg = $stocknya['qty'];//jumlah stocknya skrg
-
-    $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM b_keluar WHERE id_bk='$idk'"); //lihat qty saat ini
-    $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
-    $qtyskrg = $preqtyskrg['qtyk'];//jumlah skrg
-
-    if($qty >= $qtyskrg){
-        //ternyata inputan baru lebih besar jumlah keluarnya, maka kurangi lagi stock barang
-        $hitungselisih = $qty-$qtyskrg;
-        $kurangistock = $stockskrg-$hitungselisih;
-
-        $queryx = mysqli_query($koneksi,"UPDATE tb_barang SET qty='$kurangistock' WHERE id_b='$idb'");
-        $updatedata1 = mysqli_query($koneksi,"UPDATE b_keluar SET qtyk='$qty',tujuan='$tujuan' WHERE id_bk='$idk'");
-        
-        //cek apakah berhasil
-        if ($updatedata1 && $queryx){
-            echo 'Berhasil Diubah';
-        } else { 
-            echo 'gagal';
-        };
-
-
-    } else {
-        //ternyata inputan baru lebih kecil jumlah keluarnya, maka tambahi lagi stock barang
-        $hitungselisih = $qtyskrg-$qty;
-        $tambahistock = $stockskrg+$hitungselisih;
-
-        $query1 = mysqli_query($koneksi,"UPDATE tb_barang SET qty='$tambahistock' WHERE id_b='$idb'");
-
-        $updatedata = mysqli_query($koneksi,"UPDATE b_keluar SET qtyk='$qtyk', tujuan='$tujuan' WHERE id_bk='$idk'");
-        
-        //cek apakah berhasil
-        if ($query1 && $updatedata){
-            echo 'Berhasil Diubah';
-        } else { 
-            echo 'gagal';
-        };
-
-    };        
-};
-
 if(isset($_POST['updateuser'])){
-    $idu   = $data['id_user'];
-    $email = $data['email'];
-    $namad = $data['namadepan'];
-    $namab = $data['namabelakang'];
-    $pass  = $data['password'];
-    $role  = $data['role'];
+    $idu   = $_POST['id_user'];
+    $email = $_POST['email'];
+    $namad = $_POST['namadepan'];
+    $namab = $_POST['namabelakang'];
+    $pass  = $_POST['password'];
+    $role  = $_POST['role'];
 
     $update = mysqli_query($koneksi,"UPDATE tb_register set email='$email',namadepan='$namad',namabelakang='$namab',password='$pass' WHERE id_user='$idu'");
     if($update){
@@ -257,15 +167,17 @@ if(isset($_POST['hapususer'])){
 }
 
 if(isset($_POST['tambahtoko'])){
-    $idt   = $data['id_toko'];
-    $namat = $data['nama_toko'];
-    $cst = $data['cs_toko'];
-    $notelp = $data['no_telp'];
-    $alamat  = $data['alamat'];
-    $wilayah  = $data['wilayah'];
+    $namat   = $_POST['nama_toko'];
+    $cst     = $_POST['cs_toko'];
+    $notelp  = $_POST['no_telp'];
+    $alamat  = $_POST['alamat'];
+    $wilayah = $_POST['wilayahnya'];
+        
+    $pilihtoko = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE id_w = '$wilayah'");
+    $ambilwilayah = mysqli_fetch_array($pilihtoko);
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_toko (nama_toko,cs_toko,no_telp,alamat,wilayah) VALUES ('$namat','$cst','$notelp','$alamat','$wilayah')");
-    if($addtotable){
+    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_toko (id_w,nama_toko,cs_toko,no_telp,alamat) VALUES ('$wilayah','$namat','$cst','$notelp','$alamat')");
+    if($addtotable && $ambilwilayah){
         echo "berhasil";
        
     }else{
@@ -274,15 +186,19 @@ if(isset($_POST['tambahtoko'])){
 }
 
 if(isset($_POST['updatetoko'])){
-    $idt   = $data['id_toko'];
-    $namat = $data['nama_toko'];
-    $cst = $data['cs_toko'];
-    $notelp = $data['no_telp'];
-    $alamat  = $data['alamat'];
-    $wilayah  = $data['wilayah'];
+    $idt   = $_POST['id_toko'];
+    $namat = $_POST['nama_toko'];
+    $cst = $_POST['cs_toko'];
+    $notelp = $_POST['no_telp'];
+    $alamat  = $_POST['alamat'];
+    $wilayah = $_POST['wilayahnya'];
 
-    $update = mysqli_query($koneksi,"UPDATE tb_toko set nama_toko'$namat',cs_toko='$cst',no_telp='$notelp',alamat='$alamat',wilayah='$wilayah' WHERE id_user='$idu'");
-    if($update){
+    $pilihtoko = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE id_w = '$wilayah'");
+    $ambilwilayah = mysqli_fetch_array($pilihtoko);
+    $pilihintoko = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE id_toko = '$idt'");
+    $update = mysqli_query($koneksi,"UPDATE tb_toko set id_w='$wilayah',nama_toko='$namat',cs_toko='$cst',no_telp='$notelp',alamat='$alamat' WHERE id_toko='$idt'");
+
+    if($update && $pilihintoko){
         header('location:ownertoko.php');
     } else {
         echo 'gagal';
@@ -302,18 +218,13 @@ if(isset($_POST['hapustoko'])){
 }
 
 if(isset($_POST['tambahorder'])){
-    $ido        = $data['id_o'];
-    $nop        = $data['no_order'];
-    $kodeb      = $data['kode_b'];
-    $namab      = $data['nama_b'];
-    $wilayah    = $data['wilayah'];
-    $Harga      = $data['harga'];
-    $total      = $qtyp * $Harga;
-    $tglo       = $data['tgl_order'];
-    $qtyp       = $data['qtyp'];
-    $barang     = $data['barangnya'];
+    $qtyp  = $_POST['qtyp'];
+    $nop   = $_POST['no_order'];
+    $barang   = $_POST['barangnya'];
+    $wilayah   = $_POST['wilayahnya'];
+    $toko   = $_POST['tokonya'];
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO orderan (no_order,qtyp,tgl_order) VALUES ('$nop','$qtyp','$tglo')");
+    $addtotable = mysqli_query($koneksi,"INSERT INTO orderan (id_b,id_w,id_toko,no_order,qtyp) WHERE id_b = '$barang'(id_b), id_w = '$wilayah'(id_w), id_toko = '$toko'(id_toko) VALUES ('$barang','$wilayah','$toko','$nop','$qtyp')");
     if($addtotable){
         echo "berhasil";
        
@@ -333,15 +244,55 @@ if(isset($_POST['hapusorder'])){
     }
 }
 
-if(isset($_POST['printorder'])){
-    $ido = $_POST['id_o'];
-    $nop = $_POST['no_order'];
-    $print = mysqli_query($koneksi, "SELECT * FROM orderan WHERE id_o='$ido'");
-    if($print){
-        header('location:saleslap_or.php');
-    } else {
-        echo 'gagal';
-        header('location:saleslap_or.php');
+if(isset($_POST['tambahkategori'])){
+    $kategori = $_POST['kategori'];
+
+    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_kategori (kategori) VALUES ('$kategori')");
+    if($addtotable){
+        echo "berhasil";
+       
+    }else{
+        echo "error";
     }
 }
+
+if(isset($_POST['updatekategori'])){
+    $idkat    = $_POST['id_kat'];
+    $kategori = $_POST['kategori'];
+
+    $update = mysqli_query($koneksi,"UPDATE tb_kategori set kategori='$kategori' WHERE id_kat='$idkat'");
+    if($update){
+        header('location:ownerkategori.php');
+    } else {
+        echo 'gagal';
+        header('location:ownerkategori.php');
+    }
+}
+
+if(isset($_POST['hapuskategori'])){
+    $idkat   = $_POST['id_kat'];
+    $hapus = mysqli_query($koneksi, "DELETE FROM tb_kategori WHERE id_kat='$idkat'");
+    if($hapus){
+        header('location:ownerkategori.php');
+    } else {
+        echo 'gagal';
+        header('location:ownerkategori.php');
+    }
+}
+
+
+// if(isset($_POST['barangnya'])){
+//     $idb   = $_POST['id_b'];
+//     $pilihbarang = mysqli_query($koneksi,"INSERT INTO orderan (id_b) VALUES ('$idb')");
+// }
+
+// if(isset($_POST['wilayahnya'])){
+//     $idw   = $_POST['id_w'];
+//     $pilihwilayah = mysqli_query($koneksi,"INSERT INTO orderan (id_w) VALUES ('$idw')");
+// }
+
+// if(isset($_POST['tokonya'])){
+//     $idt   = $_POST['id_t'];
+//     $pilihtoko = mysqli_query($koneksi,"INSERT INTO orderan (id_t) VALUES ('$idt')");
+// }
 ?>

@@ -1,8 +1,7 @@
 <?php
 // jika belom login
-
-if(isset($_SESSION['log'])){
-
+if(empty($_SESSION['isLoggedin'])){
+header('location:logout.php');
 }else{
     // header('location:login.php');
 }
