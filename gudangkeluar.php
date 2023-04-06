@@ -85,7 +85,7 @@
                                  Tambah Barang Keluar
                                 </button>
                                 <!-- End Notifikasi warning -->
-                                <a href="laporanbarangkeluar.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
+                                <a href="lap_keluar.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
                                 <!-- end Button to Open the Modal  -->
                                 <!-- <i class="fas fa-table mr-1"></i> -->
