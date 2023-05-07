@@ -59,12 +59,15 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="ownermasuk.php">Barang Masuk</a>
-                                            <a class="nav-link" href="ownerkeluar.php">Barang Keluar</a>
-                                            <a class="nav-link" href="ownertables.php">List Barang</a>
-                                            <a class="nav-link" href="owneruser.php">List User</a>
-                                            <a class="nav-link" href="ownertoko.php">List Toko</a>
-                                            <a class="nav-link" href="ownerkategori.php">List Kategori</a>
+                                            <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                            <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
+                                            <a class="nav-link" href="tables.php">List Barang</a>
+                                            <a class="nav-link" href="user.php">List User</a>
+                                            <a class="nav-link" href="toko.php">List Toko</a>
+                                            <a class="nav-link" href="order.php">List Order</a>
+                                            <a class="nav-link" href="pabrik.php">List Pabrik</a>
+                                            <a class="nav-link" href="returp.php">Retur Pabrik</a>
+                                            <a class="nav-link" href="returo.php">Retur Order</a>
                                         </nav>
                                     </div>
                                 </nav>

@@ -7,11 +7,10 @@ if(empty($_SESSION['isLoggedin'])){
 }
 // Function Login multi user berdasarakan Lvl
 if (isset($_POST['login'])){
-    $namad    = $_POST['namadepan'];
+    $email    = $_POST['email'];
     $password = $_POST['password'];
-    $role     = $_POST['role'];
     // Cocokan dengan database, cari data
-    $cekdatabase = mysqli_query($koneksi, "SELECT * FROM tb_register where namadepan='$namad' and password='$password'");
+    $cekdatabase = mysqli_query($koneksi, "SELECT * FROM tb_register where email='$email' and password='$password'");
     $_SESSION['isLoggedin']= '1';
     // Hitung jumlah data
     // die (mysqli_error ($koneksi));
@@ -67,23 +66,33 @@ if (isset($_POST['login'])){
                                     <div class="card-body">
                                         <form method="POST">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputNamaD" name="namadepan" type="text" placeholder="Nama Depan" />
-                                                <label for="text">Nama Depan</label>
+                                                <input class="form-control" id="inputemail" name="email" type="text" placeholder="Email" />
+                                                <label for="text">Email</label>
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputPassword" name="password" type="password" placeholder="Password" />
                                                 <label for="inputPassword">Password</label>
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <!-- <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputRole" name="role" type="text" placeholder="Role" />
                                                 <label for="text">Role</label>
-                                            </div>
+                                            </div> -->
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
                                                 <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
                                             </div>
                                             <div class="text-center">
-                                                <button class="btn btn-primary" name="login">Login</button>
+                                                <?php
+                                                    $sSQL=mysqli_query($koneksi, "SELECT * FROM tb_register limit 1");
+                                                    $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  tb_register");
+                                                    $i=1;
+                                                    while($data=mysqli_fetch_array($sSQL)){
+                                                        $idu        = $data['id_user'];
+                                                        $namad      = $data['namadepan'];
+                                                        $namab      = $data['namabelakang'];     
+                                                ?>
+                                                <?php echo "<a href='home.php?id_user=$idu'>" ;?><button class="btn btn-primary" name="login">Login</button>
+                                                <?php }; ?>
                                             </div>
                                         </form>
                                     </div>

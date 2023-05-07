@@ -67,15 +67,35 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="ownermasuk.php">Barang Masuk</a>
-                                            <a class="nav-link" href="ownerkeluar.php">Barang Keluar</a>
-                                            <a class="nav-link" href="ownertables.php">List Barang</a>
-                                            <a class="nav-link" href="owneruser.php">List User</a>
-                                            <a class="nav-link" href="ownertoko.php">List Toko</a>
+                                            <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                            <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
+                                            <a class="nav-link" href="tables.php">List Barang</a>
+                                            <a class="nav-link" href="user.php">List User</a>
+                                            <a class="nav-link" href="toko.php">List Toko</a>
+                                            <a class="nav-link" href="pabrik.php">List Pabrik</a>
+                                            <a class="nav-link" href="returp.php">Retur Pabrik</a>
+                                            <a class="nav-link" href="returo.php">Retur Order</a>
                                         </nav>
                                     </div>
                                 <?php }; ?>
-                                
+                                <?php if($_SESSION['role'] == "Admin"){?>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                        Owner
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                            <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
+                                            <a class="nav-link" href="tables.php">List Barang</a>
+                                            <a class="nav-link" href="user.php">List User</a>
+                                            <a class="nav-link" href="toko.php">List Toko</a>
+                                            <a class="nav-link" href="pabrik.php">List Pabrik</a>
+                                            <a class="nav-link" href="returp.php">Retur Pabrik</a>
+                                            <a class="nav-link" href="returo.php">Retur Order</a>   
+                                        </nav>
+                                    </div>
+                                <?php }; ?>
                                 <?php if($_SESSION['role'] == "Gudang"){?>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                                         Pergudangan
@@ -83,10 +103,12 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="gudangmasuk.php">Barang Masuk</a>
-                                            <a class="nav-link" href="gudangkeluar.php">Barang Keluar</a>
-                                            <a class="nav-link" href="gudangtables.php">List Barang</a>
-                                            <a class="nav-link" href="gudangorder.php">List Order</a>
+                                            <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                            <a class="nav-link" href="keluar.php">Barang Keluar</a>
+                                            <a class="nav-link" href="tables.php">List Barang</a>
+                                            <a class="nav-link" href="order.php">List Order</a>
+                                            <a class="nav-link" href="returp.php">Retur Pabrik</a>
+                                            <a class="nav-link" href="returo.php">Retur Order</a>
                                         </nav>
                                     </div>
                                 <?php }; ?>
@@ -97,8 +119,8 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="salestables.php">List Barang</a>
-                                            <a class="nav-link" href="salesorder.php">List Orderan</a>
+                                            <a class="nav-link" href="tables.php">List Barang</a>
+                                            <a class="nav-link" href="order.php">List Orderan</a>
                                         </nav>
                                     </div>
                                 <?php }; ?>
@@ -110,6 +132,12 @@
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
                         Owner
+                    </div>
+                    <?php }; ?>
+                    <?php if($_SESSION['role'] == "Admin"){?>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Administrasi
                     </div>
                     <?php }; ?>
                     <?php if($_SESSION['role'] == "Gudang"){?>
@@ -131,32 +159,24 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Dashboard</h1>
                         
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot> -->
-                                    <tbody>
-                                        
-                                    </tbody>
+                        <div class="row">
+                            <div class="card mb-4">
+                                <table class="table table-borderless">
+                                    <?php if($_SESSION['role'] == "Owner"){?>
+                                        <h4 class="mt-4">Selamat Datang Owner</h4>
+                                    <?php }; ?>
+                                    <?php if($_SESSION['role'] == "Admin"){?>
+                                        <h4 class="mt-4">Selamat Datang Administrasi</h4>
+                                    <?php }; ?>
+                                    <?php if($_SESSION['role'] == "Gudang"){?>
+                                        <h4 class="mt-4">Selamat Datang Kepala Gudang</h4>
+                                    <?php }; ?>
+                                    <?php if($_SESSION['role'] == "Sales"){?>
+                                        <h4 class="mt-4">Selamat Datang Sales</h4>
+                                    <?php }; ?>
+                                    <tr>
+                                        <h4 class="mt-4">Silahkan memilih menu yang ingin diakses</h4>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

@@ -10,14 +10,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>SJM - Gudang_Barang Masuk</title>
+        <title>SJM - Gudang_Barang Keluar</title>
         <link href="./css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"> 
-            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
+            <a class="navbar-brand" href=".php">Sinar Jaya Motor</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -52,6 +52,25 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
+                            <?php if($_SESSION['role'] == "Owner"){?>
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Owner
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
+                                        <a class="nav-link" href="ownertables.php">List Barang</a>
+                                        <a class="nav-link" href="owneruser.php">List User</a>
+                                        <a class="nav-link" href="ownertoko.php">List Toko</a>
+                                        <a class="nav-link" href="ownerpabrik.php">List Pabrik</a>
+                                        <a class="nav-link" href="ownerkategori.php">List Kategori</a>
+                                    </nav>
+                                </div>
+                            <?php }; ?>
+                            <?php if($_SESSION['role'] == "Gudang"){?>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 Pergudangan
@@ -59,20 +78,35 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="gudangmasuk.php">Barang Masuk</a>
-                                    <a class="nav-link" href="gudangkeluar.php">Barang Keluar</a>
+                                    <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                    <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
                                     <a class="nav-link" href="gudangtables.php">List Barang</a>
                                     <a class="nav-link" href="gudangorder.php">List Order</a>
+                                    <a class="nav-link" href="gudangreturp.php">Retur Pabrik</a>
+                                    <a class="nav-link" href="gudangreturo.php">Retur Order</a>
                                 </nav>
                             </div>
+                            <?php }; ?>
                         </div>
                     </div>
+                    <?php if($_SESSION['role'] == "Owner"){?>
                     <div class="sb-sidenav-footer">
-                        <div class="High">
-                            Logged in as: Kepala Gudang
-                        </div>
-                        <!-- Start Bootstrap -->
+                        <div class="small">Logged in as:</div>
+                        Owner
                     </div>
+                    <?php }; ?>
+                    <?php if($_SESSION['role'] == "Admin"){?>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Administrasi
+                    </div>
+                    <?php }; ?>
+                    <?php if($_SESSION['role'] == "Gudang"){?>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Kepala Gudang
+                    </div>
+                    <?php }; ?>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
@@ -84,10 +118,10 @@
                             <div class="card-header">
                                 <!-- Button to Open the Modal -->
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                 Tambah Barang Masuk
+                                 Tambah Barang Keluar
                                 </button>
                                 <!-- End Notifikasi warning -->
-                                <a href="lap_masuk.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
+                                <a href="lap_keluar.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
                                 <!-- end Button to Open the Modal  -->
                                 <!-- <i class="fas fa-table mr-1"></i> -->
@@ -98,12 +132,12 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>ID Barang Masuk</th>
+                                                <th>ID Barang Keluar</th>
                                                 <th>Kode Barang</th>
                                                 <th>Nama Barang</th>
                                                 <th>Kategori</th>
                                                 <th>Tanggal</th>
-                                                <th>Pengirim</th>
+                                                <th>Tujuan</th>
                                                 <th>Qty</th>
                                                 <th>Action</th>
                                             </tr>
@@ -121,29 +155,30 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_masuk m, tb_pabrik p WHERE b.id_b = m.id_b && m.id_p = p.id_p");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_keluar k, tb_toko t WHERE b.id_b = k.id_b && k.id_toko = t.id_toko");
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                                    $idm        = $data['id_bm'];
+                                                    $idk        = $data['id_bk'];
                                                     $idb        = $data['id_b'];
+                                                    $idt        = $data['id_toko'];
                                                     $kodebarang = $data['kode_b'];
                                                     $namabarang = $data['nama_b'];
                                                     $Kategori   = $data['kategori'];
                                                     $tanggal    = $data['tanggal'];
-                                                    $pengirim   = $data['nama_p'];
-                                                    $qtym        = $data['qtym'];
-                                            ?>
+                                                    $tujuan     = $data['nama_toko'];
+                                                    $qtyk       = $data['qtyk'];
+                                                    ?>
                                             <tr>
                                                 <td><?=$i++;?></td>
                                                 <td><?=$kodebarang;?></td>
                                                 <td><?=$namabarang;?></td>
                                                 <td><?=$Kategori;?></td>
                                                 <td><?=$tanggal;?></td>
-                                                <td><?=$pengirim;?></td>
-                                                <td><?=$qtym;?></td>
+                                                <td><?=$tujuan;?></td>
+                                                <td><?=$qtyk;?></td>
                                             
                                                 <td>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>">
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idk;?>">
                                                     Hapus
                                                 </td>
                                             </tr>
@@ -152,55 +187,52 @@
                                             <!-- Modal Tambah Barang -->
                                             <!-- The Modal -->
                                             <div class="modal fade" id="myModal">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <!-- Modal Header -->
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">Tambah Barang Masuk</h4>
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                            </div>
-                                                            <!-- Modal body -->
-                                                            <form method="POST" >
-                                                                <div class="modal-body">
-                                                                    <div class="form-group">
-                                                                        <select name="barang" class="form-control mb-2">
-                                                                            <?php
-                                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
-                                                                                while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
-                                                                                    $namab = $fetcharray['nama_b'];
-                                                                                    $idb   = $fetcharray['id_b'];
-                                                                                    $kodeb = $fetcharray['kode_b'];
-                                                                            ?>
-                                                                            <option value="<?=$idb;?>"><?=$kodeb;?> - <?=$namab;?></option> 
-                                                                            <?php };?>
-                                                                        </select>
-                                                                        <input  type="number"  name="qtym"            class="form-control mb-2  "   placeholder="Qty" required  />
-                                                                        <select name="pengirim" class="form-control mb-2">
-                                                                            <?php
-                                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_pabrik");
-                                                                                while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
-                                                                                    $namap = $fetcharray['nama_p'];
-                                                                                    $idp   = $fetcharray['id_p'];
-                                                                            ?>
-                                                                            <option value="<?=$idp;?>"><?=$namap;?></option> 
-                                                                            <?php };?>
-                                                                        </select>
-                                                                        <button type="submit" name="barangmasuk"    class="btn btn-primary" >Submit</button>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- Modal footer -->
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </form>
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Tambah Barang Masuk</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
+                                                        <!-- Modal body -->
+                                                        <form method="POST" >
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <select name="barang" class="form-control mb-2">
+                                                                        <?php
+                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
+                                                                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                                                                $namab = $fetcharray['nama_b'];
+                                                                                $idb   = $fetcharray['id_b'];
+                                                                                $kodeb = $fetcharray['kode_b'];
+                                                                        ?>
+                                                                        <option value="<?=$idb;?>"><?=$kodeb;?> - <?=$namab;?></option> 
+                                                                        <?php };?>
+                                                                    </select>
+                                                                    <input  type="number"  name="qtyk"            class="form-control mb-2  "   placeholder="Qty" required  />
+                                                                    <select name="tujuan" class="form-control mb-2">
+                                                                        <?php
+                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko");
+                                                                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                                                                $namat = $fetcharray['nama_toko'];
+                                                                                $idt = $fetcharray['id_toko'];
+                                                                        ?>
+                                                                        <option value="<?=$idt;?>"><?=$namat;?></option>                                                                             <?php };?>
+                                                                    </select>
+                                                                    <button type="submit" name="barangkeluar"    class="btn btn-primary" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Selesai modal tambah barang -->
-                                            <!-- Modal stock Gudang -->
+                                            <!-- Selesai modal tambah barang keluar -->
                                             <!-- The  delete Modal -->
-                                            <div class="modal fade" id="delete<?=$idm;?>">
+                                            <div class="modal fade" id="delete<?=$idk;?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <!-- Modal Header -->
@@ -212,13 +244,12 @@
                                                         <!-- Content 1 -->
                                                         <form method="POST">
                                                             <div class="modal-body mb-2">
-                                                                Apakah anda yakin ingin menghapus Barang <?=$namabarang;?> Jenis <?=$Kategori;?> ?
-                                                                <input type="hidden" name="idbarang"    value="<?=$idm;?>">
-                                                                <input type="hidden" name="qty"         value="<?=$qtym;?>">
-                                                                <input type="hidden" name="idkeluar"     value="<?=$idm;?>">
+                                                                Apakah anda yakin ingin menghapus barang  <?=$namabarang;?> dengan tujuan <?=$namat?>?
+                                                                <input type="hidden" name="id_bk"    value="<?=$idk;?>">
+                                                                <input type="hidden" name="qtyk"         value="<?=$qtyk;?>">
                                                                 <br>
                                                                 <br>
-                                                                <button type="submit" class="btn btn-danger" name="hapusbarang" >Hapus</button>
+                                                                <button type="submit" class="btn btn-danger" name="hapusbarangkeluar" >Hapus</button>
                                                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                                                             </div>
                                                             <!-- Modal footer -->

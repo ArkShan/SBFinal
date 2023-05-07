@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>SJM - Owner_List Kategori</title>
+        <title>SJM - Owner_List Toko</title>
         <link href="./css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -54,24 +54,29 @@
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
+                                Owner
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="ownermasuk.php">Barang Masuk</a>
-                                    <a class="nav-link" href="ownerkeluar.php">Barang Keluar</a>
-                                    <a class="nav-link" href="ownertables.php">List Barang</a>
-                                    <a class="nav-link" href="owneruser.php">List User</a>
-                                    <a class="nav-link" href="ownertoko.php">List Toko</a>
-                                    <a class="nav-link" href="ownerkategori.php">List Kategori</a>
+                                    <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                    <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
+                                    <a class="nav-link" href="tables.php">List Barang</a>
+                                    <a class="nav-link" href="user.php">List User</a>
+                                    <a class="nav-link" href="toko.php">List Toko</a>
+                                    <a class="nav-link" href="order.php">List Order</a>
+                                    <a class="nav-link" href="pabrik.php">List Pabrik</a>
+                                    <a class="nav-link" href="returp.php">Retur Pabrik</a>
+                                    <a class="nav-link" href="returo.php">Retur Order</a>
                                 </nav>
                             </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Owner
+                        <div class="High">
+                            Logged in as: Owner
+                        </div>
+                            <!-- Start Bootstrap -->
                     </div>
                 </nav>
             </div>
@@ -98,7 +103,11 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Kategori</th>
+                                                <th>Nama Toko</th>
+                                                <th>Customer Service</th>
+                                                <th>Nomor Telepon</th>
+                                                <th>Alamat</th>
+                                                <th>Wilayah</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -117,83 +126,108 @@
                                         <?php
                                         // Fungsi Filter tanggal
                                         
-                                        $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  tb_kategori");
+                                        $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_wilayah w, tb_toko t  WHERE w.id_w = t.id_w");
                                         
                                         $i=1;
                                         while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                            $idkat    = $data['id_kat'];
-                                            $kategori = $data['kategori'];
+                                            $idw   = $data['id_w'];
+                                            $idt   = $data['id_toko'];
+                                            $namat = $data['nama_toko'];
+                                            $cst = $data['cs_toko'];
+                                            $notelp = $data['no_telp'];
+                                            $alamat  = $data['alamat'];
+                                            $wilayah  = $data['wilayah'];
                                         ?>
                                         <tr>
                                             <td><?=$i++?></td>
-                                            <td><?=$kategori;?></td>
-                                          
+                                            <td><?=$namat;?></td>
+                                            <td><?=$cst;?></td> 
+                                            <td><?=$notelp;?></td>
+                                            <td><?=$alamat;?></td>
+                                            <td><?=$wilayah;?></td>
                                             <td>
-                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idkat;?>">
-                                            Ubah
-                                            </button>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idkat;?>">
-                                            Hapus
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idt;?>">
+                                                Ubah
+                                                </button>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idt;?>">
+                                                Hapus
+                                                </button>
                                             </td>
                                         </tr>
                                         <!-- END Selesai Field Table -->
                                         <!-- Aksi CRUD -->
-                                        <!-- Modal Kategori -->
+                                        <!-- Modal stock Gudang -->
                                         <!-- The  Edit Modal -->
-                                        <div class="modal fade" id="edit<?=$idkat;?>">
-                                            <div class="modal-dialog">
+                                        <div class="modal fade" id="edit<?=$idt;?>">
+                                                <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <!-- Modal Header -->
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Edit Kategori</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                                                    <!-- Modal body -->
-                                                    <!-- Content 1 -->
-                                                    <form method="POST">
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <input class="form-control py-4 mb-2" id="inputEmailAddress" name="kategori" type="text" placeholder="Kategori" value="<?=$kategori;?>" required/>
-                                                                <input type="hidden" name="id_kat" value="<?=$idkat;?>">
-                                                                <button type="submit" class="btn btn-primary" name="updatekategori">Submit</button>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Modal footer -->
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </form>
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                <h4 class="modal-title">Edit Toko</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
+                                                <!-- Modal body -->
+                                                <!-- Content 1 -->
+                                                <form method="post">
+                                                <div class="modal-body">
+                                                <div class="form-group">
+                                                <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_toko"  type="text"     placeholder="Nama Toko"   value="<?=$namat;?>" required/>
+                                                <input class="form-control py-4 mb-2" id="inputEmailAddress" name="cs_toko" type="text"     placeholder="CS Toko"  value="<?=$cst;?>" required/>
+                                                <input class="form-control py-4 mb-2" id="inputEmailAddress" name="no_telp"    type="text"     placeholder="No. Telepon"      value="<?=$notelp;?>"/>
+                                                <input class="form-control py-4 mb-2" id="inputEmailAddress" name="alamat"         type="text"   placeholder="Alamat"  value="<?=$alamat;?>"required/>
+                                                <select name="wilayahnya" class="form-control mb-2">
+                                                    <?php
+                                                        $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_wilayah");
+                                                        while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
+                                                            $wilayah = $fetcharray['wilayah'];
+                                                            $idw = $fetcharray['id_w'];
+                                                    ?>
+                                                    <option value="<?=$idw;?>"><?=$wilayah;?></option> 
+                                                    <?php }; ?>
+                                                </select>
+                                                <input type="hidden" name="id_toko" value="<?=$idt;?>">
+                                                <button type="submit" class="btn btn-primary" name="updatetoko">Submit</button>
+                                                </div>
+                                                </div>
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                                </form>
+                                            </div>
                                             </div>
                                         </div>
-                                        <!-- Modal Kategori -->
-                                        <!-- The  delete Modal -->
-                                        <div class="modal fade" id="delete<?=$idkat;?>">
-                                            <div class="modal-dialog">
+                                                <!-- Modal stock Gudang -->
+                                                <!-- The  delete Modal -->
+                                                <div class="modal fade" id="delete<?=$idt;?>">
+                                                <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <!-- Modal Header -->
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Hapus Kategori ?</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                                                    <!-- Modal body -->
-                                                    <!-- Content 1 -->
-                                                    <form method="POST">
-                                                        <div class="modal-body mb-2">
-                                                            Apakah anda yakin ingin menghapus Toko <?=$kategori;?> ?
-                                                            <input type="hidden" name="id_kat"   value="<?=$idkat;?>">
-                                                            <input type="hidden" name="kategori" value="<?=$kategori;?>">
-                                                            <br>
-                                                            <br>
-                                                            <button type="submit" class="btn btn-danger" name="hapuskategori" >Hapus</button>
-                                                        </div>
-                                                        <!-- Modal footer -->
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </form>
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                <h4 class="modal-title">Hapus Toko ?</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
+                                                <!-- Modal body -->
+                                                <!-- Content 1 -->
+                                                <form method="POST">
+                                                <div class="modal-body mb-2">
+                                                Apakah anda yakin ingin menghapus Toko <?=$namat;?> ?
+                                                <input type="hidden" name="id_toko"    value="<?=$idt;?>">
+                                                <input type="hidden" name="nama_toko" value="<?=$namat;?>">
+                                                <input type="hidden" name="wilayah"     value="<?=$wilayah;?>">
+                                                <br>
+                                                <br>
+                                                <button type="submit" class="btn btn-danger" name="hapustoko" >Hapus</button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                </div>
+                                                </div>
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                </div>
+                                                </form>
                                             </div>
+                                            </div>
+                                        </div>
                                         </div>
                                         <!-- End aksi Crud -->
                                         <?php
@@ -237,16 +271,27 @@
             <div class="modal-content">
             <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title"> Tambah Kategori</h4>
+                    <h4 class="modal-title"> Tambah Toko</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <!-- Modal body -->
                     <form method="POST" >
                     <div class="modal-body">
-                    <input  type="text" name="kategori" class="form-control mb-2  " placeholder="Kategori"   required  />
-
-                    <!-- <input  type="text"   name="harga"          class="form-control mb-2  "   placeholder="Hargabarang" required  /> -->
-                    <button type="submit" name="tambahkategori"    class="btn btn-primary" >Submit</button>
+                    <input  type="text" name="nama_toko" class="form-control mb-2" placeholder="Nama Toko"   required  />
+                    <input  type="text" name="cs_toko"   class="form-control mb-2" placeholder="CS Toko"     required  />
+                    <input  type="text" name="no_telp"   class="form-control mb-2" placeholder="No. Telepon" required  />
+                    <input  type="text" name="alamat"    class="form-control mb-2" placeholder="Alamat"      required  />
+                    <select name="wilayahnya" class="form-control mb-2">
+                        <?php
+                            $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_wilayah");
+                            while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
+                                $wilayah = $fetcharray['wilayah'];
+                                $idw = $fetcharray['id_w'];
+                        ?>
+                        <option value="<?=$idw;?>"><?=$wilayah;?></option> 
+                        <?php }; ?>
+                    </select>
+                    <button type="submit" name="tambahtoko" class="btn btn-primary" >Submit</button>
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer">
