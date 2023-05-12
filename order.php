@@ -46,41 +46,46 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
+                        <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="home.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Home
+                                Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <?php if($_SESSION['role'] == "Owner"){?>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                     Owner
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
                                         <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
                                         <a class="nav-link" href="tables.php">List Barang</a>
                                         <a class="nav-link" href="user.php">List User</a>
                                         <a class="nav-link" href="toko.php">List Toko</a>
+                                        <a class="nav-link" href="order.php">List Order</a>
                                         <a class="nav-link" href="pabrik.php">List Pabrik</a>
                                         <a class="nav-link" href="returp.php">Retur Pabrik</a>
                                         <a class="nav-link" href="returo.php">Retur Order</a>
+                                    </nav>
                                 </div>
                             <?php }; ?>
                             <?php if($_SESSION['role'] == "Admin"){?>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                     Administrasi
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
                                         <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
                                         <a class="nav-link" href="tables.php">List Barang</a>
                                         <a class="nav-link" href="user.php">List User</a>
                                         <a class="nav-link" href="toko.php">List Toko</a>
+                                        <a class="nav-link" href="order.php">List Order</a>
                                         <a class="nav-link" href="pabrik.php">List Pabrik</a>
                                         <a class="nav-link" href="returp.php">Retur Pabrik</a>
                                         <a class="nav-link" href="returo.php">Retur Order</a>
@@ -88,11 +93,12 @@
                                 </div>
                             <?php }; ?>
                             <?php if($_SESSION['role'] == "Gudang"){?>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                     Pergudangan
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
                                         <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
@@ -104,17 +110,16 @@
                                 </div>
                             <?php }; ?>
                             <?php if($_SESSION['role'] == "Sales"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Pages
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="order.php">List Orderan</a>
-                                    </nav>
-                                </div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                        Sales
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="tables.php">List Barang</a>
+                                            <a class="nav-link" href="order.php">List Orderan</a>
+                                        </nav>
+                                    </div>
                             <?php }; ?>
                         </div>
                     </div>
@@ -194,14 +199,14 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  orderan o, tb_barang b, tb_toko t, tb_wilayah w WHERE o.id_b = b.id_b && o.id_toko = t.id_toko && o.id_w = w.id_w");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  orderan o, tb_barang b, tb_toko t WHERE o.id_b = b.id_b && o.id_toko = t.id_toko");
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $ido        = $data['id_o'];
                                                     $idt        = $data['id_toko'];
                                                     $nop        = $data['no_order'];
                                                     $kodeb      = $data['kode_b'];
-                                                    $namab      = $data['nama_b'];
+                                                    $namabarang = $data['nama_b'];
                                                     $wilayah    = $data['wilayah'];
                                                     $Harga      = $data['harga'];
                                                     $qtyp       = $data['qtyp'];
@@ -215,7 +220,7 @@
                                                 <td><?=$i++?></td>
                                                 <td><?=$nop;?></td>
                                                 <td><?=$kodeb;?></td>
-                                                <td><?=$namab;?></td>
+                                                <td><?=$namabarang;?></td>
                                                 <td><?=$qtyp;?></td>
                                                 <td>Rp <?=$Harga;?></td>
                                                 <td><?=$wilayah;?></td>
@@ -242,26 +247,29 @@
                                                         }
                                                     ?>
                                                 </td>
-                                                <?php if($_SESSION['role'] == "Gudang"||$_SESSION['role'] == "Sales"){?>
                                                     <td>
-                                                    <?php if($_SESSION['role'] == "Gudang"){?>
+                                                    <?php if($_SESSION['role'] == "Gudang"){
+                                                        if ($kirim == 0){?>
                                                         <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#pro<?=$ido;?>">
                                                             Diproses
                                                         </button>
                                                         <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#kir<?=$ido;?>">
                                                             Dikirim
                                                         </button>
-                                                    <?php }; ?>
-                                                    <?php if($_SESSION['role'] == "Sales" || $_SESSION['role'] == "Admin"){?>
+                                                    <?php } else if ($kirim == 1) { ?>
+                                                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#kir<?=$ido;?>">
+                                                            Dikirim
+                                                        </button>
+                                                    <?php } else {}
+                                                    if($_SESSION['role'] == "Sales" || $_SESSION['role'] == "Admin"){?>
                                                         <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#lun<?=$ido;?>">
                                                             Lunas
                                                         </button>
                                                         <?php echo "<a href='lap_or.php?id_o=$ido'>" ;?> <button type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>Print</button></a>  
                                                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>">
                                                         Hapus
-                                                    <?php }; ?>
+                                                    <?php } }; ?>
                                                     </td>
-                                                <?php }; ?>
                                             </tr>
                                             <!-- END Selesai Field Table -->
                                             <!-- Aksi CRUD -->
@@ -293,16 +301,6 @@
                                                                         <?php };?>
                                                                     </select>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtyp"     type="text"     placeholder="Qty"     value="" required/>
-                                                                    <select name="wilayahnya" class="form-control mb-2">
-                                                                        <?php
-                                                                            $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_wilayah");
-                                                                            while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
-                                                                            $wilayah = $fetcharray['wilayah'];
-                                                                                $idw = $fetcharray['id_w'];
-                                                                        ?>
-                                                                        <option value="<?=$idw;?>"><?=$wilayah;?></option> 
-                                                                        <?php }; ?>
-                                                                    </select>
                                                                     <select name="tokonya" class="form-control mb-2">
                                                                         <?php
                                                                             $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_toko");
@@ -400,7 +398,7 @@
                                                         <form method="post">
                                                             <div class="modal-body">
                                                                 <div class="form-group">
-                                                                    Apakah anda ingin mempacking pesanan <?=$nop;?> Barang <?=$namab;?> dengan tujuan <?=$namat;?> ?
+                                                                    Apakah anda ingin mempacking pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
                                                                     <input type="hidden" name="id_o" value="<?=$ido;?>">
                                                                     <br>
                                                                     <button type="submit" class="btn btn-primary" name="orderproses" >Submit</button>
@@ -429,7 +427,7 @@
                                                         <form method="post">
                                                             <div class="modal-body">
                                                                 <div class="form-group">
-                                                                    Apakah anda ingin mengirim pesanan <?=$nop;?> Barang <?=$namab;?> dengan tujuan <?=$namat;?> ?
+                                                                    Apakah anda ingin mengirim pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
                                                                     <input type="hidden" name="id_o" value="<?=$ido;?>">
                                                                     <br>
                                                                     <button type="submit" class="btn btn-primary" name="orderkirim" >Submit</button>
@@ -455,7 +453,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
@@ -475,5 +473,5 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
-    </body>
+    </body>
 </html>

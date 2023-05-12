@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Bulan Mei 2023 pada 06.50
+-- Waktu pembuatan: 11 Bulan Mei 2023 pada 16.44
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.13
 
@@ -57,7 +57,6 @@ CREATE TABLE `b_masuk` (
   `id_bm` int(11) NOT NULL,
   `id_b` int(11) NOT NULL,
   `id_p` int(11) NOT NULL,
-  `stats` int(11) NOT NULL DEFAULT 0,
   `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `qtym` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -66,11 +65,11 @@ CREATE TABLE `b_masuk` (
 -- Dumping data untuk tabel `b_masuk`
 --
 
-INSERT INTO `b_masuk` (`id_bm`, `id_b`, `id_p`, `stats`, `tanggal`, `qtym`) VALUES
-(4, 8, 2, 1, '2023-05-04 05:52:05', 100),
-(5, 20, 2, 1, '2023-05-04 06:34:15', 4000),
-(6, 10, 2, 0, '2023-03-30 10:26:26', 30000),
-(7, 3, 1, 0, '2023-04-09 13:49:09', 1000);
+INSERT INTO `b_masuk` (`id_bm`, `id_b`, `id_p`, `tanggal`, `qtym`) VALUES
+(7, 3, 1, '2023-04-09 13:49:09', 1000),
+(19, 23, 1, '2023-05-10 08:03:07', 10000),
+(20, 23, 1, '2023-05-10 08:04:40', 1100),
+(21, 23, 1, '2023-05-10 08:07:34', 2000);
 
 -- --------------------------------------------------------
 
@@ -81,7 +80,6 @@ INSERT INTO `b_masuk` (`id_bm`, `id_b`, `id_p`, `stats`, `tanggal`, `qtym`) VALU
 CREATE TABLE `orderan` (
   `id_o` int(11) NOT NULL,
   `id_b` int(11) NOT NULL,
-  `id_w` int(11) NOT NULL,
   `id_toko` int(11) NOT NULL,
   `no_order` varchar(100) NOT NULL,
   `qtyp` int(100) NOT NULL,
@@ -94,19 +92,20 @@ CREATE TABLE `orderan` (
 -- Dumping data untuk tabel `orderan`
 --
 
-INSERT INTO `orderan` (`id_o`, `id_b`, `id_w`, `id_toko`, `no_order`, `qtyp`, `tgl_order`, `kirim`, `bayar`) VALUES
-(1, 2, 1, 1, 'AK0001', 50, '2023-03-02 08:37:53', 0, 0),
-(2, 5, 1, 2, 'PC0001', 100, '2023-03-03 08:04:26', 0, 0),
-(4, 13, 2, 3, 'YT0001', 50, '2023-03-16 08:27:49', 0, 0),
-(5, 0, 0, 0, 'YT0002', 50, '2023-03-16 08:22:27', 0, 0),
-(6, 0, 0, 0, '', 0, '2023-03-16 08:34:14', 0, 0),
-(7, 0, 0, 0, '', 0, '2023-03-16 08:34:14', 0, 0),
-(8, 0, 0, 0, 'PC004', 50, '2023-03-16 08:36:36', 0, 0),
-(9, 0, 0, 0, '', 0, '2023-03-16 08:36:36', 0, 0),
-(10, 0, 0, 0, '', 0, '2023-03-16 08:36:36', 0, 0),
-(11, 0, 0, 0, 'PC005', 50, '2023-03-16 09:03:42', 0, 0),
-(12, 0, 0, 0, '', 0, '2023-03-16 09:03:42', 0, 0),
-(13, 0, 0, 0, '', 0, '2023-03-16 09:03:42', 0, 0);
+INSERT INTO `orderan` (`id_o`, `id_b`, `id_toko`, `no_order`, `qtyp`, `tgl_order`, `kirim`, `bayar`) VALUES
+(1, 5, 1, 'AK0001', 50, '2023-05-10 06:58:04', 2, 0),
+(2, 12, 2, 'PC0001', 100, '2023-05-10 06:58:16', 2, 0),
+(4, 16, 3, 'YT0001', 50, '2023-05-10 06:58:41', 0, 0),
+(5, 0, 0, 'YT0002', 50, '2023-03-16 08:22:27', 0, 0),
+(6, 0, 0, '', 0, '2023-03-16 08:34:14', 0, 0),
+(7, 0, 0, '', 0, '2023-03-16 08:34:14', 0, 0),
+(8, 0, 0, 'PC004', 50, '2023-03-16 08:36:36', 0, 0),
+(9, 0, 0, '', 0, '2023-03-16 08:36:36', 0, 0),
+(10, 0, 0, '', 0, '2023-03-16 08:36:36', 0, 0),
+(11, 0, 0, 'PC005', 50, '2023-03-16 09:03:42', 0, 0),
+(12, 0, 0, '', 0, '2023-03-16 09:03:42', 0, 0),
+(13, 0, 0, '', 0, '2023-03-16 09:03:42', 0, 0),
+(14, 21, 3, 'YT0001', 50, '2023-03-16 08:27:49', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -129,8 +128,7 @@ CREATE TABLE `retur_o` (
 INSERT INTO `retur_o` (`id_ro`, `id_b`, `id_toko`, `tanggal`, `qtyro`) VALUES
 (1, 4, 2, '2023-04-11 07:17:08', 5000),
 (2, 4, 1, '2023-04-11 07:19:26', 1),
-(3, 4, 1, '2023-04-11 07:18:20', 0),
-(4, 1, 1, '2023-04-11 09:05:32', 100000);
+(3, 4, 1, '2023-04-11 07:18:20', 0);
 
 -- --------------------------------------------------------
 
@@ -177,10 +175,10 @@ CREATE TABLE `tb_barang` (
 --
 
 INSERT INTO `tb_barang` (`id_b`, `kode_b`, `nama_b`, `tipe_mobil`, `kategori`, `harga`, `pcs_dus`, `harga_p`, `qty`) VALUES
-(1, '10A', 'Fuses DX', 'Universal', 'Brand Fuses DX', 260, 10000, '-', 540000),
+(1, '10A', 'Fuses DX', 'Universal', 'Brand Fuses DX', 260, 10000, '-', 600000),
 (2, '15A', 'Fuses DX', 'Universal', 'Brand Fuses DX', 260, 10000, '-', 500000),
-(3, '20A', 'Fuses DX', 'Universal', 'Brand Fuses DX', 260, 10000, '-', 496000),
-(4, '25A', 'Fuses DX', 'Universal', 'Brand Fuses DX', 260, 10000, '-', 510000),
+(3, '20A', 'Fuses DX', 'Universal', 'Brand Fuses DX', 260, 10000, '-', 495000),
+(4, '25A', 'Fuses DX', 'Universal', 'Brand Fuses DX', 260, 10000, '-', 500000),
 (5, '30A', 'Fuses DX', 'Universal', 'Brand Fuses DX', 260, 10000, '-', 500000),
 (6, '10A', 'Fuses DX (Ceramic)', 'Universal', 'Brand Fuses DX Ceramic', 500, 10000, '-', 490000),
 (7, '15A', 'Fuses DX (Ceramic)', 'Universal', 'Brand Fuses DX Ceramic', 500, 10000, '-', 450000),
@@ -193,10 +191,10 @@ INSERT INTO `tb_barang` (`id_b`, `kode_b`, `nama_b`, `tipe_mobil`, `kategori`, `
 (17, '20A', 'Fuses DX (Mini)', 'Universal', 'Brand Fuses DX Mini', 270, 20000, '-', 600000),
 (18, '25A', 'Fuses DX (Mini)', 'Universal', 'Brand Fuses DX Mini', 270, 20000, '-', 600000),
 (19, '30A', 'Fuses DX (Mini)', 'Universal', 'Brand Fuses DX Mini', 270, 20000, '-', 600000),
-(20, 'MB-097585', 'Bracket Stay (LH)', 'PS-100', 'Brand Bracker Stay (Kaca Spion) (Dus Polos)', 30000, 150, '-', 15000),
-(21, '18590-79F00', 'Sensor Map', 'APV/Futura Injection', 'Brand Sensor MAD (Mitomo)', 110000, 250, '-', 50000),
-(22, 'K2234', 'MNB', 'KIJANG', '', 500000, 2000, '-', 599000),
-(23, 'B890', 'aSTRA', 'TOYOTA', '', 270, 2344, '-', 150000);
+(20, 'MB-097585', 'Bracket Stay (LH)', 'PS-100', 'Brand Bracker Stay (Kaca Spion) (Dus Polos)', 30000, 150, '-', 35000),
+(21, '18590-79F00', 'Sensor Map', 'APV/Futura Injection', 'Brand Sensor MAD (Mitomo)', 110000, 250, '-', 60000),
+(22, '34910-77310', 'Cable Speedometer', 'Extra', 'Brand Cable Speedometer NSM', 50000, 50, '-', 600000),
+(23, '53630-87603', 'Cable Cap Mesin', 'F-70 / 5K', 'Brand Cable Cap Mesin (NSM)', 25000, 50, '-', 140000);
 
 -- --------------------------------------------------------
 
@@ -245,7 +243,7 @@ INSERT INTO `tb_register` (`id_user`, `email`, `namadepan`, `namabelakang`, `pas
 (1, 'malvin@gmail.com', 'Malvin', 'Adrianus', '123', 'Owner'),
 (2, 'ken@gmail.com', 'Ken', 'Adrianus', '123', 'Sales'),
 (3, 'kira@gmail.com', 'Kira', 'Yamato', '123', 'Gudang'),
-(4, 'udin@gmail.com', 'Udin', 'Jamaludin', '123', 'Administrasi');
+(4, 'udin@gmail.com', 'Udin', 'Jamaludin', '123', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -255,63 +253,27 @@ INSERT INTO `tb_register` (`id_user`, `email`, `namadepan`, `namabelakang`, `pas
 
 CREATE TABLE `tb_toko` (
   `id_toko` int(11) NOT NULL,
-  `id_w` int(11) NOT NULL,
   `nama_toko` varchar(100) NOT NULL,
   `cs_toko` varchar(100) NOT NULL,
   `no_telp` varchar(100) NOT NULL,
-  `alamat` varchar(100) NOT NULL
+  `alamat` varchar(100) NOT NULL,
+  `wilayah` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_toko`
 --
 
-INSERT INTO `tb_toko` (`id_toko`, `id_w`, `nama_toko`, `cs_toko`, `no_telp`, `alamat`) VALUES
-(1, 1, 'Sinar Mulia', ' ABC', '02587456', 'Jl. amn'),
-(2, 4, 'abc', 'FGH', '02587456', 'Jl. amn'),
-(3, 3, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(4, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(5, 1, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(6, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(7, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(8, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(9, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(10, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(11, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(12, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(13, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(14, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(15, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(16, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(17, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(18, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(19, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(20, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(21, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(22, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(23, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn'),
-(24, 2, 'XYZ', 'FGH', '02587456', 'Jl. amn');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `tb_wilayah`
---
-
-CREATE TABLE `tb_wilayah` (
-  `id_w` int(11) NOT NULL,
-  `wilayah` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_wilayah`
---
-
-INSERT INTO `tb_wilayah` (`id_w`, `wilayah`) VALUES
-(1, 'Medan'),
-(2, 'Pontianak'),
-(3, 'Semarang'),
-(4, 'Surabaya');
+INSERT INTO `tb_toko` (`id_toko`, `nama_toko`, `cs_toko`, `no_telp`, `alamat`, `wilayah`) VALUES
+(1, 'Sinar Mulia', 'ABC', '08126034186', 'Jl. Batu Bara No. 60', 'Medan'),
+(3, 'XYZ', 'FGH', '02587456', 'Jl. amn', ''),
+(4, 'YJM Motor', 'Yendi', '081299282839', 'Mega Glodok Kemayoran Lt. GF Blok D07 No. 3', 'Jakarta'),
+(5, 'Daihatsu Baru', 'FGH', '(061) 4518716', 'Jl. Semarang No. 48', ''),
+(6, 'XYZ', 'FGH', '02587456', 'Jl. amn', ''),
+(7, 'XYZ', 'FGH', '02587456', 'Jl. amn', ''),
+(8, 'XYZ', 'FGH', '02587456', 'Jl. amn', ''),
+(9, 'XYZ', 'FGH', '02587456', 'Jl. amn', ''),
+(10, 'XYZ', 'FGH', '02587456', 'Jl. amn', '');
 
 --
 -- Indexes for dumped tables
@@ -322,25 +284,31 @@ INSERT INTO `tb_wilayah` (`id_w`, `wilayah`) VALUES
 --
 ALTER TABLE `b_keluar`
   ADD PRIMARY KEY (`id_bk`),
-  ADD KEY `id_toko` (`id_toko`);
+  ADD KEY `id_toko` (`id_toko`),
+  ADD KEY `id_b` (`id_b`);
 
 --
 -- Indeks untuk tabel `b_masuk`
 --
 ALTER TABLE `b_masuk`
-  ADD PRIMARY KEY (`id_bm`);
+  ADD PRIMARY KEY (`id_bm`),
+  ADD KEY `id_b` (`id_b`),
+  ADD KEY `id_p` (`id_p`);
 
 --
 -- Indeks untuk tabel `orderan`
 --
 ALTER TABLE `orderan`
-  ADD PRIMARY KEY (`id_o`);
+  ADD PRIMARY KEY (`id_o`),
+  ADD KEY `id_b` (`id_b`);
 
 --
 -- Indeks untuk tabel `retur_o`
 --
 ALTER TABLE `retur_o`
-  ADD PRIMARY KEY (`id_ro`);
+  ADD PRIMARY KEY (`id_ro`),
+  ADD KEY `id_b` (`id_b`),
+  ADD KEY `id_toko` (`id_toko`);
 
 --
 -- Indeks untuk tabel `retur_p`
@@ -372,14 +340,7 @@ ALTER TABLE `tb_register`
 -- Indeks untuk tabel `tb_toko`
 --
 ALTER TABLE `tb_toko`
-  ADD PRIMARY KEY (`id_toko`),
-  ADD KEY `id_wil` (`id_w`);
-
---
--- Indeks untuk tabel `tb_wilayah`
---
-ALTER TABLE `tb_wilayah`
-  ADD PRIMARY KEY (`id_w`);
+  ADD PRIMARY KEY (`id_toko`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -389,31 +350,31 @@ ALTER TABLE `tb_wilayah`
 -- AUTO_INCREMENT untuk tabel `b_keluar`
 --
 ALTER TABLE `b_keluar`
-  MODIFY `id_bk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_bk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT untuk tabel `b_masuk`
 --
 ALTER TABLE `b_masuk`
-  MODIFY `id_bm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_bm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT untuk tabel `orderan`
 --
 ALTER TABLE `orderan`
-  MODIFY `id_o` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_o` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `retur_o`
 --
 ALTER TABLE `retur_o`
-  MODIFY `id_ro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_ro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `retur_p`
 --
 ALTER TABLE `retur_p`
-  MODIFY `id_rp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_rp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_barang`
@@ -440,12 +401,6 @@ ALTER TABLE `tb_toko`
   MODIFY `id_toko` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_wilayah`
---
-ALTER TABLE `tb_wilayah`
-  MODIFY `id_w` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
@@ -453,7 +408,13 @@ ALTER TABLE `tb_wilayah`
 -- Ketidakleluasaan untuk tabel `b_keluar`
 --
 ALTER TABLE `b_keluar`
-  ADD CONSTRAINT `id_toko` FOREIGN KEY (`id_toko`) REFERENCES `tb_toko` (`id_toko`);
+  ADD CONSTRAINT `id_toko` FOREIGN KEY (`id_toko`) REFERENCES `tb_toko` (`id_toko`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `b_masuk`
+--
+ALTER TABLE `b_masuk`
+  ADD CONSTRAINT `b_masuk_ibfk_1` FOREIGN KEY (`id_b`) REFERENCES `tb_barang` (`id_b`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `retur_p`
@@ -461,12 +422,6 @@ ALTER TABLE `b_keluar`
 ALTER TABLE `retur_p`
   ADD CONSTRAINT `id_bar` FOREIGN KEY (`id_b`) REFERENCES `tb_barang` (`id_b`),
   ADD CONSTRAINT `id_pab` FOREIGN KEY (`id_p`) REFERENCES `tb_pabrik` (`id_p`);
-
---
--- Ketidakleluasaan untuk tabel `tb_toko`
---
-ALTER TABLE `tb_toko`
-  ADD CONSTRAINT `id_wil` FOREIGN KEY (`id_w`) REFERENCES `tb_wilayah` (`id_w`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

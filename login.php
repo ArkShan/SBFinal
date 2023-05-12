@@ -25,7 +25,12 @@ if (isset($_POST['login'])){
             $_SESSION['log'] = 'Logged';
             $_SESSION['role'] = 'Owner';
             header('location: home.php'); //halaman utama
-        } else if ($role == 'Sales') {
+        } else if ($role == 'Admin') {
+            // Kalau bukan owner
+            $_SESSION['log'] = 'Logged';
+            $_SESSION['role'] = 'Admin';
+            header('location: home.php');
+        }else if ($role == 'Sales') {
             // Kalau bukan owner
             $_SESSION['log'] = 'Logged';
             $_SESSION['role'] = 'Sales';

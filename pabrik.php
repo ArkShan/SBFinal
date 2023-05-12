@@ -59,12 +59,12 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
                                     <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
                                     <a class="nav-link" href="tables.php">List Barang</a>
-                                    <a class="nav-link" href="owneruser.php">List User</a>
-                                    <a class="nav-link" href="ownertoko.php">List Toko</a>
-                                    <a class="nav-link" href="ownerpabrik.php">List Pabrik</a>
+                                    <a class="nav-link" href="user.php">List User</a>
+                                    <a class="nav-link" href="toko.php">List Toko</a>
+                                    <a class="nav-link" href="order.php">List Order</a>
+                                    <a class="nav-link" href="pabrik.php">List Pabrik</a>
                                     <a class="nav-link" href="returp.php">Retur Pabrik</a>
                                     <a class="nav-link" href="returo.php">Retur Order</a>
                                 </nav>
@@ -117,94 +117,90 @@
                                         </tfoot> -->
                                         <!-- Mulai Field Table -->
                                         <tbody>
-                                        <?php
-                                        // Fungsi Filter tanggal
-                                        
-                                        $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_pabrik");
-                                        
-                                        $i=1;
-                                        while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                            $idp   = $data['id_p'];
-                                            $namap   = $data['nama_p'];
-                                        ?>
-                                        <tr>
-                                            <td><?=$i++?></td>
-                                            <td><?=$namap;?></td>
+                                            <?php
+                                            // Fungsi Filter tanggal
+                                            
+                                            $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_pabrik");
+                                            
+                                            $i=1;
+                                            while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                $idp   = $data['id_p'];
+                                                $namap   = $data['nama_p'];
+                                            ?>
+                                            <tr>
+                                                <td><?=$i++?></td>
+                                                <td><?=$namap;?></td>
 
-                                            <td>
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idp;?>">
-                                                Ubah
-                                                </button>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idp;?>">
-                                                Hapus
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <!-- END Selesai Field Table -->
-                                        <!-- Aksi CRUD -->
-                                        <!-- Modal stock Gudang -->
-                                        <!-- The  Edit Modal -->
-                                        <div class="modal fade" id="edit<?=$idp;?>">
+                                                <td>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idp;?>">
+                                                    Ubah
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idp;?>">
+                                                    Hapus
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- END Selesai Field Table -->
+                                            <!-- Aksi CRUD -->
+                                            <!-- Modal stock Gudang -->
+                                            <!-- The  Edit Modal -->
+                                            <div class="modal fade" id="edit<?=$idp;?>">
                                                 <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                <h4 class="modal-title">Edit Pabrik</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit Pabrik</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_p"  type="text"     placeholder="Nama Pabrik"   value="<?=$namap;?>" required/>
+                                                                    <input type="hidden" name="id_p" value="<?=$idp;?>">
+                                                                    <button type="submit" class="btn btn-primary" name="updatepabrik">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                                <!-- Modal body -->
-                                                <!-- Content 1 -->
-                                                <form method="post">
-                                                <div class="modal-body">
-                                                <div class="form-group">
-                                                <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_p"  type="text"     placeholder="Nama Pabrik"   value="<?=$namap;?>" required/>
-                                                <input type="hidden" name="id_p" value="<?=$idp;?>">
-                                                <button type="submit" class="btn btn-primary" name="updatepabrik">Submit</button>
-                                                </div>
-                                                </div>
-                                                <!-- Modal footer -->
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                </div>
-                                                </form>
                                             </div>
-                                            </div>
-                                        </div>
-                                                <!-- Modal stock Gudang -->
-                                                <!-- The  delete Modal -->
-                                                <div class="modal fade" id="delete<?=$idp;?>">
+                                            <!-- Modal stock Gudang -->
+                                            <!-- The  delete Modal -->
+                                            <div class="modal fade" id="delete<?=$idp;?>">
                                                 <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Pabrik ?</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Hapus Pabrik ?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="POST">
+                                                            <div class="modal-body mb-2">
+                                                                Apakah anda yakin ingin menghapus Pabrik <?=$namap;?> ?
+                                                                <input type="hidden" name="id_p"    value="<?=$idp;?>">
+                                                                <input type="hidden" name="nama_p" value="<?=$namap;?>">
+                                                                <br>
+                                                                <br>
+                                                                <button type="submit" class="btn btn-danger" name="hapuspabrik" >Hapus</button>
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                                <!-- Modal body -->
-                                                <!-- Content 1 -->
-                                                <form method="POST">
-                                                <div class="modal-body mb-2">
-                                                Apakah anda yakin ingin menghapus Pabrik <?=$namap;?> ?
-                                                <input type="hidden" name="id_p"    value="<?=$idp;?>">
-                                                <input type="hidden" name="nama_p" value="<?=$namap;?>">
-                                                <br>
-                                                <br>
-                                                <button type="submit" class="btn btn-danger" name="hapuspabrik" >Hapus</button>
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                </div>
-                                                </div>
-                                                <!-- Modal footer -->
-                                                <div class="modal-footer">
-                                                </div>
-                                                </form>
                                             </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <!-- End aksi Crud -->
-                                        <?php
-                                        };
-                                        ?>
+                                            <!-- End aksi Crud -->
+                                            <?php };?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -215,7 +211,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;

@@ -61,10 +61,10 @@ if(isset($_POST['hapusbarang'])){
     $idb = $_POST['id_b'];
     $hapus = mysqli_query($koneksi, "DELETE FROM tb_barang WHERE id_b='$idb'");
     if($hapus){
-        header('location:ownertables.php');
+        header('location:tables.php');
     } else {
         echo 'gagal';
-        header('location:ownertables.php');
+        header('location:tables.php');
     }
 }
 
@@ -84,34 +84,40 @@ if(isset($_POST['barangmasuk'])){
     $updatesqtymasuk = mysqli_query($koneksi," UPDATE tb_barang set qty='$updateqty' WHERE id_b='$barang'");
 
     if($ambilbmasuk && $addtomasuk && $updateqtymasuk){
-        header('location:gudangmasuk.php');
+        header('location:b_masuk.php');
     } else {
         echo 'gagal';
-        header('location:gudangmasuk.php');
+        header('location:b_masuk.php');
     }
 }
 
 if(isset($_POST['hapusbarangmasuk'])){
-    $idb = $_POST['id_b'];
+    $id_b = $_POST['id_b'];
     $idm = $_POST['id_bm'];
    
-    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$idb'");
+    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$id_b'");
     $stocknya = mysqli_fetch_array($lihatstock);   
     $stockskrg = $stocknya['qty'];// jumlah stock sekarang
     
     $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM b_masuk WHERE id_bm='$idm'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
     $qtyskrg = $preqtyskrg['qtym'];//jumlah skrg
-    
-    $selisih = $stockskrg-$qtyskrg;
-    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty='$selisih' WHERE id_b='$idb'");
+   
+    $Current_stock =  (int)$stockskrg;
+    $Current_qty = (int)$qtyskrg;
+
+    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$Current_stock-$Current_qty."' WHERE id_b ='".$id_b."'");
     $hapusdata = mysqli_query($koneksi,"DELETE FROM b_masuk WHERE id_bm='$idm'");
     
     // Check apakah ini akan berhasil
-    if($update && $hapusdata){
-        header('location : gudangmasuk.php');
+    if($update && $hapusdata == true){
+        header('location:b_masuk.php');
+        exit;
+        // die (mysqli_error($koneksi));
     }else{
-        header('location : gudangmasuk.php');
+        echo 'gagal';
+        header('location:b_masuk.php');
+        exit;
     }
 };
 
@@ -129,14 +135,43 @@ if(isset($_POST['barangkeluar'])){
     $ambilbkeluar = mysqli_fetch_array($pilihbkeluar);
 
     $addtokeluar = mysqli_query($koneksi," INSERT INTO b_keluar (id_b,id_toko,qtyk) VALUES ('$barang','$tujuan','$qtyk')");
-    $updatestokgudang = mysqli_query($koneksi," UPDATE tb_barang set qty='$updateqty' WHERE id_b='$barang'");
+    $updatestokgudang = mysqli_query($koneksi," UPDATE tb_barang SET qty='$updateqty' WHERE id_b='$barang'");
     if($ambilbkeluar && $addtokeluar && $updatestokgudang){
-        header('location:gudangkeluar.php');
+        header('location:b_keluar.php');
     } else {
         echo 'gagal';
-        header('location:gudangkeluar.php');
+        header('location:b_keluar.php');
     }
 }
+
+if(isset($_POST['hapusbarangkeluar'])){
+    $id_b = $_POST['id_b'];
+    $idk = $_POST['id_bk'];
+   
+    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$id_b'");
+    $stocknya = mysqli_fetch_array($lihatstock);   
+    $stockskrg = $stocknya['qty'];// jumlah stock sekarang
+    
+    $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM b_keluar WHERE id_bk='$idk'"); //lihat qty saat ini
+    $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
+    $qtyskrg = $preqtyskrg['qtyk'];//jumlah skrg
+   
+    $Current_stock =  (int)$stockskrg;
+    $Current_qty = (int)$qtyskrg;
+
+    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$Current_stock+$Current_qty."' WHERE id_b ='".$id_b."'");
+    $hapusdata = mysqli_query($koneksi,"DELETE FROM b_keluar WHERE id_bk='$idk'");
+    
+    // Check apakah ini akan berhasil
+    if($update && $hapusdata == true){
+        header('location:b_keluar.php');
+        exit;
+    }else{
+        echo 'gagal';
+        header('location:b_keluar.php');
+        exit;
+    }
+};
 
 if(isset($_POST['updateuser'])){
     $idu   = $_POST['id_user'];
@@ -148,10 +183,10 @@ if(isset($_POST['updateuser'])){
 
     $update = mysqli_query($koneksi,"UPDATE tb_register set email='$email',namadepan='$namad',namabelakang='$namab',password='$pass' WHERE id_user='$idu'");
     if($update){
-        header('location:owneruser.php');
+        header('location:user.php');
     } else {
         echo 'gagal';
-        header('location:owneruser.php');
+        header('location:user.php');
     }
 }
 
@@ -159,10 +194,10 @@ if(isset($_POST['hapususer'])){
     $idu = $_POST['id_user'];
     $hapus = mysqli_query($koneksi, "DELETE FROM tb_register WHERE id_user='$idu'");
     if($hapus){
-        header('location:owneruser.php');
+        header('location:user.php');
     } else {
         echo 'gagal';
-        header('location:owneruser.php');
+        header('location:user.php');
     }
 }
 
@@ -171,12 +206,9 @@ if(isset($_POST['tambahtoko'])){
     $cst     = $_POST['cs_toko'];
     $notelp  = $_POST['no_telp'];
     $alamat  = $_POST['alamat'];
-    $wilayah = $_POST['wilayahnya'];
-        
-    $pilihtoko = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE id_w = '$wilayah'");
-    $ambilwilayah = mysqli_fetch_array($pilihtoko);
+    $wilayah = $_POST['wilayah'];
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_toko (id_w,nama_toko,cs_toko,no_telp,alamat) VALUES ('$wilayah','$namat','$cst','$notelp','$alamat')");
+    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_toko (nama_toko,cs_toko,no_telp,alamat,wilayah) VALUES ('$namat','$cst','$notelp','$alamat','$wilayah')");
     if($addtotable && $ambilwilayah){
         echo "berhasil";
        
@@ -199,10 +231,10 @@ if(isset($_POST['updatetoko'])){
     $update = mysqli_query($koneksi,"UPDATE tb_toko set id_w='$wilayah',nama_toko='$namat',cs_toko='$cst',no_telp='$notelp',alamat='$alamat' WHERE id_toko='$idt'");
 
     if($update && $pilihintoko){
-        header('location:ownertoko.php');
+        header('location:toko.php');
     } else {
         echo 'gagal';
-        header('location:ownertoko.php');
+        header('location:toko.php');
     }
 }
 
@@ -210,10 +242,10 @@ if(isset($_POST['hapustoko'])){
     $idt = $_POST['id_toko'];
     $hapus = mysqli_query($koneksi, "DELETE FROM tb_toko WHERE id_toko='$idt'");
     if($hapus){
-        header('location:ownertoko.php');
+        header('location:toko.php');
     } else {
         echo 'gagal';
-        header('location:ownertoko.php');
+        header('location:toko.php');
     }
 }
 
@@ -301,10 +333,10 @@ if(isset($_POST['hapusorder'])){
     $ido = $_POST['id_o'];
     $hapus = mysqli_query($koneksi, "DELETE FROM orderan WHERE id_o='$ido'");
     if($hapus){
-        header('location:salesorder.php');
+        header('location:order.php');
     } else {
         echo 'gagal';
-        header('location:salesorder.php');
+        header('location:order.php');
     }
 }
 
@@ -326,10 +358,10 @@ if(isset($_POST['updatepabrik'])){
 
     $update = mysqli_query($koneksi,"UPDATE tb_pabrik set nama_p='$namap' WHERE id_p='$idp'");
     if($update){
-        header('location:ownerpabrik.php');
+        header('location:pabrik.php');
     } else {
         echo 'gagal';
-        header('location:ownerpabrik.php');
+        header('location:pabrik.php');
     }
 }
 
@@ -337,10 +369,10 @@ if(isset($_POST['hapuspabrik'])){
     $idp   = $_POST['id_p'];
     $hapus = mysqli_query($koneksi, "DELETE FROM tb_pabrik WHERE id_p='$idp'");
     if($hapus){
-        header('location:ownerpabrik.php');
+        header('location:pabrik.php');
     } else {
         echo 'gagal';
-        header('location:ownerpabrik.php');
+        header('location:pabrik.php');
     }
 }
 
@@ -361,36 +393,40 @@ if(isset($_POST['tambahrp'])){
     
 
     if($ambilrp && $addtorp && $updateqtyrp){
-        header('location:gudangreturp.php');
+        header('location:returp.php');
     } else {
         echo 'gagal';
-        header('location:gudangreturp.php');
+        header('location:returp.php');
     }
     // die (mysqli_error($koneksi));
 }
 
 if(isset($_POST['hapusrp'])){
-    $idb  = $_POST['id_b'];
+    $id_b = $_POST['id_b'];
     $idrp = $_POST['id_rp'];
-
-
-    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$idb'");
+   
+    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$id_b'");
     $stocknya = mysqli_fetch_array($lihatstock);   
     $stockskrg = $stocknya['qty'];// jumlah stock sekarang
     
     $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM retur_p WHERE id_rp='$idrp'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
     $qtyskrg = $preqtyskrg['qtyrp'];//jumlah skrg
+   
+    $Current_stock =  (int)$stockskrg;
+    $Current_qty = (int)$qtyskrg;
 
-    $selisih = $stockskrg + $qtyskrg;
-    $update = mysqli_query($koneksi,"UPDATE tb_barang SET qty='$selisih' WHERE id_b='$idb'");
+    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$Current_stock+$Current_qty."' WHERE id_b ='".$id_b."'");
     $hapusdata = mysqli_query($koneksi,"DELETE FROM retur_p WHERE id_rp='$idrp'");
     
     // Check apakah ini akan berhasil
-    if($update && $hapusdata){
-        header('location : gudangreturp.php');
+    if($update && $hapusdata == true){
+        header('location:returp.php');
+        exit;
     }else{
-        header('location : gudangreturp.php');
+        echo 'gagal';
+        header('location:returp.php');
+        exit;
     }   
 };
 
@@ -411,49 +447,41 @@ if(isset($_POST['tambahro'])){
     
 
     if($ambilro && $addtoro && $updateqtyro){
-        header('location:gudangreturo.php');
+        header('location:returo.php');
     } else {
         echo 'gagal';
-        header('location:gudangreturo.php');
+        header('location:returo.php');
     }
     // die (mysqli_error($koneksi));
 }
 
 if(isset($_POST['hapusro'])){
-    $idb = $_POST['id_b'];
+    $id_b = $_POST['id_b'];
     $idro = $_POST['id_ro'];
 
-    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$idb'");
+    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$id_b'");
     $stocknya = mysqli_fetch_array($lihatstock);   
     $stockskrg = $stocknya['qty'];// jumlah stock sekarang
     
     $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM retur_o WHERE id_ro='$idro'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
     $qtyskrg = $preqtyskrg['qtyro'];//jumlah skrg
-    
-    $selisih = $stockskrg-$qtyskrg;
-    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty='$selisih' WHERE id_b='$idb'");
+   
+    $Current_stock =  (int)$stockskrg;
+    $Current_qty = (int)$qtyskrg;
+
+    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$Current_stock- $Current_qty."' WHERE id_b ='".$id_b."'");
     $hapusdata = mysqli_query($koneksi,"DELETE FROM retur_o WHERE id_ro='$idro'");
     
+
     // Check apakah ini akan berhasil
-    if($update && $hapusdata){
-        header('location : gudangreturo.php');
+    if($update && $hapusdata == true){
+        header('location:returo.php');
+        exit;
     }else{
-        header('location : gudangreturo.php');
+        echo 'gagal';
+        header('location:returo.php');
+        exit;
     }
 };
-// if(isset($_POST['barangnya'])){
-//     $idb   = $_POST['id_b'];
-//     $pilihbarang = mysqli_query($koneksi,"INSERT INTO orderan (id_b) VALUES ('$idb')");
-// }
-
-// if(isset($_POST['wilayahnya'])){
-//     $idw   = $_POST['id_w'];
-//     $pilihwilayah = mysqli_query($koneksi,"INSERT INTO orderan (id_w) VALUES ('$idw')");
-// }
-
-// if(isset($_POST['tokonya'])){
-//     $idt   = $_POST['id_t'];
-//     $pilihtoko = mysqli_query($koneksi,"INSERT INTO orderan (id_t) VALUES ('$idt')");
-// }
 ?>
