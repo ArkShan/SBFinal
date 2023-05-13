@@ -17,8 +17,8 @@
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"> 
-            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
             <!-- Navbar Search-->
             <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -73,23 +73,23 @@
                                 </div>
                                 <?php }; ?>
                                 <?php if($_SESSION['role'] == "Admin"){?>
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        Administrasi
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                            <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                            <a class="nav-link" href="tables.php">List Barang</a>
-                                            <a class="nav-link" href="user.php">List User</a>
-                                            <a class="nav-link" href="toko.php">List Toko</a>
-                                            <a class="nav-link" href="order.php">List Order</a>
-                                            <a class="nav-link" href="pabrik.php">List Pabrik</a>
-                                            <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                            <a class="nav-link" href="returo.php">Retur Order</a>   
-                                        </nav>
-                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Administrasi
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
+                                        <a class="nav-link" href="tables.php">List Barang</a>
+                                        <a class="nav-link" href="toko.php">List Toko</a>
+                                        <a class="nav-link" href="order.php">List Order</a>
+                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
+                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
+                                        <a class="nav-link" href="returo.php">Retur Order</a>  
+                                    </nav>
+                                </div>     
                                 <?php }; ?>
                                 <?php if($_SESSION['role'] == "Gudang"){?>
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -109,11 +109,12 @@
                                     </div>
                                 <?php }; ?>
                                 <?php if($_SESSION['role'] == "Sales"){?>
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                         Sales
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="tables.php">List Barang</a>
                                             <a class="nav-link" href="order.php">List Orderan</a>
@@ -155,13 +156,15 @@
                             
                         <div class="card mb-4">
                             <div class="card-header">
+                                <?php if($_SESSION['role'] != "Sales"){?>
                                 <!-- Button to Open the Modal -->
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                  Tambah Barang
                                 </button>
                                 <!-- End Notifikasi warning -->
-                                <a href="laporanbarangkeluar.php" id="exportmasuk" class="btn btn-info">Exportdata</a>
+                                <a href="list_b.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Exportdata</a>
                                 <br>
+                                <?php }; ?>
                                 <!-- end Button to Open the Modal  -->
                                 <i class="fas fa-table mr-1"></i>
                                 List Barang Sinar Jaya Motor
@@ -208,7 +211,7 @@
                                                 <th>Pcs/Dus</th>
                                                 <th>Harga Promo</th>
                                                 <th>Qty</th>
-                                                <?php if($_SESSION['role'] == "Gudang"){?>
+                                                <?php if($_SESSION['role'] != "Sales"){?>
                                                 <th>Action</th>
                                                 <?php }; ?>
                                             </tr>
@@ -249,7 +252,7 @@
                                                 <td><?= $qtyd;?></td>
                                                 <td><?= $promo;?></td>
                                                 <td><?= $qty;?></td>
-                                                <?php if($_SESSION['role'] == "Gudang"){?>
+                                                <?php if($_SESSION['role'] != "Sales"){?>
                                                 <td>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>">
                                                 Ubah
@@ -260,7 +263,9 @@
                                                 <?php }; ?>
                                             </tr>
                                             <!-- END Selesai Field Table -->
-                                            <!-- Aksi CRUD -->
+                                            <?php }; ?>
+                                        </tbody>
+                                        <!-- Aksi CRUD -->
                                             <!-- Modal Tambah Barang -->
                                             <!-- The Modal -->
                                             <div class="modal fade" id="myModal">
@@ -359,8 +364,6 @@
                                                 </div>
                                             </div>
                                             <!-- End aksi Crud -->
-                                            <?php }; ?>
-                                        </tbody>
                                     </table>
                                 </div>
                             </div>

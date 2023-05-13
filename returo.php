@@ -17,8 +17,8 @@
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"> 
-            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
             <!-- Navbar Search-->
             <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -60,6 +60,7 @@
                                 </a>
                                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
                                         <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
                                         <a class="nav-link" href="tables.php">List Barang</a>
                                         <a class="nav-link" href="user.php">List User</a>
@@ -79,9 +80,9 @@
                                 </a>
                                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
                                         <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
                                         <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="user.php">List User</a>
                                         <a class="nav-link" href="toko.php">List Toko</a>
                                         <a class="nav-link" href="order.php">List Order</a>
                                         <a class="nav-link" href="pabrik.php">List Pabrik</a>
@@ -133,166 +134,153 @@
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">List Barang Retur Order Sinar Jaya Motor</h1>
-                        
                         <div class="card mb-4">
                             <div class="card-header">
+                                <?php if($_SESSION['role'] == "Gudang"){?>
                                 <!-- Button to Open the Modal -->
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                  Tambah Retur Order
                                 </button>
+                                <?php }; ?>
                                 <!-- End Notifikasi warning -->
                                 <a href="lap_returo.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
                                 <!-- end Button to Open the Modal  -->
                                 <!-- <i class="fas fa-table mr-1"></i> -->
-                                
+                            
                             </div>
                             <div class="modal fade" id="myModal">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <!-- Modal Header -->
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Tambah Barang Retur</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <!-- Modal body -->
-                                            <form method="POST" >
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <select name="barang" class="form-control mb-2">
-                                                            <?php
-                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
-                                                                while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
-                                                                    $namab = $fetcharray['nama_b'];
-                                                                    $id_b   = $fetcharray['id_b'];
-                                                                    $kodeb = $fetcharray['kode_b'];
-                                                            ?>
-                                                            <option value="<?=$id_b;?>"><?=$kodeb;?> - <?=$namab;?></option> 
-                                                            <?php };?>
-                                                        </select>
-                                                        <input  type="number"  name="qtyro"            class="form-control mb-2  "   placeholder="Qty" required  />
-                                                        <select name="tokonya" class="form-control mb-2">
-                                                            <?php
-                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko");
-                                                                while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
-                                                                    $namatoko = $fetcharray['nama_toko'];
-                                                                    $idtoko   = $fetcharray['id_toko'];
-                                                            ?>
-                                                            <option value="<?=$idtoko;?>"><?=$namatoko;?></option> 
-                                                            <?php };?>
-                                                        </select>
-                                                        <button type="submit" name="tambahro" class="btn btn-primary" >Submit</button>
-                                                    </div>
-                                                </div>
-                                                <!-- Modal footer -->
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </form>
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Tambah Barang Retur</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
+                                        <!-- Modal body -->
+                                        <form method="POST" >
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <select name="barang" class="form-control mb-2">
+                                                        <?php
+                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
+                                                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                                                $namab = $fetcharray['nama_b'];
+                                                                $id_b   = $fetcharray['id_b'];
+                                                                $kodeb = $fetcharray['kode_b'];
+                                                        ?>
+                                                        <option value="<?=$id_b;?>"><?=$kodeb;?> - <?=$namab;?></option> 
+                                                        <?php };?>
+                                                    </select>
+                                                    <input  type="number"  name="qtyro"            class="form-control mb-2  "   placeholder="Qty" required  />
+                                                    <select name="tokonya" class="form-control mb-2">
+                                                        <?php
+                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko");
+                                                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                                                $namatoko = $fetcharray['nama_toko'];
+                                                                $idtoko   = $fetcharray['id_toko'];
+                                                        ?>
+                                                        <option value="<?=$idtoko;?>"><?=$namatoko;?></option> 
+                                                        <?php };?>
+                                                    </select>
+                                                    <button type="submit" name="tambahro" class="btn btn-primary" >Submit</button>
+                                                </div>
+                                            </div>
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+                                    
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>ID Barang Retur</th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Kategori</th>
-                                                <th>Toko</th>
-                                                <th>Tanggal</th>
-                                                <th>Qty</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <!-- <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </tfoot> -->
-                                        <!-- Mulai Field Table -->
-                                        <tbody>
-                                            <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, retur_o q, tb_toko t WHERE b.id_b = q.id_b && q.id_toko = t.id_toko");
-                                                $i=1;
-                                                while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                                    $idro       = $data['id_ro'];
-                                                    $id_b        = $data['id_b'];
-                                                    $kodebarang = $data['kode_b'];
-                                                    $namabarang = $data['nama_b'];
-                                                    $Kategori   = $data['kategori'];
-                                                    $tanggal    = $data['tanggal'];
-                                                    $pengirim   = $data['nama_toko'];
-                                                    $qtyro      = $data['qtyro'];
-                                            ?>
-                                            <tr>
-                                                <td><?=$i++;?></td>
-                                                <td><?=$kodebarang;?></td>
-                                                <td><?=$namabarang;?></td>
-                                                <td><?=$Kategori;?></td>
-                                                <td><?=$pengirim;?></td>
-                                                <td><?=$tanggal;?></td>
-                                                <td><?=$qtyro;?></td>
-                                            
-                                                <td>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idro;?>">
-                                                    Hapus
-                                                </td>
-                                            </tr>
-                                            <!-- END Selesai Field Table -->
-                                            <!-- Aksi CRUD -->
-                                            <!-- Modal Tambah Barang -->
-                                            <!-- The Modal -->
-                                          
-                                            <!-- Selesai modal tambah barang -->
-                                            <!-- Modal stock Gudang -->
-                                            
-                                            <!-- End aksi Crud -->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Barang Retur</th>
+                                            <th>Kode Barang</th>
+                                            <th>Nama Barang</th>
+                                            <th>Kategori</th>
+                                            <th>Toko</th>
+                                            <th>Tanggal</th>
+                                            <th>Qty</th>
+                                            <?php if($_SESSION['role'] == "Gudang"){?>
+                                            <th>Action</th>
                                             <?php }; ?>
-                                        </tbody>
-                                        <!-- The  delete Modal -->
-                                            <div class="modal fade" id="delete<?=$idro;?>">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Hapus Barang Retur ?</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <!-- Content 1 -->
-                                                        <form method="POST">
-                                                            <div class="modal-body mb-2">
-                                                                Apakah anda yakin ingin menghapus Barang <?=$namabarang;?> Jenis <?=$Kategori;?> ?
-                                                                <input type="hidden" name="id_b"  value="<?=$id_b;?>">
-                                                                <input type="hidden" name="qtyro"   value="<?=$qtyro;?>">
-                                                                <input type="hidden" name="id_ro" value="<?=$idro;?>">
-                                                                <br>
-                                                                <br>
-                                                                <button type="submit" class="btn btn-danger" name="hapusro" >Hapus</button>
-                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, retur_o q, tb_toko t WHERE b.id_b = q.id_b && q.id_toko = t.id_toko");
+                                            $i=1;
+                                            while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                $idro       = $data['id_ro'];
+                                                $id_b        = $data['id_b'];
+                                                $kodebarang = $data['kode_b'];
+                                                $namabarang = $data['nama_b'];
+                                                $Kategori   = $data['kategori'];
+                                                $tanggal    = $data['tanggal'];
+                                                $pengirim   = $data['nama_toko'];
+                                                $qtyro      = $data['qtyro'];
+                                        ?>
+                                        <tr>
+                                            <td><?=$i++;?></td>
+                                            <td><?=$kodebarang;?></td>
+                                            <td><?=$namabarang;?></td>
+                                            <td><?=$Kategori;?></td>
+                                            <td><?=$pengirim;?></td>
+                                            <td><?=$tanggal;?></td>
+                                            <td><?=$qtyro;?></td>
+                                            <?php if($_SESSION['role'] == "Gudang"){?>                                           
+                                            <td>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idro;?>">
+                                                Hapus
+                                            </td>
+                                            <?php }; ?>
+                                        </tr>
+                                        <!-- END Selesai Field Table -->
+                                        <?php }; ?>
+                                    </tbody>
+                                    <!-- The  delete Modal -->
+                                    <div class="modal fade" id="delete<?=$idro;?>">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Barang Retur ?</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
+                                                <!-- Modal body -->
+                                                <!-- Content 1 -->
+                                                <form method="POST">
+                                                    <div class="modal-body mb-2">
+                                                        Apakah anda yakin ingin menghapus Barang <?=$namabarang;?> Jenis <?=$Kategori;?> ?
+                                                        <input type="hidden" name="id_b"  value="<?=$id_b;?>">
+                                                        <input type="hidden" name="qtyro"   value="<?=$qtyro;?>">
+                                                        <input type="hidden" name="id_ro" value="<?=$idro;?>">
+                                                        <br>
+                                                        <br>
+                                                        <button type="submit" class="btn btn-danger" name="hapusro" >Hapus</button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </form>
                                             </div>
-                                    </table>
-                                </div>
+                                        </div>
+                                    </div>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </main>
+            </div>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">

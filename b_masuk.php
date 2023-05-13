@@ -18,6 +18,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"> 
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
             <!-- Navbar Search-->
             <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -83,12 +84,11 @@
                                         <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
                                         <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
                                         <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="user.php">List User</a>
                                         <a class="nav-link" href="toko.php">List Toko</a>
                                         <a class="nav-link" href="order.php">List Order</a>
                                         <a class="nav-link" href="pabrik.php">List Pabrik</a>
                                         <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>
+                                        <a class="nav-link" href="returo.php">Retur Order</a>   
                                     </nav>
                                 </div>
                             <?php }; ?>

@@ -17,8 +17,8 @@
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"> 
-            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
             <!-- Navbar Search-->
             <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -52,32 +52,59 @@
                                 Home
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <?php if($_SESSION['role'] == "Owner"){?>
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    Owner
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
+                                        <a class="nav-link" href="tables.php">List Barang</a>
+                                        <a class="nav-link" href="user.php">List User</a>
+                                        <a class="nav-link" href="toko.php">List Toko</a>
+                                        <a class="nav-link" href="order.php">List Order</a>
+                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
+                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
+                                        <a class="nav-link" href="returo.php">Retur Order</a>
+                                    </nav>
+                                </div>
+                            <?php }; ?>
+                            <?php if($_SESSION['role'] == "Admin"){?>
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Owner
+                                    Administrasi
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                    <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                    <a class="nav-link" href="tables.php">List Barang</a>
-                                    <a class="nav-link" href="user.php">List User</a>
-                                    <a class="nav-link" href="toko.php">List Toko</a>
-                                    <a class="nav-link" href="order.php">List Order</a>
-                                    <a class="nav-link" href="pabrik.php">List Pabrik</a>
-                                    <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                    <a class="nav-link" href="returo.php">Retur Order</a>
-                                </nav>
-                            </div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
+                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
+                                        <a class="nav-link" href="tables.php">List Barang</a>
+                                        <a class="nav-link" href="toko.php">List Toko</a>
+                                        <a class="nav-link" href="order.php">List Order</a>
+                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
+                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
+                                        <a class="nav-link" href="returo.php">Retur Order</a>  
+                                    </nav>
+                                </div>     
+                            <?php }; ?>
                         </div>
                     </div>
+                    <?php if($_SESSION['role'] == "Owner"){?>
                     <div class="sb-sidenav-footer">
-                        <div class="High">
-                            Logged in as: Owner
-                        </div>
-                            <!-- Start Bootstrap -->
+                        <div class="small">Logged in as:</div>
+                        Owner
                     </div>
+                    <?php }; ?>
+                    <?php if($_SESSION['role'] == "Admin"){?>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Administrasi
+                    </div>
+                    <?php }; ?>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
@@ -104,7 +131,6 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Toko</th>
-                                                <th>Customer Service</th>
                                                 <th>Nomor Telepon</th>
                                                 <th>Alamat</th>
                                                 <th>Wilayah</th>
@@ -132,7 +158,6 @@
                                         while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                             $idt     = $data['id_toko'];
                                             $namat   = $data['nama_toko'];
-                                            $cst     = $data['cs_toko'];
                                             $notelp  = $data['no_telp'];
                                             $alamat  = $data['alamat'];
                                             $wilayah = $data['wilayah'];
@@ -140,7 +165,6 @@
                                         <tr>
                                             <td><?=$i++?></td>
                                             <td><?=$namat;?></td>
-                                            <td><?=$cst;?></td> 
                                             <td><?=$notelp;?></td>
                                             <td><?=$alamat;?></td>
                                             <td><?=$wilayah;?></td>
@@ -171,7 +195,6 @@
                                                         <div class="modal-body">
                                                             <div class="form-group">
                                                                 <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_toko"  type="text"     placeholder="Nama Toko"   value="<?=$namat;?>" required/>
-                                                                <input class="form-control py-4 mb-2" id="inputEmailAddress" name="cs_toko" type="text"     placeholder="CS Toko"  value="<?=$cst;?>" required/>
                                                                 <input class="form-control py-4 mb-2" id="inputEmailAddress" name="no_telp"    type="text"     placeholder="No. Telepon"      value="<?=$notelp;?>"/>
                                                                 <input class="form-control py-4 mb-2" id="inputEmailAddress" name="alamat"         type="text"   placeholder="Alamat"  value="<?=$alamat;?>"required/>
                                                                 <input class="form-control py-4 mb-2" id="inputEmailAddress" name="wilayah"         type="text"   placeholder="Wilayah"  value="<?=$wilayah;?>"required/>
@@ -264,7 +287,6 @@
                     <form method="POST" >
                     <div class="modal-body">
                     <input  type="text" name="nama_toko" class="form-control mb-2" placeholder="Nama Toko"   required  />
-                    <input  type="text" name="cs_toko"   class="form-control mb-2" placeholder="CS Toko"     required  />
                     <input  type="text" name="no_telp"   class="form-control mb-2" placeholder="No. Telepon" required  />
                     <input  type="text" name="alamat"    class="form-control mb-2" placeholder="Alamat"      required  />
                     <input  type="text" name="wilayah"   class="form-control mb-2" placeholder="Wilayah"     required  />

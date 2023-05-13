@@ -5,7 +5,7 @@ include 'cek.php';
 ?>
 <html>
 <head>
-  <title>Laporan Retur Orderan Sinar Jaya</title>
+  <title>List Barang Sinar Jaya</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -21,48 +21,53 @@ include 'cek.php';
         <hr>
             <div class="row">
                 <div class="col text-center">
-                    <h3 class="h3 text-dark">Laporan Barang Retur Order</h3>
+                    <h3 class="h3 text-dark"><strong>List Barang Sinar Jaya Motor</strong></h3>
                 </div>
             </div>
             <br>
             <br>
             <br>
 		<div class="data-tables datatable-dark">
-            <table class="table table-bordered" id="exportmasuk" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="exportkeluar" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>ID Barang Retur Order</th>
-                        <th>Kode Barang</th>
+                        <th>ID Barang</th>
+                        <th>Kode barang</th>
                         <th>Nama Barang</th>
+                        <th>Tipe Mobil</th>
                         <th>Kategori</th>
-                        <th>Toko</th>
-                        <th>Tanggal</th>
+                        <th>Harga</th>
+                        <th>Pcs/Dus</th>
+                        <th>Harga Promo</th>
                         <th>Qty</th>
                     </tr>
                 </thead>
                 <!-- Mulai Field Table -->
                 <tbody>
                     <?php
-                        $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, retur_o r, tb_toko t WHERE b.id_b = r.id_b && r.id_toko = t.id_toko");
+                        $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  tb_barang");
                         $i=1;
                         while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                            $idro        = $data['id_ro'];
                             $idb        = $data['id_b'];
                             $kodebarang = $data['kode_b'];
                             $namabarang = $data['nama_b'];
+                            $Tipe_Mobil = $data['tipe_mobil'];
                             $Kategori   = $data['kategori'];
-                            $tanggal    = $data['tanggal'];
-                            $pengirim   = $data['nama_toko'];
-                            $qtyro      = $data['qtyro'];
+                            $Harga      = $data['harga'];
+                            $qtyd       = $data['pcs_dus'];
+                            $promo      = $data['harga_p'];
+                            $qty        = $data['qty']
                     ?>
                     <tr>
                         <td><?=$i++?></td>
                         <td><?php echo $kodebarang;?></td>
                         <td><?php echo $namabarang;?></td>
+                        <td><?php echo $Tipe_Mobil;?></td>
                         <td><?php echo $Kategori;?></td>
-                        <td><?php echo $pengirim;?></td>
-                        <td><?php echo $tanggal;?></td>
-                        <td><?php echo $qtyro;?></td> 
+                        <td>Rp <?php echo $Harga;?></td>
+                        <td><?php echo $qtyd;?></td>
+                        <td><?php echo $promo;?></td>
+                        <td><?php echo $qty;?></td> 
                     </tr>
                     <?php }; ?>
                 </tbody>

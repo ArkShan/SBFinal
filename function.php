@@ -102,11 +102,9 @@ if(isset($_POST['hapusbarangmasuk'])){
     $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM b_masuk WHERE id_bm='$idm'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
     $qtyskrg = $preqtyskrg['qtym'];//jumlah skrg
-   
-    $Current_stock =  (int)$stockskrg;
-    $Current_qty = (int)$qtyskrg;
-
-    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$Current_stock-$Current_qty."' WHERE id_b ='".$id_b."'");
+    
+    $balik = $stockskrg-$qtyskrg;
+    $update = mysqli_query($koneksi,"UPDATE tb_barang SET qty='$balik' WHERE id_b='$id_b'");
     $hapusdata = mysqli_query($koneksi,"DELETE FROM b_masuk WHERE id_bm='$idm'");
     
     // Check apakah ini akan berhasil
@@ -155,11 +153,9 @@ if(isset($_POST['hapusbarangkeluar'])){
     $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM b_keluar WHERE id_bk='$idk'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
     $qtyskrg = $preqtyskrg['qtyk'];//jumlah skrg
-   
-    $Current_stock =  (int)$stockskrg;
-    $Current_qty = (int)$qtyskrg;
-
-    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$Current_stock+$Current_qty."' WHERE id_b ='".$id_b."'");
+    
+    $selisih = $stockskrg+$qtyskrg;
+    $update = mysqli_query($koneksi,"UPDATE tb_barang SET qty='$selisih' WHERE id_b='$id_b'");
     $hapusdata = mysqli_query($koneksi,"DELETE FROM b_keluar WHERE id_bk='$idk'");
     
     // Check apakah ini akan berhasil
@@ -203,12 +199,11 @@ if(isset($_POST['hapususer'])){
 
 if(isset($_POST['tambahtoko'])){
     $namat   = $_POST['nama_toko'];
-    $cst     = $_POST['cs_toko'];
     $notelp  = $_POST['no_telp'];
     $alamat  = $_POST['alamat'];
     $wilayah = $_POST['wilayah'];
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_toko (nama_toko,cs_toko,no_telp,alamat,wilayah) VALUES ('$namat','$cst','$notelp','$alamat','$wilayah')");
+    $addtotable = mysqli_query($koneksi,"INSERT INTO tb_toko (nama_toko,no_telp,alamat,wilayah) VALUES ('$namat','$notelp','$alamat','$wilayah')");
     if($addtotable && $ambilwilayah){
         echo "berhasil";
        
@@ -220,15 +215,11 @@ if(isset($_POST['tambahtoko'])){
 if(isset($_POST['updatetoko'])){
     $idt   = $_POST['id_toko'];
     $namat = $_POST['nama_toko'];
-    $cst = $_POST['cs_toko'];
     $notelp = $_POST['no_telp'];
     $alamat  = $_POST['alamat'];
-    $wilayah = $_POST['wilayahnya'];
+    $wilayah = $_POST['wilayah'];
 
-    $pilihtoko = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE id_w = '$wilayah'");
-    $ambilwilayah = mysqli_fetch_array($pilihtoko);
-    $pilihintoko = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE id_toko = '$idt'");
-    $update = mysqli_query($koneksi,"UPDATE tb_toko set id_w='$wilayah',nama_toko='$namat',cs_toko='$cst',no_telp='$notelp',alamat='$alamat' WHERE id_toko='$idt'");
+    $update = mysqli_query($koneksi,"UPDATE tb_toko set wilayah='$wilayah',nama_toko='$namat',no_telp='$notelp',alamat='$alamat' WHERE id_toko='$idt'");
 
     if($update && $pilihintoko){
         header('location:toko.php');
@@ -314,19 +305,32 @@ if(isset($_POST['orderkirim'])){
 }
 
 if(isset($_POST['tambahorder'])){
+    date_default_timezone_set('Asia/Jakarta');
     $qtyp  = $_POST['qtyp'];
     $nop   = $_POST['no_order'];
     $barang   = $_POST['barangnya'];
-    $wilayah   = $_POST['wilayahnya'];
     $toko   = $_POST['tokonya'];
+    $tanggal = date("Y-m-d H:i:s");
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO orderan (id_b,id_w,id_toko,no_order,qtyp) WHERE id_b = '$barang'(id_b), id_w = '$wilayah'(id_w), id_toko = '$toko'(id_toko) VALUES ('$barang','$wilayah','$toko','$nop','$qtyp')");
+    $addtotable = mysqli_query($koneksi,"INSERT INTO orderan (id_b,id_toko,no_order,qtyp,tgl_order) VALUES ('$barang','$toko','$nop','$qtyp', '$tanggal')");
     if($addtotable){
         echo "berhasil";
-       
     }else{
-        echo "error";
-    }
+        echo "gagal";
+        
+    }  
+}
+
+if(isset($_POST['updateorder'])){
+    $qtyp  = $_POST['qtyp'];
+    $ido = $_POST['id_o'];
+    $addtotable = mysqli_query($koneksi,"UPDATE orderan SET qtyp ='$qtyp' WHERE id_o='$ido'");
+    if($addtotable){
+        echo "berhasil";
+    }else{
+        echo "gagal";
+        
+    }  
 }
 
 if(isset($_POST['hapusorder'])){
@@ -412,11 +416,9 @@ if(isset($_POST['hapusrp'])){
     $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM retur_p WHERE id_rp='$idrp'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
     $qtyskrg = $preqtyskrg['qtyrp'];//jumlah skrg
-   
-    $Current_stock =  (int)$stockskrg;
-    $Current_qty = (int)$qtyskrg;
-
-    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$Current_stock+$Current_qty."' WHERE id_b ='".$id_b."'");
+    
+    $selisih = $stockskrg+$qtyskrg;
+    $update = mysqli_query($koneksi,"UPDATE tb_barang SET qty='$selisih' WHERE id_b='$id_b'");
     $hapusdata = mysqli_query($koneksi,"DELETE FROM retur_p WHERE id_rp='$idrp'");
     
     // Check apakah ini akan berhasil
@@ -465,17 +467,16 @@ if(isset($_POST['hapusro'])){
     
     $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM retur_o WHERE id_ro='$idro'"); //lihat qty saat ini
     $preqtyskrg = mysqli_fetch_array($lihatdataskrg); 
-    $qtyskrg = $preqtyskrg['qtyro'];//jumlah skrg
-   
-    $Current_stock =  (int)$stockskrg;
-    $Current_qty = (int)$qtyskrg;
+    $qtyskrggg = $preqtyskrg['qtyro'];//jumlah skrg
 
-    $update = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$Current_stock- $Current_qty."' WHERE id_b ='".$id_b."'");
-    $hapusdata = mysqli_query($koneksi,"DELETE FROM retur_o WHERE id_ro='$idro'");
+    $a = (int)$stockskrg;
+    $b = (int)$qtyskrggg;
+
+    $updateee = mysqli_query($koneksi,"UPDATE tb_barang set qty = '".$a - $b."'  WHERE id_b ='".$id_b."' ");
+    $hapusdataaa = mysqli_query($koneksi,"DELETE FROM retur_o WHERE id_ro = '".$idro."' ");
     
-
     // Check apakah ini akan berhasil
-    if($update && $hapusdata == true){
+    if($updateee && $hapusdataaa == true){
         header('location:returo.php');
         exit;
     }else{

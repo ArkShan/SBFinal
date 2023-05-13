@@ -43,7 +43,7 @@ include 'cek.php';
                 <!-- Mulai Field Table -->
                 <tbody>
                     <?php
-                        $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_keluar k, tb_toko t WHERE b.id_b = k.id_b && k.id_t = t.id_toko");
+                        $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_keluar k, tb_toko t WHERE b.id_b = k.id_b && k.id_toko = t.id_toko");
                         $i=1;
                         while($data=mysqli_fetch_array($ambilsemuadatastock)){
                             $idk        = $data['id_bk'];

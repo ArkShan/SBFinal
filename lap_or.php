@@ -31,8 +31,8 @@ include 'cek.php';
                         <?php
                             $ido=$_GET['id_o'];
 
-                            $sSQL=mysqli_query($koneksi, "SELECT * FROM tb_barang b, orderan o, tb_toko t, tb_wilayah w WHERE o.id_o = '$ido' AND b.id_b = o.id_b and o.id_toko = t.id_toko and o.id_w = w.id_w limit 1");
-                            $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  orderan o, tb_barang b, tb_toko t, tb_wilayah w WHERE o.id_b = b.id_b && o.id_toko = t.id_toko && o.id_w = w.id_w");
+                            $sSQL=mysqli_query($koneksi, "SELECT * FROM tb_barang b, orderan o, tb_toko t WHERE o.id_o = '$ido' AND b.id_b = o.id_b AND o.id_toko = t.id_toko limit 1");
+                            $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  orderan o, tb_barang b, tb_toko t WHERE o.id_b = b.id_b && o.id_toko = t.id_toko");
                             $i=1;
                             while($data=mysqli_fetch_array($sSQL)){
                                 $ido        = $data['id_o'];
