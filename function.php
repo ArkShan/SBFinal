@@ -17,7 +17,7 @@ if(isset($_POST['registrasi'])){
 };
 
 // Tombol Submit Barang
-if(isset($_POST['addnewbarang'])){
+if(isset($_POST['tambahbarang'])){
     $kodebarang = $_POST['kode_b'];
     $namabarang = $_POST['nama_b'];
     $tipemobil  = $_POST['tipe_mobil'];
@@ -25,12 +25,11 @@ if(isset($_POST['addnewbarang'])){
     $harga      = $_POST['harga'];
     $qtyd       = $_POST['pcs_dus'];
     $hargapromo = $_POST['harga_p'];
-    $qty       = $_POST['qty'];
+    $qty        = $_POST['qty'];
 
     $addtotable = mysqli_query($koneksi,"INSERT INTO tb_barang (kode_b,nama_b,tipe_mobil,kategori,harga,pcs_dus,harga_p, qty) VALUES ('$kodebarang','$namabarang','$tipemobil','$kategori','$harga','$qtyd','$hargapromo','$qty')");
     if($addtotable){
         echo "berhasil";
-       
     }else{
         echo "error";
     }

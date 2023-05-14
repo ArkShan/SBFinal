@@ -29,7 +29,6 @@
                 </div>
             </form> -->
             <!-- Navbar-->
-            <a class="navbar-brand" href="home.php">Sinar Jaya Motor</a>
             <ul class="navbar-nav ml-auto ml-md-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -139,10 +138,12 @@
                         
                         <div class="card mb-4">
                             <div class="card-header">
+                                <?php if($_SESSION['role'] == "Gudang"){?>
                                 <!-- Button to Open the Modal -->
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                  Tambah Barang Masuk
                                 </button>
+                                <?php }; ?>
                                 <!-- End Notifikasi warning -->
                                 <a href="lap_masuk.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
@@ -206,7 +207,9 @@
                                                 <th>Tanggal</th>
                                                 <th>Pengirim</th>
                                                 <th>Qty</th>
+                                                <?php if($_SESSION['role'] == "Gudang"){?>
                                                 <th>Action</th>
+                                                <?php }; ?>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -242,11 +245,12 @@
                                                 <td><?=$tanggal;?></td>
                                                 <td><?=$pengirim;?></td>
                                                 <td><?=$qtym;?></td>
+                                                <?php if($_SESSION['role'] == "Gudang"){?>
                                                 <td>
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idm;?>">
                                                     Hapus
-
                                                 </td>
+                                                <?php }; ?>
                                             </tr>
                                             <!-- END Selesai Field Table -->
                                             <!-- Aksi CRUD -->

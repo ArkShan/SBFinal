@@ -136,11 +136,13 @@
                         <h1 class="mt-4">List Barang Keluar Sinar Jaya Motor</h1>
                         
                         <div class="card mb-4">
-                            <div class="card-header">
+                            <div class="card-header"
+                                <?php if($_SESSION['role'] == "Gudang"){?>>
                                 <!-- Button to Open the Modal -->
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                  Tambah Barang Keluar
                                 </button>
+                                <?php }; ?>
                                 <!-- End Notifikasi warning -->
                                 <a href="lap_keluar.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
@@ -206,7 +208,9 @@
                                                 <th>Tanggal</th>
                                                 <th>Tujuan</th>
                                                 <th>Qty</th>
+                                                <?php if($_SESSION['role'] == "Gudang"){?>
                                                 <th>Action</th>
+                                                <?php }; ?>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -243,11 +247,12 @@
                                                 <td><?=$tanggal;?></td>
                                                 <td><?=$tujuan;?></td>
                                                 <td><?=$qtyk;?></td>
-                                            
+                                                <?php if($_SESSION['role'] == "Gudang"){?>
                                                 <td>
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idk;?>">
                                                     Hapus
                                                 </td>
+                                                <?php }; ?>
                                             </tr>
                                             <!-- END Selesai Field Table -->
                                             <?php }; ?>

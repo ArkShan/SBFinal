@@ -280,13 +280,14 @@
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="kode_b"      type="text"     placeholder="Kode Barang"   value="" required/>
-                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_b"      type="text"     placeholder="Nama_Barang"   value="" required/>
-                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="tipe_mobil"  type="text"     placeholder="Tipe_Mobil"     value="" required/>
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_b"      type="text"     placeholder="Nama Barang"   value="" required/>
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="tipe_mobil"  type="text"     placeholder="Tipe Mobil"     value="" required/>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="kategori"    type="text"     placeholder="Kategori"      value="" required/>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="harga"       type="text"     placeholder="Harga"         value="" required/>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="pcs_dus"     type="number"   placeholder="Pcs/Dus"       value="" required/>
-                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="harga_p"     type="text"     placeholder="Harga_Promo"   value="" required/>
-                                                                    <button type="submit" name="barangkeluar"    class="btn btn-primary" >Submit</button>
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="harga_p"     type="text"     placeholder="Harga Promo"   value="" required/>
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qty"         type="number"   placeholder="Qty"   value="" required/>
+                                                                    <button type="submit" name="tambahbarang"    class="btn btn-primary" >Submit</button>
                                                                 </div>
                                                             </div>
                                                             <!-- Modal footer -->

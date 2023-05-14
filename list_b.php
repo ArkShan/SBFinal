@@ -39,7 +39,6 @@ include 'cek.php';
                         <th>Harga</th>
                         <th>Pcs/Dus</th>
                         <th>Harga Promo</th>
-                        <th>Qty</th>
                     </tr>
                 </thead>
                 <!-- Mulai Field Table -->
@@ -67,7 +66,6 @@ include 'cek.php';
                         <td>Rp <?php echo $Harga;?></td>
                         <td><?php echo $qtyd;?></td>
                         <td><?php echo $promo;?></td>
-                        <td><?php echo $qty;?></td> 
                     </tr>
                     <?php }; ?>
                 </tbody>
