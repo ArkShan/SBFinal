@@ -172,9 +172,10 @@
                             <div class="card-body">
                                 <!-- Notifikasi Danger-->
                                 <?php 
-                                    $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE qty <1000");
+                                    $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE qty <=1000");
                                     while($fetch=mysqli_fetch_array($ambilsemuadatastock)){
                                         $namabar = $fetch['nama_b'];
+                                        $kodebar = $fetch['kode_b'];
                                         $qty = $fetch['qty'];
                                 ?>
                                 <div class="alert alert-danger alert-dismissible fade show">
@@ -185,7 +186,7 @@
                                 <!-- End Notifikasi Danger -->
                                 <!-- Notifikasi Warning-->
                                 <?php 
-                                    $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE qty <10000");
+                                    $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE qty >1000 AND qty <10000");
                                     while($fetch=mysqli_fetch_array($ambilsemuadatastock)){
                                         $namabar = $fetch['nama_b'];
                                         $kodebar = $fetch['kode_b'];
@@ -263,9 +264,7 @@
                                                 <?php }; ?>
                                             </tr>
                                             <!-- END Selesai Field Table -->
-                                            <?php }; ?>
-                                        </tbody>
-                                        <!-- Aksi CRUD -->
+                                            <!-- Aksi CRUD -->
                                             <!-- Modal Tambah Barang -->
                                             <!-- The Modal -->
                                             <div class="modal fade" id="myModal">
@@ -364,6 +363,8 @@
                                                 </div>
                                             </div>
                                             <!-- End aksi Crud -->
+                                            <?php }; ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
