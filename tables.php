@@ -211,8 +211,8 @@
                                                 <th>Harga</th>
                                                 <th>Pcs/Dus</th>
                                                 <th>Harga Promo</th>
-                                                <th>Qty</th>
                                                 <?php if($_SESSION['role'] != "Sales"){?>
+                                                <th>Qty</th>
                                                 <th>Action</th>
                                                 <?php }; ?>
                                             </tr>
@@ -252,8 +252,8 @@
                                                 <td>Rp <?= $Harga;?></td>
                                                 <td><?= $qtyd;?></td>
                                                 <td><?= $promo;?></td>
-                                                <td><?= $qty;?></td>
                                                 <?php if($_SESSION['role'] != "Sales"){?>
+                                                <td><?= $qty;?></td>
                                                 <td>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>">
                                                 Ubah

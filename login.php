@@ -11,40 +11,50 @@ if (isset($_POST['login'])){
     $password = $_POST['password'];
     // Cocokan dengan database, cari data
     $cekdatabase = mysqli_query($koneksi, "SELECT * FROM tb_register where email='$email' and password='$password'");
-    $_SESSION['isLoggedin']= '1';
     // Hitung jumlah data
     // die (mysqli_error ($koneksi));
     $hitung = mysqli_num_rows($cekdatabase);
-    if ($hitung > 0) {
+    if(empty($email)){
+        echo "<b>Email anda kosong</b>";
+    } else if(empty($password)){
+        echo "<b>Password anda kosong</b>";
+    }else {
+    if ($hitung > 0) {   
         // Kalau data ditemukan
         // $_SESSION['log']= 'TRUE';
         $ambilrole = mysqli_fetch_array($cekdatabase);
+        session_start();
+        $_SESSION['id_user'] = $ambilrole['id_user'];
         $role = $ambilrole['role'];
         if ($role == 'Owner') {
             // Kalau dia owner
+            $_SESSION['isLoggedin']= '1';
             $_SESSION['log'] = 'Logged';
             $_SESSION['role'] = 'Owner';
             header('location: home.php'); //halaman utama
         } else if ($role == 'Admin') {
             // Kalau bukan owner
+            $_SESSION['isLoggedin']= '1';
             $_SESSION['log'] = 'Logged';
             $_SESSION['role'] = 'Admin';
             header('location: home.php');
         }else if ($role == 'Sales') {
             // Kalau bukan owner
+            $_SESSION['isLoggedin']= '1';
             $_SESSION['log'] = 'Logged';
             $_SESSION['role'] = 'Sales';
             header('location: home.php');
         } else if ($role == 'Gudang') {
             //Kalau bukan manager
+            $_SESSION['isLoggedin']= '1';
             $_SESSION['log'] = 'Logged';
             $_SESSION['role'] = 'Gudang';
             header('location: home.php');
         } else {
             echo 'Data tidak ada';
         }
-        
     }
+}
 };
 ?>
 <!DOCTYPE html>
@@ -101,13 +111,11 @@ if (isset($_POST['login'])){
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                    <!-- <div class="text-center">
                                     </div>
                                     <br>
                                     <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="register.php">Need an account? Sign up!</a></div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

@@ -6,13 +6,15 @@ if(isset($_POST['registrasi'])){
     $nama           = $_POST['namadepan'];
     $namabelakang   = $_POST['namabelakang'];
     $password       = $_POST['password'];
-    $database       = mysqli_query($koneksi,"INSERT INTO tb_register (email,namadepan,namabelakang,password) VALUES ('$email','$nama','$namabelakang','$password')"); 
+    $role           = $_POST['role'];
+
+    $database = mysqli_query($koneksi,"INSERT INTO tb_register (email,namadepan,namabelakang,password,role) VALUES ('$email','$nama','$namabelakang','$password','$role')"); 
 
     if($database){
-        header('location: login.php');
-        
+        header('location:user.php');
     }else{
-        header('location: register.php');
+        echo "error";
+        header('location:register.php');
     }
 };
 
@@ -28,6 +30,7 @@ if(isset($_POST['tambahbarang'])){
     $qty        = $_POST['qty'];
 
     $addtotable = mysqli_query($koneksi,"INSERT INTO tb_barang (kode_b,nama_b,tipe_mobil,kategori,harga,pcs_dus,harga_p, qty) VALUES ('$kodebarang','$namabarang','$tipemobil','$kategori','$harga','$qtyd','$hargapromo','$qty')");
+    
     if($addtotable){
         echo "berhasil";
     }else{
@@ -239,21 +242,6 @@ if(isset($_POST['hapustoko'])){
     }
 }
 
-if(isset($_POST['barangditerima'])){
-    $idm = $_POST['id_bm'];
-    // $qty = $_POST['qty'];
-    $cekreq = mysqli_query($koneksi,"UPDATE b_masuk SET stats =1  WHERE  id_bm='$idm'");
-    if($cekreq){
-        // berhasil
-        // header("Location:approval.php");
-        echo'<script>
-        alert("Barang Sudah Diterima di Gudang, Silahkan klik tombol ok untuk melanjutkan ");
-        window.location.href = "b_masuk.php"
-        </script>';
-    }else{
-        header("Location:home.php");
-    }
-}
 
 if(isset($_POST['orderlunas'])){
     $ido = $_POST['id_o'];
@@ -305,13 +293,15 @@ if(isset($_POST['orderkirim'])){
 
 if(isset($_POST['tambahorder'])){
     date_default_timezone_set('Asia/Jakarta');
-    $qtyp  = $_POST['qtyp'];
-    $nop   = $_POST['no_order'];
-    $barang   = $_POST['barangnya'];
-    $toko   = $_POST['tokonya'];
+    $qtyp    = $_POST['qtyp'];
+    $nop     = $_POST['no_order'];
+    $barang  = $_POST['barangnya'];
+    $toko    = $_POST['tokonya'];
     $tanggal = date("Y-m-d H:i:s");
+    $idu     = $_SESSION['id_user'];
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO orderan (id_b,id_toko,no_order,qtyp,tgl_order) VALUES ('$barang','$toko','$nop','$qtyp', '$tanggal')");
+    $addtotable = mysqli_query($koneksi,"INSERT INTO orderan (id_b,id_toko,id_user,no_order,qtyp,tgl_order) VALUES ('$barang','$toko','$idu','$nop','$qtyp', '$tanggal')");
+    die (mysqli_error($koneksi));
     if($addtotable){
         echo "berhasil";
     }else{

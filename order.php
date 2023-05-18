@@ -225,11 +225,12 @@
                                                 <th>Kode Barang</th>
                                                 <th>Nama Barang</th>
                                                 <th>Qty</th>
-                                                <th>Harga Satuan</th>
+                                                <!-- <th>Harga Satuan</th> -->
                                                 <th>Wilayah</th>
                                                 <th>Toko Pemesan</th>
                                                 <th>Tanggal</th>
                                                 <th>Total Harga</th>
+                                                <th>PIC</th>
                                                 <th>Pengiriman</th>
                                                 <th>Pembayaran</th>
                                                 <?php if($_SESSION['role'] == "Gudang"||$_SESSION['role'] == "Sales" || $_SESSION['role'] == "Admin"){?>
@@ -250,11 +251,13 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  orderan o, tb_barang b, tb_toko t WHERE o.id_b = b.id_b && o.id_toko = t.id_toko");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  orderan o, tb_barang b, tb_toko t, tb_register u WHERE o.id_b = b.id_b && o.id_toko = t.id_toko && o.id_user = u.id_user");
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $ido        = $data['id_o'];
                                                     $idt        = $data['id_toko'];
+                                                    $idu        = $data['id_user'];
+                                                    $namad      = $data['namadepan'];
                                                     $nop        = $data['no_order'];
                                                     $kodeb      = $data['kode_b'];
                                                     $namabarang = $data['nama_b'];
@@ -278,15 +281,16 @@
                                                 <td><?=$kodeb;?></td>
                                                 <td><?=$namabarang;?></td>
                                                 <td><?=$qtyp;?></td>
-                                                <?php if ($hargap == "-"){ ?>
+                                                <!-- <?php if ($hargap == "-"){ ?>
                                                 <td>Rp <?=$Harga;?></td>
                                                 <?php } else if ($hargap != "-"){?>
                                                 <td>Rp <?=$hargap;?></td> 
-                                                <?php } ?>
+                                                <?php } ?> -->
                                                 <td><?=$wilayah;?></td>
                                                 <td><?=$namat;?></td>
                                                 <td><?=$tglo;?></td>
                                                 <td>Rp <?=$total;?></td>
+                                                <td><?=$namad;?></td>
                                                 <td>
                                                     <?php 
                                                         if($kirim ==0){
@@ -335,155 +339,155 @@
                                                     <?php }; ?>
                                                     </td>
                                             </tr>
-                                            <!-- END Selesai Field Table -->                                        
+                                            <!-- END Selesai Field Table -->  
+                                            <!-- The  Edit Modal -->
+                                            <div class="modal fade" id="edit<?=$ido;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit Barang</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">                                                                  
+                                                                    <input class="form-control py-4 mb-2" id="updateqty" name="qtyp" type="number" placeholder="Qty" value="<?=$qtyp;?>" required/>
+                                                                    <input type="hidden" name="id_o" value="<?=$ido;?>">
+                                                                    <button type="submit" class="btn btn-primary" name="updateorder" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal stock Gudang -->
+                                            <!-- The  delete Modal -->
+                                            <div class="modal fade" id="delete<?=$ido;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Hapus Pesanan ?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="POST">
+                                                            <div class="modal-body mb-2">
+                                                                Apakah anda yakin ingin menghapus pesanan <?=$nop;?> untuk toko <?=$namat;?> ?
+                                                                <input type="hidden" name="id_p"    value="<?=$ido;?>">
+                                                                <input type="hidden" name="qtyp"         value="<?=$qtyp;?>">
+                                                                <input type="hidden" name="nama_toko"     value="<?=$namat;?>">
+                                                                <br>
+                                                                <br>
+                                                                <button type="submit" class="btn btn-danger" name="hapusorder" >Hapus</button>
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End aksi Crud -->
+                                            <!-- Pembayaran Lunas -->
+                                            <div class="modal fade" id="lun<?=$ido;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Pembayaran</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda yakin pesanan ini sudah lunas  ?
+                                                                    <?=$nop;?> Barang <?=$namab;?> dengan tujuan <?=$namat;?>
+                                                                    <input type="hidden" name="id_o" value="<?=$ido;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="orderlunas" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End Pembayaran Lunas -->
+                                            <!-- Barang Diproses -->
+                                            <div class="modal fade" id="pro<?=$ido;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Barang</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda ingin mempacking pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
+                                                                    <input type="hidden" name="id_o" value="<?=$ido;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="orderproses" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End Barang Diproses -->
+                                            <!-- Barang Dikirim -->
+                                            <div class="modal fade" id="kir<?=$ido;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Barang</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda ingin mengirim pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
+                                                                    <input type="hidden" name="id_o" value="<?=$ido;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="orderkirim" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End Pembayaran Lunas -->                                      
                                         <?php }; ?>
-                                    </tbody>
-                                    <!-- The  Edit Modal -->
-                                    <div class="modal fade" id="edit<?=$ido;?>">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Edit Barang</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <!-- Content 1 -->
-                                                <form method="post">
-                                                    <div class="modal-body">
-                                                        <div class="form-group">                                                                  
-                                                            <input class="form-control py-4 mb-2" id="updateqty" name="qtyp" type="number" placeholder="Qty" value="<?=$qtyp;?>" required/>
-                                                            <input type="hidden" name="id_o" value="<?=$ido;?>">
-                                                            <button type="submit" class="btn btn-primary" name="updateorder" >Submit</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Modal footer -->
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Modal stock Gudang -->
-                                    <!-- The  delete Modal -->
-                                    <div class="modal fade" id="delete<?=$ido;?>">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Hapus Pesanan ?</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <!-- Content 1 -->
-                                                <form method="POST">
-                                                    <div class="modal-body mb-2">
-                                                        Apakah anda yakin ingin menghapus pesanan <?=$nop;?> untuk toko <?=$namat;?> ?
-                                                        <input type="hidden" name="id_p"    value="<?=$ido;?>">
-                                                        <input type="hidden" name="qtyp"         value="<?=$qtyp;?>">
-                                                        <input type="hidden" name="nama_toko"     value="<?=$namat;?>">
-                                                        <br>
-                                                        <br>
-                                                        <button type="submit" class="btn btn-danger" name="hapusorder" >Hapus</button>
-                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                    <!-- Modal footer -->
-                                                    <div class="modal-footer">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End aksi Crud -->
-                                    <!-- Pembayaran Lunas -->
-                                    <div class="modal fade" id="lun<?=$ido;?>">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Status Pembayaran</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <!-- Content 1 -->
-                                                <form method="post">
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            Apakah anda yakin pesanan ini sudah lunas  ?
-                                                            <?=$nop;?> Barang <?=$namab;?> dengan tujuan <?=$namat;?>
-                                                            <input type="hidden" name="id_o" value="<?=$ido;?>">
-                                                            <br>
-                                                            <button type="submit" class="btn btn-primary" name="orderlunas" >Submit</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Modal footer -->
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Pembayaran Lunas -->
-                                    <!-- Barang Diproses -->
-                                    <div class="modal fade" id="pro<?=$ido;?>">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Status Barang</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <!-- Content 1 -->
-                                                <form method="post">
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            Apakah anda ingin mempacking pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
-                                                            <input type="hidden" name="id_o" value="<?=$ido;?>">
-                                                            <br>
-                                                            <button type="submit" class="btn btn-primary" name="orderproses" >Submit</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Modal footer -->
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Barang Diproses -->
-                                    <!-- Barang Dikirim -->
-                                    <div class="modal fade" id="kir<?=$ido;?>">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Status Barang</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <!-- Content 1 -->
-                                                <form method="post">
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            Apakah anda ingin mengirim pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
-                                                            <input type="hidden" name="id_o" value="<?=$ido;?>">
-                                                            <br>
-                                                            <button type="submit" class="btn btn-primary" name="orderkirim" >Submit</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Modal footer -->
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Pembayaran Lunas -->
+                                    </tbody> 
                                 </table>
                             </div>
                         </div>
