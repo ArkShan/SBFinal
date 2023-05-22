@@ -130,9 +130,12 @@
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$id_u;?>">
                                                 Ubah
                                                 </button>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$id_u;?>">
-                                                Hapus
+                                                <?php if($role != "Owner"){ ?>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$id_u;?>">
+                                                    Hapus
+                                                <?php }?>
                                                 </td>
+                                                
                                             </tr>
                                             <!-- END Selesai Field Table -->
                                             <!-- Aksi CRUD -->
