@@ -38,6 +38,9 @@ include 'cek.php';
                         <th>Tanggal</th>
                         <th>Pengirim</th>
                         <th>Qty</th>
+                        <th>Status</th>
+                        <th>Keterangan</th>
+                        <th>Qty Bermasalah</th>
                     </tr>
                 </thead>
                 <!-- Mulai Field Table -->
@@ -54,6 +57,9 @@ include 'cek.php';
                             $tanggal    = $data['tanggal'];
                             $pengirim   = $data['nama_p'];
                             $qtym       = $data['qtym'];
+                            $keterangan = $data['keterangan'];
+                            $stat       = $data['stat_bm'];
+                            $qtymas     = $data['qtymas'];
                     ?>
                     <tr>
                         <td><?=$i++?></td>
@@ -62,7 +68,20 @@ include 'cek.php';
                         <td><?php echo $Kategori;?></td>
                         <td><?php echo $tanggal;?></td>
                         <td><?php echo $pengirim;?></td>
-                        <td><?php echo $qtym;?></td> 
+                        <td><?php echo $qtym;?></td>
+                        <td>
+                            <?php 
+                                if($stat == 0){
+                                    echo "Masuk";
+                                }else if($stat == 1){
+                                    echo "Selesai";
+                                }else if($stat == 2){
+                                    echo "Bermasalah";
+                                }
+                            ?>  
+                        </td>
+                        <td><?php echo $keterangan;?></td>
+                        <td><?php echo $qtymas;?></td>
                     </tr>
                     <?php }; ?>
                 </tbody>

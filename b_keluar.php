@@ -144,7 +144,7 @@
                                 </button>
                                 <?php }; ?>
                                 <!-- End Notifikasi warning -->
-                                <a href="lap_keluar.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
+                                <a href="lap_keluar.php" target="_blank" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
                                 <!-- end Button to Open the Modal  -->
                                 <!-- <i class="fas fa-table mr-1"></i> -->
@@ -164,7 +164,7 @@
                                                                 <div class="form-group">
                                                                     <select name="barang" class="form-control mb-2">
                                                                         <?php
-                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
+                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE stat == 0");
                                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                                 $namab = $fetcharray['nama_b'];
                                                                                 $id_b   = $fetcharray['id_b'];
@@ -173,10 +173,10 @@
                                                                         <option value="<?=$id_b;?>"><?=$kodeb;?> - <?=$namab;?></option> 
                                                                         <?php };?>
                                                                     </select>
-                                                                    <input  type="number"  name="qtyk"            class="form-control mb-2  "   placeholder="Qty" required  />
+                                                                    <input  type="number" name="qtyk" class="form-control mb-2" min="1" placeholder="Qty" required />
                                                                     <select name="tujuan" class="form-control mb-2">
                                                                         <?php
-                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko");
+                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE stat_to == 0");
                                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                                 $namat = $fetcharray['nama_toko'];
                                                                                 $idt = $fetcharray['id_toko'];
@@ -201,7 +201,7 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>ID Barang Keluar</th>
+                                                <th>No</th>
                                                 <th>Kode Barang</th>
                                                 <th>Nama Barang</th>
                                                 <th>Kategori</th>
@@ -226,7 +226,7 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_keluar k, tb_toko t WHERE b.id_b = k.id_b && k.id_toko = t.id_toko");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_keluar k, tb_toko t WHERE b.id_b = k.id_b && k.id_toko = t.id_toko ORDER BY k.id_bk DESC");
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $idk        = $data['id_bk'];

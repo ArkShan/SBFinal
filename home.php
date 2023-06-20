@@ -109,7 +109,6 @@
                                     </div>
                                 <?php }; ?>
                                 <?php if($_SESSION['role'] == "Sales"){?>
-
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                         Sales
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>

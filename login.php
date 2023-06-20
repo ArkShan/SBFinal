@@ -5,12 +5,16 @@ if(empty($_SESSION['isLoggedin'])){
 }else{
         header('location:home.php');
 }
+
 // Function Login multi user berdasarakan Lvl
 if (isset($_POST['login'])){
     $email    = $_POST['email'];
     $password = $_POST['password'];
+    
     // Cocokan dengan database, cari data
-    $cekdatabase = mysqli_query($koneksi, "SELECT * FROM tb_register where email='$email' and password='$password'");
+    $cekdatabase = mysqli_query($koneksi, "SELECT * FROM tb_register WHERE email='$email' AND password='$password'");
+    $row = mysqli_fetch_array($cekdatabase);
+    $stat = $row['status'];
     // Hitung jumlah data
     // die (mysqli_error ($koneksi));
     $hitung = mysqli_num_rows($cekdatabase);
@@ -18,43 +22,50 @@ if (isset($_POST['login'])){
         echo "<b>Email anda kosong</b>";
     } else if(empty($password)){
         echo "<b>Password anda kosong</b>";
-    }else {
-    if ($hitung > 0) {   
-        // Kalau data ditemukan
-        // $_SESSION['log']= 'TRUE';
-        $ambilrole = mysqli_fetch_array($cekdatabase);
-        session_start();
-        $_SESSION['id_user'] = $ambilrole['id_user'];
-        $role = $ambilrole['role'];
-        if ($role == 'Owner') {
-            // Kalau dia owner
-            $_SESSION['isLoggedin']= '1';
-            $_SESSION['log'] = 'Logged';
-            $_SESSION['role'] = 'Owner';
-            header('location: home.php'); //halaman utama
-        } else if ($role == 'Admin') {
-            // Kalau bukan owner
-            $_SESSION['isLoggedin']= '1';
-            $_SESSION['log'] = 'Logged';
-            $_SESSION['role'] = 'Admin';
-            header('location: home.php');
-        }else if ($role == 'Sales') {
-            // Kalau bukan owner
-            $_SESSION['isLoggedin']= '1';
-            $_SESSION['log'] = 'Logged';
-            $_SESSION['role'] = 'Sales';
-            header('location: home.php');
-        } else if ($role == 'Gudang') {
-            //Kalau bukan manager
-            $_SESSION['isLoggedin']= '1';
-            $_SESSION['log'] = 'Logged';
-            $_SESSION['role'] = 'Gudang';
-            header('location: home.php');
-        } else {
-            echo 'Data tidak ada';
-        }
-    }
-}
+    }else 
+        if ($hitung > 0) {   
+            // Kalau data ditemukan
+            // $_SESSION['log']= 'TRUE';
+            if ($stat == '0'){
+                session_start();
+                $_SESSION['id_user'] = $row['id_user'];
+                $role = $row['role'];
+                if ($role == 'Owner') {
+                    // Kalau dia owner
+                    $_SESSION['isLoggedin']= '1';
+                    $_SESSION['log'] = 'Logged';
+                    $_SESSION['role'] = 'Owner';
+                    header('location: home.php'); //halaman utama
+                } else if ($role == 'Admin') {
+                    // Kalau bukan owner
+                    $_SESSION['isLoggedin']= '1';
+                    $_SESSION['log'] = 'Logged';
+                    $_SESSION['role'] = 'Admin';
+                    header('location: home.php');
+                }else if ($role == 'Sales') {
+                    // Kalau bukan owner
+                    $_SESSION['isLoggedin']= '1';
+                    $_SESSION['log'] = 'Logged';
+                    $_SESSION['role'] = 'Sales';
+                    header('location: home.php');
+                } else if ($role == 'Gudang') {
+                    //Kalau bukan manager
+                    $_SESSION['isLoggedin']= '1';
+                    $_SESSION['log'] = 'Logged';
+                    $_SESSION['role'] = 'Gudang';
+                    header('location: home.php');
+                } else {
+                    echo 'Data tidak ada';
+                }
+            }else if ($stat == '1'){
+                {
+                    session_start();
+                    session_destroy();
+                    header("Location: login.php?error=Akun Anda Sudah Tidak Aktif!");
+                    exit;
+                }
+            }
+        }   
 };
 ?>
 <!DOCTYPE html>
@@ -96,15 +107,16 @@ if (isset($_POST['login'])){
                                                 <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
                                                 <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
                                             </div>
+                                            <!-- <input type="hidden" name="acc_stat" value="<?=$stat;?>"> -->
                                             <div class="text-center">
                                                 <?php
                                                     $sSQL=mysqli_query($koneksi, "SELECT * FROM tb_register limit 1");
-                                                    $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  tb_register");
                                                     $i=1;
                                                     while($data=mysqli_fetch_array($sSQL)){
                                                         $idu        = $data['id_user'];
                                                         $namad      = $data['namadepan'];
-                                                        $namab      = $data['namabelakang'];     
+                                                        $namab      = $data['namabelakang'];
+                                                        $stat       = $data['status'];  
                                                 ?>
                                                 <?php echo "<a href='home.php?id_user=$idu'>" ;?><button class="btn btn-primary" name="login">Login</button>
                                                 <?php }; ?>

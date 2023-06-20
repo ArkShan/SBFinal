@@ -248,8 +248,6 @@ if(isset($_POST['orderlunas'])){
     // $qty = $_POST['qty'];
     $cekreq = mysqli_query($koneksi,"UPDATE orderan SET bayar =1  WHERE  id_o='$ido'");
     if($cekreq){
-        // berhasil
-        // header("Location:approval.php");
         echo'<script>
         alert("Barang Sudah Diterima di Gudang, Silahkan klik tombol ok untuk melanjutkan ");
         window.location.href = "order.php"
@@ -271,7 +269,7 @@ if(isset($_POST['orderproses'])){
         window.location.href = "order.php"
         </script>';
     }else{
-        header("Location:home.php");
+        header("Location:order.php");
     }
 }
 
@@ -283,11 +281,11 @@ if(isset($_POST['orderkirim'])){
         // berhasil
         // header("Location:approval.php");
         echo'<script>
-        alert("Barang Sudah Diterima di Gudang, Silahkan klik tombol ok untuk melanjutkan ");
+        alert("Barang Sudah Dikirim, Silahkan klik tombol ok untuk melanjutkan ");
         window.location.href = "order.php"
         </script>';
     }else{
-        header("Location:home.php");
+        header("Location:order.php");
     }
 }
 
@@ -306,7 +304,6 @@ if(isset($_POST['tambahorder'])){
         echo "berhasil";
     }else{
         echo "gagal";
-        
     }  
 }
 
@@ -472,6 +469,121 @@ if(isset($_POST['hapusro'])){
         echo 'gagal';
         header('location:returo.php');
         exit;
+    }
+};
+
+if(isset($_POST['akuninactive'])){
+    $id_u = $_POST['id_u'];
+
+    $cekreq = mysqli_query($koneksi,"UPDATE tb_register SET status = 1  WHERE  id_user='$id_u'");
+    if($cekreq == TRUE){
+        echo'<script>
+        alert("Akun sudah di non-aktifkan, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "user.php"
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+};
+
+if(isset($_POST['akunactive'])){
+    $id_u = $_POST['id_u'];
+
+    $cekreq = mysqli_query($koneksi,"UPDATE tb_register SET status = 0 WHERE id_user='$id_u'");
+    if($cekreq == TRUE){
+        echo'<script>
+        alert("Akun sudah di aktifkan, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "user.php"
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+};
+
+if(isset($_POST['pabrikinactive'])){
+    $idp = $_POST['id_p'];
+
+    $cekreq = mysqli_query($koneksi,"UPDATE tb_pabrik SET stat_p = 1  WHERE  id_p='$idp'");
+    if($cekreq == TRUE){
+        echo'<script>
+        alert("Akun sudah di non-aktifkan, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "pabrik.php"
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+};
+
+if(isset($_POST['pabrikactive'])){
+    $idp = $_POST['id_p'];
+
+    $cekreq = mysqli_query($koneksi,"UPDATE tb_pabrik SET stat_p = 0 WHERE id_p='$idp'");
+    if($cekreq == TRUE){
+        echo'<script>
+        alert("Akun sudah di aktifkan, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "pabrik.php"
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+};
+
+if(isset($_POST['tokoinactive'])){
+    $idt = $_POST['id_toko'];
+
+    $cekreq = mysqli_query($koneksi,"UPDATE tb_toko SET stat_to = 1  WHERE  id_toko='$idt'");
+    if($cekreq == TRUE){
+        echo'<script>
+        alert("Akun sudah di non-aktifkan, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "toko.php"
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+};
+
+if(isset($_POST['tokoactive'])){
+    $idt = $_POST['id_toko'];
+
+    $cekreq = mysqli_query($koneksi,"UPDATE tb_toko SET stat_to = 0 WHERE id_toko='$idt'");
+    if($cekreq == TRUE){
+        echo'<script>
+        alert("Akun sudah di aktifkan, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "toko.php"
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+};
+
+if(isset($_POST['bmmasalah'])){
+    $idm        = $_POST['id_bm'];
+    $keterangan = $_POST['keterangan'];
+    $qtymas     = $_POST['qtymas'];
+
+    $cekreq = mysqli_query($koneksi,"UPDATE b_masuk SET stat_bm = 2, keterangan = '$keterangan', qtymas = '$qtymas'  WHERE  id_bm='$idm'");
+
+    if($cekreq == TRUE){
+        echo'<script>
+        alert("Keterangan sudah diinput, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "b_masuk.php"
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+};
+
+if(isset($_POST['bmselesai'])){
+    $idm = $_POST['id_bm'];
+
+    $cekreq = mysqli_query($koneksi,"UPDATE b_masuk SET stat_bm = 1 WHERE id_bm='$idm'");
+    if($cekreq == TRUE){
+        echo'<script>
+        alert("Barang masuk sudah tidak ada masalah, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "b_masuk.php"
+        </script>';
+    }else{
+        header("Location:home.php");
     }
 };
 ?>

@@ -104,6 +104,7 @@
                                                 <th>Nama</th>
                                                 <th>Password</th>
                                                 <th>Role</th>
+                                                <th>Status Akun</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -113,29 +114,42 @@
                                                 $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  tb_register");
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                                    $id_u   = $data['id_user'];
+                                                    $id_u  = $data['id_user'];
                                                     $email = $data['email'];
                                                     $namad = $data['namadepan'];
                                                     $namab = $data['namabelakang'];
                                                     $pass  = $data['password'];
                                                     $role  = $data['role'];
+                                                    $stat  = $data['status']
                                                 ?>
                                                 <tr>
+                                                    <td><?=$i++?></td>
                                                     <td><?=$i++?></td>
                                                     <td><?=$email;?></td>
                                                     <td><?=$namad;?> <?=$namab;?></td>
                                                     <td><?=$pass;?></td>
                                                     <td><?=$role;?></td>
-                                                <td>
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$id_u;?>">
-                                                Ubah
-                                                </button>
-                                                <?php if($role != "Owner"){ ?>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$id_u;?>">
-                                                    Hapus
-                                                <?php }?>
-                                                </td>
-                                                
+                                                    <td>
+                                                        <?php 
+                                                            if($stat ==0){
+                                                                echo "Active";
+                                                            }else if($stat == 1){
+                                                                echo "Inactive";
+                                                            }
+                                                        ?>  
+                                                    </td>
+                                                    <td>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$id_u;?>">
+                                                    Ubah
+                                                    </button>
+                                                        <?php 
+                                                        if($role != "Owner"){
+                                                            if($stat == 0){?>
+                                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#inactive<?=$id_u;?>"> Inactive</button>
+                                                        <?php }else if($stat == 1){?>
+                                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#active<?=$id_u;?>"> Active</button>;
+                                                        <?php }}; ?> 
+                                                    </td>
                                             </tr>
                                             <!-- END Selesai Field Table -->
                                             <!-- Aksi CRUD -->
@@ -195,6 +209,62 @@
                                                             </div>
                                                             <!-- Modal footer -->
                                                             <div class="modal-footer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="inactive<?=$id_u;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Akun Karyawan</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda yakin ingin mengubah status akun ini menjadi Inactive ?
+                                                                    Nama <?=$namad;?> <?=$namab;?>
+                                                                    <input type="hidden" name="id_u" value="<?=$id_u;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="akuninactive" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="active<?=$id_u;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Akun Karyawan</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda yakin ingin mengubah status akun ini menjadi Active ?
+                                                                    Nama <?=$namad;?> <?=$namab;?>
+                                                                    <input type="hidden" name="id_u" value="<?=$id_u;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="akunactive" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                                             </div>
                                                         </form>
                                                     </div>

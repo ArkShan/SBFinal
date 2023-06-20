@@ -134,6 +134,7 @@
                                                 <th>Nomor Telepon</th>
                                                 <th>Alamat</th>
                                                 <th>Wilayah</th>
+                                                <th>Status</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -161,6 +162,7 @@
                                             $notelp  = $data['no_telp'];
                                             $alamat  = $data['alamat'];
                                             $wilayah = $data['wilayah'];
+                                            $stat    = $data['stat_to'];
                                         ?>
                                         <tr>
                                             <td><?=$i++?></td>
@@ -169,12 +171,26 @@
                                             <td><?=$alamat;?></td>
                                             <td><?=$wilayah;?></td>
                                             <td>
+                                                <?php 
+                                                    if($stat ==0){
+                                                        echo "Active";
+                                                    }else if($stat == 1){
+                                                        echo "Inactive";
+                                                    }
+                                                ?>  
+                                            </td>
+                                            <td>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idt;?>">
                                                 Ubah
                                                 </button>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idt;?>">
+                                                <?php if($stat == 0){?>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#inactive<?=$idt;?>"> Inactive</button>
+                                                <?php }else if($stat == 1){?>
+                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#active<?=$idt;?>"> Active</button>
+                                                <?php };?>
+                                                <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idt;?>">
                                                 Hapus
-                                                </button>
+                                                </button> -->
                                             </td>
                                         </tr>
                                         <!-- END Selesai Field Table -->
@@ -240,6 +256,62 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="modal fade" id="inactive<?=$idt;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Toko</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda yakin ingin mengubah status toko ini menjadi Inactive ?
+                                                                    Toko <?=$namat;?>
+                                                                    <input type="hidden" name="id_toko" value="<?=$idt;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="tokoinactive" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="active<?=$idt;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Toko</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda yakin ingin mengubah status toko ini menjadi Active ?
+                                                                    Toko <?=$namat;?>
+                                                                    <input type="hidden" name="id_toko" value="<?=$idt;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="tokoactive" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         <!-- End aksi Crud -->
                                         <?php };?>
                                         </tbody>

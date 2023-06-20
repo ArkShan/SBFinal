@@ -144,7 +144,7 @@
                                 </button>
                                 <?php }; ?>
                                 <!-- End Notifikasi warning -->
-                                <a href="lap_returp.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
+                                <a href="lap_returp.php" target="_blank" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
                                 <!-- end Button to Open the Modal  -->
                                 <!-- <i class="fas fa-table mr-1"></i> -->
@@ -164,19 +164,19 @@
                                                     <div class="form-group">
                                                         <select name="barang" class="form-control mb-2">
                                                             <?php
-                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
+                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE stat == 0");
                                                                 while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                     $namab = $fetcharray['nama_b'];
-                                                                    $id_b   = $fetcharray['id_b'];
+                                                                    $id_b  = $fetcharray['id_b'];
                                                                     $kodeb = $fetcharray['kode_b'];
                                                             ?>
                                                             <option value="<?=$id_b;?>"><?=$kodeb;?> - <?=$namab;?></option> 
                                                             <?php };?>
                                                         </select>
-                                                        <input  type="number"  name="qtyrp"            class="form-control mb-2  "   placeholder="Qty" required  />
+                                                        <input  type="number"  name="qtyrp" class="form-control mb-2" min="1" placeholder="Qty" required  />
                                                         <select name="pabrik"  class="form-control mb-2">
                                                             <?php
-                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_pabrik");
+                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_pabrik WHERE stat_p == 0");
                                                                 while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                     $namap = $fetcharray['nama_p'];
                                                                     $idp   = $fetcharray['id_p'];
@@ -228,7 +228,7 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM retur_p q, tb_barang b, tb_pabrik p WHERE b.id_b = q.id_b && q.id_p = p.id_p");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM retur_p q, tb_barang b, tb_pabrik p WHERE b.id_b = q.id_b && p.id_p = q.id_p");
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $idrp       = $data['id_rp'];
@@ -260,7 +260,7 @@
                                             
                                             <!-- Modal stock Gudang -->
                                             
-                                            <?php }; ?>
+                                            
                                         </tbody>
                                         <!-- The  delete Modal -->
                                         <div class="modal fade" id="delete<?=$idrp;?>">
@@ -292,6 +292,7 @@
                                             </div>
                                         </div>
                                         <!-- End aksi Crud -->
+                                        <?php }; ?>
                                     </table>
                                 </div>
                             </div>

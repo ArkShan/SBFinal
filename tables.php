@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>SJM - Owner_List Barang</title>
+        <title>SJM - List Barang</title>
         <link href="./css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -109,7 +109,6 @@
                                     </div>
                                 <?php }; ?>
                                 <?php if($_SESSION['role'] == "Sales"){?>
-
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                         Sales
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -162,7 +161,7 @@
                                  Tambah Barang
                                 </button>
                                 <!-- End Notifikasi warning -->
-                                <a href="list_b.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Exportdata</a>
+                                <a href="list_b.php" target="_blank" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export data</a>
                                 <br>
                                 <?php }; ?>
                                 <!-- end Button to Open the Modal  -->
@@ -171,6 +170,7 @@
                             </div>
                             <div class="card-body">
                                 <!-- Notifikasi Danger-->
+                                <?php if($_SESSION['role'] != "Sales"){ ?>
                                 <?php 
                                     $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE qty <=1000");
                                     while($fetch=mysqli_fetch_array($ambilsemuadatastock)){
@@ -197,6 +197,7 @@
                                     <strong>Perhatian !</strong> Stok barang <?=$kodebar;?> - <?=$namabar;?> tersisa <?=$qty;?>
                                 </div>
                                 <?php };?>
+                                <?php };?>
                                 <!-- End Notifikasi warning -->
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -211,8 +212,8 @@
                                                 <th>Harga</th>
                                                 <th>Pcs/Dus</th>
                                                 <th>Harga Promo</th>
-                                                <?php if($_SESSION['role'] != "Sales"){?>
                                                 <th>Qty</th>
+                                                <?php if($_SESSION['role'] != "Sales"){?>
                                                 <th>Action</th>
                                                 <?php }; ?>
                                             </tr>
@@ -241,7 +242,13 @@
                                                     $Harga      = $data['harga'];
                                                     $qtyd       = $data['pcs_dus'];
                                                     $promo      = $data['harga_p'];
-                                                    $qty        = $data['qty']
+                                                    $qty        = $data['qty'];
+                                                    if ($qty == '0'){
+                                                        mysqli_query($koneksi,"UPDATE tb_barang SET stat =1  WHERE  id_b='$idb'");
+                                                    }else if($qty > '0'){
+                                                        mysqli_query($koneksi,"UPDATE tb_barang SET stat =0  WHERE  id_b='$idb'");
+                                                    }
+                                                    $stat       = $data['stat'];
                                             ?>
                                             <tr>
                                                 <td><?=$i++?></td>
@@ -252,14 +259,21 @@
                                                 <td>Rp <?= $Harga;?></td>
                                                 <td><?= $qtyd;?></td>
                                                 <td><?= $promo;?></td>
-                                                <?php if($_SESSION['role'] != "Sales"){?>
+                                                <?php if($_SESSION['role'] == "Sales"){?>
+                                                <td>
+                                                    <?php 
+                                                        if($stat ==0){
+                                                            echo "Tersedia";
+                                                        }else if($stat == 1){
+                                                            echo "Kosong";
+                                                        }
+                                                    ?>
+                                                </td>
+                                                <?php }else if($_SESSION['role'] != "Sales"){?>
                                                 <td><?= $qty;?></td>
                                                 <td>
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>">
-                                                Ubah
-                                                </button>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>">
-                                                Hapus
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>"> Ubah </button>
+                                                <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>"> Hapus </button>-->
                                                 </td>
                                                 <?php }; ?>
                                             </tr>
@@ -281,12 +295,12 @@
                                                                 <div class="form-group">
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="kode_b"      type="text"     placeholder="Kode Barang"   value="" required/>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_b"      type="text"     placeholder="Nama Barang"   value="" required/>
-                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="tipe_mobil"  type="text"     placeholder="Tipe Mobil"     value="" required/>
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="tipe_mobil"  type="text"     placeholder="Tipe Mobil"    value="" required/>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="kategori"    type="text"     placeholder="Kategori"      value="" required/>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="harga"       type="text"     placeholder="Harga"         value="" required/>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="pcs_dus"     type="number"   placeholder="Pcs/Dus"       value="" required/>
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="harga_p"     type="text"     placeholder="Harga Promo"   value="" required/>
-                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qty"         type="number"   placeholder="Qty"   value="" required/>
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qty"         type="number"   placeholder="Qty"   min="1" value="" required/>
                                                                     <button type="submit" name="tambahbarang"    class="btn btn-primary" >Submit</button>
                                                                 </div>
                                                             </div>

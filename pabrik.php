@@ -131,6 +131,8 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Pabrik</th>
+                                                <th>Status</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -153,19 +155,33 @@
                                             $i=1;
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                 $idp   = $data['id_p'];
-                                                $namap   = $data['nama_p'];
+                                                $namap = $data['nama_p'];
+                                                $stat  = $data['stat_p'];
                                             ?>
                                             <tr>
                                                 <td><?=$i++?></td>
                                                 <td><?=$namap;?></td>
-
+                                                <td>
+                                                    <?php 
+                                                        if($stat ==0){
+                                                            echo "Active";
+                                                        }else if($stat == 1){
+                                                            echo "Inactive";
+                                                        }
+                                                    ?>  
+                                                </td>
                                                 <td>
                                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idp;?>">
                                                     Ubah
                                                     </button>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idp;?>">
+                                                    <?php if($stat == 0){?>
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#inactive<?=$idp;?>"> Inactive</button>
+                                                    <?php }else if($stat == 1){?>
+                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#active<?=$idp;?>"> Active</button>
+                                                    <?php };?>
+                                                    <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idp;?>">
                                                     Hapus
-                                                    </button>
+                                                    </button> -->
                                                 </td>
                                             </tr>
                                             <!-- END Selesai Field Table -->
@@ -185,7 +201,7 @@
                                                         <form method="post">
                                                             <div class="modal-body">
                                                                 <div class="form-group">
-                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_p"  type="text"     placeholder="Nama Pabrik"   value="<?=$namap;?>" required/>
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="nama_p" type="text" placeholder="Nama Pabrik" value="<?=$namap;?>" required/>
                                                                     <input type="hidden" name="id_p" value="<?=$idp;?>">
                                                                     <button type="submit" class="btn btn-primary" name="updatepabrik">Submit</button>
                                                                 </div>
@@ -222,6 +238,62 @@
                                                             </div>
                                                             <!-- Modal footer -->
                                                             <div class="modal-footer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="inactive<?=$idp;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Pabrik</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda yakin ingin mengubah status pabrik ini menjadi Inactive ?
+                                                                    Nama <?=$namap;?>
+                                                                    <input type="hidden" name="id_p" value="<?=$idp;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="pabrikinactive" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="active<?=$idp;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Pabrik</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda yakin ingin mengubah status pabrik ini menjadi Active ?
+                                                                    Nama <?=$namap;?>
+                                                                    <input type="hidden" name="id_p" value="<?=$idp;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="pabrikactive" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                                             </div>
                                                         </form>
                                                     </div>

@@ -145,7 +145,7 @@
                                 </button>
                                 <?php }; ?>
                                 <!-- End Notifikasi warning -->
-                                <a href="lap_masuk.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
+                                <a href="lap_masuk.php" target="_blank" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
                                 <!-- end Button to Open the Modal  -->
                                 <!-- <i class="fas fa-table mr-1"></i> -->
@@ -163,7 +163,7 @@
                                                     <div class="form-group">
                                                         <select name="barang" class="form-control mb-2">
                                                             <?php
-                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
+                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE stat = 0");
                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                 $namab = $fetcharray['nama_b'];
                                                                 $id_b   = $fetcharray['id_b'];
@@ -172,10 +172,10 @@
                                                             <option value="<?=$id_b;?>"><?=$kodeb;?> - <?=$namab;?></option> 
                                                             <?php };?>
                                                         </select>
-                                                        <input  type="number"  name="qtym"            class="form-control mb-2  "   placeholder="Qty" required  />
+                                                        <input  type="number" name="qtym" class="form-control mb-2" min="1" placeholder="Qty" required  />
                                                         <select name="pengirim" class="form-control mb-2">
                                                             <?php
-                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_pabrik");
+                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_pabrik WHERE stat_p = 0");
                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                 $namap = $fetcharray['nama_p'];
                                                                 $idp   = $fetcharray['id_p'];
@@ -200,13 +200,16 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>ID Barang Masuk</th>
+                                                <th>No</th>
                                                 <th>Kode Barang</th>
                                                 <th>Nama Barang</th>
                                                 <th>Kategori</th>
                                                 <th>Tanggal</th>
                                                 <th>Pengirim</th>
                                                 <th>Qty</th>
+                                                <th>Status</th>
+                                                <th>Keterangan</th>
+                                                <th>Qty Bermasalah</th>
                                                 <?php if($_SESSION['role'] == "Gudang"){?>
                                                 <th>Action</th>
                                                 <?php }; ?>
@@ -225,7 +228,7 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_masuk m, tb_pabrik p WHERE b.id_b = m.id_b AND m.id_p = p.id_p");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM tb_barang b, b_masuk m, tb_pabrik p WHERE b.id_b = m.id_b AND m.id_p = p.id_p ORDER BY m.id_bm ASC");
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $idm        = $data['id_bm'];
@@ -236,6 +239,9 @@
                                                     $tanggal    = $data['tanggal'];
                                                     $pengirim   = $data['nama_p'];
                                                     $qtym       = $data['qtym'];
+                                                    $keterangan = $data['keterangan'];
+                                                    $stat       = $data['stat_bm'];
+                                                    $qtymas     = $data['qtymas'];
                                             ?>
                                             <tr>
                                                 <td><?=$i++;?></td>
@@ -245,10 +251,26 @@
                                                 <td><?=$tanggal;?></td>
                                                 <td><?=$pengirim;?></td>
                                                 <td><?=$qtym;?></td>
+                                                <td>
+                                                    <?php 
+                                                        if($stat == 0){
+                                                            echo "Masuk";
+                                                        }else if($stat == 1){
+                                                            echo "Selesai";
+                                                        }else if($stat == 2){
+                                                            echo "Bermasalah";
+                                                        }
+                                                    ?>  
+                                                </td>
+                                                <td><?=$keterangan;?></td>
+                                                <td><?=$qtymas;?></td>
                                                 <?php if($_SESSION['role'] == "Gudang"){?>
                                                 <td>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idm;?>">
-                                                    Hapus
+                                                    <?php if($stat ==0){?>
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#masalah<?=$idm;?>"> Bermasalah</button>
+                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#selesai<?=$idm;?>"> Selesai</button>
+                                                        <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idm;?>"> Hapus -->
+                                                    <?php };?>
                                                 </td>
                                                 <?php }; ?>
                                             </tr>
@@ -259,39 +281,113 @@
                                             
                                             <!-- Selesai modal tambah barang -->
                                             <!-- Modal stock Gudang -->
-                                            
                                             <?php }; ?>
                                         </tbody>
                                         <!-- The  delete Modal -->
                                         <div class="modal fade" id="delete<?=$idm;?>">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Hapus Barang Masuk ?</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <!-- Content 1 -->
-                                                        <form method="POST">
-                                                            <div class="modal-body mb-2">
-                                                                Apakah anda yakin ingin menghapus Barang <?=$namabarang;?> Jenis <?=$Kategori;?> ?
-                                                                <input type="hidden" name="id_b"   value="<?=$id_b;?>">
-                                                                <input type="hidden" name="qtym"   value="<?=$qtym;?>">
-                                                                <input type="hidden" name="id_bm"  value="<?=$idm;?>">
-                                                                <br>
-                                                                <br>
-                                                                <button type="submit" class="btn btn-danger" name="hapusbarangmasuk" >Hapus</button>
-                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                            </div>
-                                                        </form>
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Hapus Barang Masuk ?</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
+                                                    <!-- Modal body -->
+                                                    <!-- Content 1 -->
+                                                    <form method="POST">
+                                                        <div class="modal-body mb-2">
+                                                            Apakah anda yakin ingin menghapus Barang <?=$namabarang;?> Jenis <?=$Kategori;?> ?
+                                                            <input type="hidden" name="id_b"   value="<?=$id_b;?>">
+                                                            <input type="hidden" name="qtym"   value="<?=$qtym;?>">
+                                                            <input type="hidden" name="id_bm"  value="<?=$idm;?>">
+                                                            <br>
+                                                            <br>
+                                                            <button type="submit" class="btn btn-danger" name="hapusbarangmasuk" >Hapus</button>
+                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
-                                            <!-- End aksi Crud -->
+                                        </div>
+                                        <div class="modal fade" id="masalah<?=$idm;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Barang Masuk Bermasalah</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <!-- Modal body -->
+                                                    <!-- Content 1 -->
+                                                    <form method="POST">
+                                                        <div class="modal-body">
+                                                            <div class="modal-body mb-2">
+                                                                Mengapa barang masuk ini bermasalah ?
+                                                                <br>
+                                                                Nama Barang : <?=$namabarang;?>
+                                                                <br>
+                                                                Pabrik      : <?=$pengirim;?>
+                                                                <br>
+                                                                Tanggal     : <?=$tanggal?> 
+                                                                <br>
+                                                                Jumlah      : <?=$qtym?>
+                                                                <br>
+                                                                <input type="form-control py-4 mb-2" name="keterangan" class="form-control mb-2" placeholder="Keterangan" required/>
+                                                                <input class="text"  name="qtymas" type="number" placeholder="Qty yang bermasalah" min="1" value=""/>
+                                                                <input type="hidden" name="id_bm" value="<?=$idm;?>">
+                                                                <br>
+                                                                <br>
+                                                                <button type="submit" class="btn btn-primary" name="bmmasalah" >Submit</button>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="selesai<?=$idm;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Barang Masuk Tidak Ada Masalah</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <!-- Modal body -->
+                                                    <!-- Content 1 -->
+                                                    <form method="POST">
+                                                        <div class="modal-body">
+                                                            <div class="modal-body mb-2">
+                                                                Apakah anda yakin barang ini tidak bermasalah ?
+                                                                <br>
+                                                                Nama Barang : <?=$namabarang;?>
+                                                                <br>
+                                                                Pabrik      : <?=$pengirim;?>
+                                                                <br>
+                                                                Tanggal     : <?=$tanggal?> 
+                                                                <br>
+                                                                Jumlah      : <?=$qtym?>
+                                                                <br>
+                                                                <input type="hidden" name="id_bm" value="<?=$idm;?>">
+                                                                <br>
+                                                                <button type="submit" class="btn btn-primary" name="bmselesai" >Submit</button>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End aksi Crud -->
                                     </table>
                                 </div>
                             </div>

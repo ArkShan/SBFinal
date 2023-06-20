@@ -109,7 +109,6 @@
                                     </div>
                                 <?php }; ?>
                                 <?php if($_SESSION['role'] == "Sales"){?>
-
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                         Sales
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -180,7 +179,7 @@
                                                                     <input class="form-control py-4 mb-2" id="inputEmailAddress" name="no_order"      type="text"     placeholder="Nomor Pesanan"   value="" required/>
                                                                     <select name="barangnya" class="form-control mb-2">
                                                                         <?php
-                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
+                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE stat == 0");
                                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                                 $namab = $fetcharray['nama_b'];
                                                                                 $idb   = $fetcharray['id_b'];
@@ -190,10 +189,10 @@
                                                                         <option value="<?=$idb;?>"><?=$kodeb;?>  -  <?=$namab;?>  -  <?=$tipe;?></option>  
                                                                         <?php };?>
                                                                     </select>
-                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtyp"     type="text"     placeholder="Qty"     value="" required/>
+                                                                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtyp" type="text"     placeholder="Qty"     value="" required/>
                                                                     <select name="tokonya" class="form-control mb-2">
                                                                         <?php
-                                                                            $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_toko");
+                                                                            $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE status == 0");
                                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
                                                                                 $nama_t = $fetcharray['nama_toko'];
                                                                                 $idt = $fetcharray['id_toko'];
@@ -214,7 +213,7 @@
                                             </div>
                                             <!-- Selesai modal tambah barang -->
                                             <?php }; ?>
-                            </div>
+                                </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -333,9 +332,8 @@
                                                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$ido;?>">
                                                         Ubah  
                                                         <?php }?>
-                                                        <?php echo "<a href='lap_or.php?id_o=$ido'>" ;?> <button type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>Print</button></a>  
-                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>">
-                                                        Hapus
+                                                        <?php echo "<a href='lap_or.php?id_o=$ido'>" ;?> <button target="_blank" type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>Print</button></a>  
+                                                        <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>"> Hapus -->
                                                     <?php }; ?>
                                                     </td>
                                             </tr>

@@ -143,7 +143,7 @@
                                 </button>
                                 <?php }; ?>
                                 <!-- End Notifikasi warning -->
-                                <a href="lap_returo.php" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
+                                <a href="lap_returo.php" target="_blank" id="exportmasuk" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export Data</a>
                                 <br>
                                 <!-- end Button to Open the Modal  -->
                                 <!-- <i class="fas fa-table mr-1"></i> -->
@@ -164,7 +164,7 @@
                                                 <div class="form-group">
                                                     <select name="barang" class="form-control mb-2">
                                                         <?php
-                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
+                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE stat == 0");
                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                 $namab = $fetcharray['nama_b'];
                                                                 $id_b   = $fetcharray['id_b'];
@@ -173,10 +173,10 @@
                                                         <option value="<?=$id_b;?>"><?=$kodeb;?> - <?=$namab;?></option> 
                                                         <?php };?>
                                                     </select>
-                                                    <input  type="number"  name="qtyro"            class="form-control mb-2  "   placeholder="Qty" required  />
+                                                    <input  type="number" name="qtyro" class="form-control mb-2" min="1" placeholder="Qty" required/>
                                                     <select name="tokonya" class="form-control mb-2">
                                                         <?php
-                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko");
+                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE stat_to == 0");
                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                 $namatoko = $fetcharray['nama_toko'];
                                                                 $idtoko   = $fetcharray['id_toko'];
@@ -220,7 +220,7 @@
                                             $i=1;
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                 $idro       = $data['id_ro'];
-                                                $id_b        = $data['id_b'];
+                                                $id_b       = $data['id_b'];
                                                 $kodebarang = $data['kode_b'];
                                                 $namabarang = $data['nama_b'];
                                                 $Kategori   = $data['kategori'];
@@ -261,7 +261,7 @@
                                                     <div class="modal-body mb-2">
                                                         Apakah anda yakin ingin menghapus Barang <?=$namabarang;?> Jenis <?=$Kategori;?> ?
                                                         <input type="hidden" name="id_b"  value="<?=$id_b;?>">
-                                                        <input type="hidden" name="qtyro"   value="<?=$qtyro;?>">
+                                                        <input type="hidden" name="qtyro" value="<?=$qtyro;?>">
                                                         <input type="hidden" name="id_ro" value="<?=$idro;?>">
                                                         <br>
                                                         <br>
