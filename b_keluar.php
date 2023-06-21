@@ -164,7 +164,7 @@
                                                     <div class="form-group">
                                                         <select name="barang" class="form-control mb-2">
                                                             <?php
-                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang ");
+                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE stat = 0");
                                                                 while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                     $namab = $fetcharray['nama_b'];
                                                                     $id_b   = $fetcharray['id_b'];
@@ -176,7 +176,7 @@
                                                         <input  type="number" name="qtyk" class="form-control mb-2" min="1" placeholder="Qty" required />
                                                         <select name="tujuan" class="form-control mb-2">
                                                         <?php
-                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko ");
+                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE stat_to = 0");
                                                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                                 $namat = $fetcharray['nama_toko'];
                                                                 $idt = $fetcharray['id_toko'];
