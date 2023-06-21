@@ -149,52 +149,53 @@
                                 <!-- end Button to Open the Modal  -->
                                 <!-- <i class="fas fa-table mr-1"></i> -->
                                 <!-- Modal Tambah Barang -->
-                                            <!-- The Modal -->
-                                            <div class="modal fade" id="myModal">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Tambah Barang Keluar</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <form method="POST" >
-                                                            <div class="modal-body">
-                                                                <div class="form-group">
-                                                                    <select name="barang" class="form-control mb-2">
-                                                                        <?php
-                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE stat == 0");
-                                                                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
-                                                                                $namab = $fetcharray['nama_b'];
-                                                                                $id_b   = $fetcharray['id_b'];
-                                                                                $kodeb = $fetcharray['kode_b'];
-                                                                        ?>
-                                                                        <option value="<?=$id_b;?>"><?=$kodeb;?> - <?=$namab;?></option> 
-                                                                        <?php };?>
-                                                                    </select>
-                                                                    <input  type="number" name="qtyk" class="form-control mb-2" min="1" placeholder="Qty" required />
-                                                                    <select name="tujuan" class="form-control mb-2">
-                                                                        <?php
-                                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE stat_to == 0");
-                                                                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
-                                                                                $namat = $fetcharray['nama_toko'];
-                                                                                $idt = $fetcharray['id_toko'];
-                                                                        ?>
-                                                                        <option value="<?=$idt;?>"><?=$namat;?></option>                                                                             <?php };?>
-                                                                    </select>
-                                                                    <button type="submit" name="barangkeluar"    class="btn btn-primary" >Submit</button>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </form>
+                                <!-- The Modal -->
+                                <div class="modal fade" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Tambah Barang Keluar</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <form method="POST" >
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <select name="barang" class="form-control mb-2">
+                                                            <?php
+                                                                $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang ");
+                                                                while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                                                    $namab = $fetcharray['nama_b'];
+                                                                    $id_b   = $fetcharray['id_b'];
+                                                                    $kodeb = $fetcharray['kode_b'];
+                                                            ?>
+                                                            <option value="<?=$id_b;?>"><?=$kodeb;?> - <?=$namab;?></option> 
+                                                            <?php };?>
+                                                        </select>
+                                                        <input  type="number" name="qtyk" class="form-control mb-2" min="1" placeholder="Qty" required />
+                                                        <select name="tujuan" class="form-control mb-2">
+                                                        <?php
+                                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_toko ");
+                                                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                                                $namat = $fetcharray['nama_toko'];
+                                                                $idt = $fetcharray['id_toko'];
+                                                        ?>
+                                                        <option value="<?=$idt;?>"><?=$namat;?></option>  
+                                                        <?php };?>
+                                                        </select>
+                                                        <button type="submit" name="barangkeluar"    class="btn btn-primary" >Submit</button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- Selesai modal tambah barang keluar -->
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Selesai modal tambah barang keluar -->
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
