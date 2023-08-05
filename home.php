@@ -65,6 +65,7 @@
                                         <a class="nav-link" href="tables.php">List Barang</a>
                                         <a class="nav-link" href="user.php">List User</a>
                                         <a class="nav-link" href="toko.php">List Toko</a>
+                                        <a class="nav-link" href="order-revisi.php">List Order Revisi</a>
                                         <a class="nav-link" href="order.php">List Order</a>
                                         <a class="nav-link" href="pabrik.php">List Pabrik</a>
                                         <a class="nav-link" href="returp.php">Retur Pabrik</a>
@@ -117,6 +118,7 @@
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="tables.php">List Barang</a>
                                             <a class="nav-link" href="order.php">List Orderan</a>
+                                            <a class="nav-link" href="order-revisi.php">List Order Revisi</a>
                                         </nav>
                                     </div>
                                 <?php }; ?>

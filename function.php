@@ -291,14 +291,32 @@ if(isset($_POST['orderkirim'])){
 
 if(isset($_POST['tambahorder'])){
     date_default_timezone_set('Asia/Jakarta');
-    $qtyp    = $_POST['qtyp'];
+    $idp     = $_POST['id_pesanan'];
     $nop     = $_POST['no_order'];
-    $barang  = $_POST['barangnya'];
     $toko    = $_POST['tokonya'];
     $tanggal = date("Y-m-d H:i:s");
     $idu     = $_SESSION['id_user'];
+    //ambil data terbesar 
+    $char = 'ORDER';
+    $query=mysqli_query($koneksi,"SELECT max(no_order) as max_kode FROM pesanan 
+    WHERE no_order LIKE '{$char}%' ORDER BY no_order DESC LIMIT 1");
+    $data = mysqli_fetch_array($query);
+    $kodeBarang = $data['max_kode'];
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO orderan (id_b,id_toko,id_user,no_order,qtyp,tgl_order) VALUES ('$barang','$toko','$idu','$nop','$qtyp', '$tanggal')");
+    //mengambil data menggunakan fungsi subtr, 
+    //misal data BRG001 akan diambil 001 
+    $no = substr($kodeBarang, -3, 3);
+
+    //setelah substring bilangan diambil lantas dicasting menjadi integer
+    $no = (int) $no;
+
+    //bilangan yang diambil akan ditambah 1 untuk menentukan nomor urut berikutnya
+    $no += 1;
+
+    //perintah sprintf("%03s", $no) berguna untuk membuat string menjadi 3 karakter
+    $newKodeBarang = $char . sprintf("%03s", $no);
+
+    $addtotable = mysqli_query($koneksi,"INSERT INTO pesanan (id_pesanan,id_toko,id_user,no_order,tgl_order) VALUES ('$idp','$toko','$idu','$newKodeBarang','$tanggal')");
     die (mysqli_error($koneksi));
     if($addtotable){
         echo "berhasil";
