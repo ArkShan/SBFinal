@@ -47,9 +47,8 @@ if(isset($_POST['updatebarang'])){
     $harga      = $_POST['harga'];
     $qtyd       = $_POST['pcs_dus'];
     $hargapromo = $_POST['harga_p'];
-    $qty        = $_POST['qty'];
 
-    $update = mysqli_query($koneksi,"UPDATE tb_barang set kode_b='$kodebarang',nama_b='$namabarang',tipe_mobil='$tipemobil',kategori='$kategori',harga='$harga',pcs_dus='$qtyd',harga_p='$hargapromo', qty='$qty' WHERE id_b='$idb'");
+    $update = mysqli_query($koneksi,"UPDATE tb_barang set kode_b='$kodebarang',nama_b='$namabarang',tipe_mobil='$tipemobil',kategori='$kategori',harga='$harga',pcs_dus='$qtyd',harga_p='$hargapromo' WHERE id_b='$idb'");
     if($update){
         header('location:tables.php');
     } else {
@@ -67,6 +66,46 @@ if(isset($_POST['hapusbarang'])){
     } else {
         echo 'gagal';
         header('location:tables.php');
+    }
+}
+
+if(isset($_POST['masuk1'])){
+    date_default_timezone_set('Asia/Jakarta');
+    $pabrik    = $_POST['pabriknya'];
+    $tanggal = date("Y-m-d H:i:s");
+    $nomas  = $_POST['no_masuk'];
+    
+    $addtotable = mysqli_query($koneksi,"INSERT INTO masuk (id_p,no_masuk,tgl_mas) VALUES ('$pabrik','$nomas','$tanggal')");
+    // die (mysqli_error($koneksi));
+    if($addtotable){
+        echo "berhasil";
+    }else{
+        echo "gagal";
+    }  
+}
+
+if(isset($_POST['barangmasuk1'])){
+    $barang   = $_POST['barangnya'];
+    $idma     = $_POST['id_mas'];
+    $qtym     = $_POST['qtym'];
+   
+    $cekqtyskrg = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$barang'"); 
+    $ambildata = mysqli_fetch_array($cekqtyskrg);
+    $qtysekarang= $ambildata['qty'];
+    $updateqty = $qtysekarang+$qtym;
+
+    $addtomasuk = mysqli_query($koneksi,"INSERT INTO detail_m (id_ma,id_b,qtym) VALUES ('$idma','$barang','$qtym')");
+    $updatesqtymasuk = mysqli_query($koneksi," UPDATE tb_barang set qty='$updateqty' WHERE id_b='$barang'");
+
+    if($addtomasuk && $updateqtymasuk){
+        echo '
+        <script>
+            history.go(-1);
+        </script>
+    ';
+    } else {
+        echo 'gagal';
+        header('location:detail-masuk.php');
     }
 }
 
@@ -120,6 +159,45 @@ if(isset($_POST['hapusbarangmasuk'])){
         exit;
     }
 };
+
+if(isset($_POST['keluar1'])){
+    date_default_timezone_set('Asia/Jakarta');
+    $tanggal = date("Y-m-d H:i:s");
+    $nokel  = $_POST['no_keluar'];
+    $nop    = $_POST['ordernya'];
+    
+    $addtotable = mysqli_query($koneksi,"INSERT INTO keluar (id_pes,no_keluar,tgl_kel) VALUES ('$nop','$nokel','$tanggal')");
+    // die (mysqli_error($koneksi));
+    if($addtotable){
+        echo "berhasil";
+    }else{
+        echo "gagal";
+    }  
+}
+
+if(isset($_POST['barangkeluar1'])){
+    $barang = $_POST['barangnya'];
+    $idke = $_POST['id_kel'];
+    $qtyk = $_POST['qtyk'];
+   
+    $cekstocksekarang = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$barang'"); 
+    $ambildatanya = mysqli_fetch_array($cekstocksekarang);
+    $stocksekarang= $ambildatanya['qty'];
+    $updateqty = $stocksekarang-$qtyk;
+
+    $addtokeluar = mysqli_query($koneksi," INSERT INTO detail_k (id_ke,id_b,qtyk) VALUES ('$idke','$barang','$qtyk')");
+    $updatestokgudang = mysqli_query($koneksi," UPDATE tb_barang SET qty='$updateqty' WHERE id_b='$barang'");
+    if($addtokeluar && $updatestokgudang){
+        echo '
+        <script>
+            history.go(-1);
+        </script>
+    ';
+    } else {
+        echo 'gagal';
+        header('location:detail-keluar.php');
+    }
+}
 
 if(isset($_POST['barangkeluar'])){
     $barang = $_POST['barang'];
@@ -273,6 +351,22 @@ if(isset($_POST['orderproses'])){
     }
 }
 
+if(isset($_POST['orderproses1'])){
+    $ido = $_POST['id_pesanan'];
+    // $qty = $_POST['qty'];
+    $cekreq = mysqli_query($koneksi,"UPDATE pesanan SET kirim =1  WHERE  id_pesanan='$ido'");
+    if($cekreq){
+        // berhasil
+        // header("Location:approval.php");
+        echo'<script>
+        alert("Barang Sudah Diproses di Gudang, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "order-revisi.php"
+        </script>';
+    }else{
+        header("Location:order-revisi.php");
+    }
+}
+
 if(isset($_POST['orderkirim'])){
     $ido = $_POST['id_o'];
     // $qty = $_POST['qty'];
@@ -289,35 +383,78 @@ if(isset($_POST['orderkirim'])){
     }
 }
 
-if(isset($_POST['tambahorder'])){
+if(isset($_POST['orderkirim1'])){
+    $ido = $_POST['id_pesanan'];
+    // $qty = $_POST['qty'];
+    $cekreq = mysqli_query($koneksi,"UPDATE pesanan SET kirim =2  WHERE  id_pesanan='$ido'");
+    if($cekreq){
+        // berhasil
+        // header("Location:approval.php");
+        echo'<script>
+        alert("Barang Sudah Dikirim, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "order-revisi.php"
+        </script>';
+    }else{
+        header("Location:order-revisi.php");
+    }
+}
+
+if(isset($_POST['tambahorder1'])){
     date_default_timezone_set('Asia/Jakarta');
-    $idp     = $_POST['id_pesanan'];
-    $nop     = $_POST['no_order'];
     $toko    = $_POST['tokonya'];
     $tanggal = date("Y-m-d H:i:s");
     $idu     = $_SESSION['id_user'];
-    //ambil data terbesar 
-    $char = 'ORDER';
-    $query=mysqli_query($koneksi,"SELECT max(no_order) as max_kode FROM pesanan 
-    WHERE no_order LIKE '{$char}%' ORDER BY no_order DESC LIMIT 1");
-    $data = mysqli_fetch_array($query);
-    $kodeBarang = $data['max_kode'];
+    $nopes    = $_POST['no_order'];
 
-    //mengambil data menggunakan fungsi subtr, 
-    //misal data BRG001 akan diambil 001 
-    $no = substr($kodeBarang, -3, 3);
+    $addtotable = mysqli_query($koneksi,"INSERT INTO pesanan (id_toko,id_user,no_order,tgl_order) VALUES ('$toko','$idu','$nopes','$tanggal')");
+    // die (mysqli_error($koneksi));
+    if($addtotable){
+        echo "berhasil";
+    }else{
+        echo "gagal";
+    }  
+}
 
-    //setelah substring bilangan diambil lantas dicasting menjadi integer
-    $no = (int) $no;
+if(isset($_POST['tambahorder2'])){
+    $qtyp    = $_POST['qtyp'];
+    $ido     = $_POST['id_pesanan'];
+    $barang  = $_POST['barangnya'];
 
-    //bilangan yang diambil akan ditambah 1 untuk menentukan nomor urut berikutnya
-    $no += 1;
+    $tot = 0;
+    $cek = mysqli_query($koneksi, "SELECT * from pesanan where id_pesanan = $ido");
+    foreach ($cek as $data) {
+        $total = $data['totalh'];
+    }
 
-    //perintah sprintf("%03s", $no) berguna untuk membuat string menjadi 3 karakter
-    $newKodeBarang = $char . sprintf("%03s", $no);
+    $cekqty = mysqli_query($koneksi, "SELECT * from tb_barang where id_b = $barang");
+    if ($data = mysqli_fetch_array($cekqty)) {
+        $harga = $data['harga'];
+    }
 
-    $addtotable = mysqli_query($koneksi,"INSERT INTO pesanan (id_pesanan,id_toko,id_user,no_order,tgl_order) VALUES ('$idp','$toko','$idu','$newKodeBarang','$tanggal')");
-    die (mysqli_error($koneksi));
+    $tot = $qtyp * $harga;
+
+    $upd = mysqli_query($koneksi, "UPDATE pesanan SET totalh=$total+$tot where id_pesanan='$ido'");
+    
+    $addtotable = mysqli_query($koneksi,"INSERT INTO detail (id_pes,id_b,qtyp) VALUES ('$ido','$barang','$qtyp')");
+    
+    if($addtotable){
+        echo "berhasil";
+    }else{
+        echo "gagal";
+    }  
+}
+
+if(isset($_POST['tambahorder'])){
+    date_default_timezone_set('Asia/Jakarta');
+    $qtyp    = $_POST['qtyp'];
+    $nop     = $_POST['no_order'];
+    $barang  = $_POST['barangnya'];
+    $toko    = $_POST['tokonya'];
+    $tanggal = date("Y-m-d H:i:s");
+    $idu     = $_SESSION['id_user'];
+
+    $addtotable = mysqli_query($koneksi,"INSERT INTO orderan (id_b,id_toko,id_user,no_order,qtyp,tgl_order) VALUES ('$barang','$toko','$idu','$nop','$qtyp', '$tanggal')");
+    // die (mysqli_error($koneksi));
     if($addtotable){
         echo "berhasil";
     }else{

@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>SJM - Sales_List Orderan</title>
+        <title>SJM - List Orderan</title>
         <link href="./css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -44,116 +44,12 @@
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="home.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-                            <?php if($_SESSION['role'] == "Owner"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Owner
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="user.php">List User</a>
-                                        <a class="nav-link" href="toko.php">List Toko</a>
-                                        <a class="nav-link" href="order.php">List Order</a>
-                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
-                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>
-                                    </nav>
-                                </div>
-                                <?php }; ?>
-                                <?php if($_SESSION['role'] == "Admin"){?>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Administrasi
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="toko.php">List Toko</a>
-                                        <a class="nav-link" href="order.php">List Order</a>
-                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
-                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>   
-                                    </nav>
-                                </div>     
-                                <?php }; ?>
-                                <?php if($_SESSION['role'] == "Gudang"){?>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                        Pergudangan
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                            <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                            <a class="nav-link" href="tables.php">List Barang</a>
-                                            <a class="nav-link" href="order.php">List Order</a>
-                                            <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                            <a class="nav-link" href="returo.php">Retur Order</a>
-                                        </nav>
-                                    </div>
-                                <?php }; ?>
-                                <?php if($_SESSION['role'] == "Sales"){?>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                        Sales
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="tables.php">List Barang</a>
-                                            <a class="nav-link" href="order.php">List Orderan</a>
-                                        </nav>
-                                    </div>
-                                <?php }; ?>
-                        </div>
-                    </div>
-                    <?php if($_SESSION['role'] == "Owner"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Owner
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Admin"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Administrasi
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Gudang"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Kepala Gudang
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Sales"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Sales
-                    </div>
-                    <?php }; ?>
-                </nav>
+                <?php require 'nav.php'; ?>
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">List Order Sinar Jaya Motor</h1>
-                        
+                        <h1 class="mt-4">List Order Sinar Jaya Motor</h1>    
                         <div class="card mb-4">
                             <div class="card-header">
                                 <?php if($_SESSION['role'] == "Sales"){?>
@@ -163,43 +59,7 @@
                                     </button>
                                     <!-- end Button to Open the Modal  -->
                                     <!-- <i class="fas fa-table mr-1"></i> -->
-                                    <!-- Modal Tambah Barang -->
-                                    <!-- The Modal -->
-                                    <div class="modal fade" id="myModal">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Tambah Order</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <form method="POST" >
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            <!-- <input class="form-control py-4 mb-2" id="inputEmailAddress" name="no_order"      type="text"     placeholder="Nomor Pesanan"   value="<?$newKodeBarang?>"/>                                 -->
-                                                            <select name="tokonya" class="form-control mb-2">
-                                                                <?php
-                                                                    $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE status == 0");
-                                                                    while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
-                                                                        $nama_t = $fetcharray['nama_toko'];
-                                                                        $idt = $fetcharray['id_toko'];
-                                                                ?>
-                                                                    <option value="<?=$idt;?>"><?=$nama_t;?></option> 
-                                                                <?php }; ?>
-                                                            </select>
-                                                            <button type="submit" name="tambahorder"    class="btn btn-primary" >Submit</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Modal footer -->
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <!-- Selesai modal tambah barang -->
+                                    
                                 <?php }; ?>
                             </div>
                             <div class="card-body">
@@ -212,6 +72,10 @@
                                                 <th>Tanggal</th>
                                                 <th>Nama Sales</th>
                                                 <th>Tujuan</th>
+                                                <th>Pengiriman</th>
+                                                <?php if($_SESSION['role'] != "Gudang"){?>
+                                                <th>Pembayaran</th>
+                                                <?php }; ?>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -238,6 +102,8 @@
                                                     $nop        = $data['no_order'];
                                                     $namat      = $data['nama_toko'];
                                                     $tglo       = $data['tgl_order'];
+                                                    $kirim      = $data['kirim'];
+                                                    $bayar      = $data['bayar'];
                                             ?>
                                             <tr>
                                                 <td><?=$i++?></td>
@@ -246,73 +112,55 @@
                                                 <td><?=$namad;?></td>
                                                 <td><?=$namat;?></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idp;?>">
-                                                    Ubah  
-                                                    <!-- <?php echo "<a href='lap_or.php?id_o=$idp'>" ;?> <button target="_blank" type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>Print</button></a>   -->
+                                                    <?php 
+                                                        if($kirim ==0){
+                                                            echo "Diterima";
+                                                        }else if($kirim == 1){
+                                                            echo "Diproses";
+                                                        }else if($kirim == 2){
+                                                            echo "Dikirim";
+                                                        }
+                                                    ?>
+                                                </td>
+                                                <?php if($_SESSION['role'] != "Gudang"){?>
+                                                <td>
+                                                    <?php 
+                                                        if($bayar ==0){
+                                                            echo "Belum Dibayar";
+                                                        }else if($bayar == 1){
+                                                            echo "Lunas";
+                                                        }
+                                                    ?>
+                                                </td>
+                                                <?php }; ?>
+                                                <td>
+                                                    <?php echo "<a href='detail-order-revisi.php?id_pesanan=$idp'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a>
+                                                    <?php if($_SESSION['role'] == "Sales" || $_SESSION['role'] == "Admin"){?>
+                                                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#lun<?=$idp;?>">
+                                                            Lunas
+                                                        </button>
+                                                    <?php }; ?>
+                                                    <?php if($_SESSION['role'] == "Gudang"){
+                                                        if ($kirim == 0){?>
+                                                            <button type="button" class="btn btn-warning mb-2" data-toggle="modal" data-target="#pro<?=$idp;?>">
+                                                                Diproses
+                                                            </button>
+                                                        <?php } else if ($kirim == 1) { ?>
+                                                            <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#kir<?=$idp;?>">
+                                                                Dikirim
+                                                            </button>
+                                                        <?php }; ?>
+                                                    <?php }; ?>
+                                                    <!--  <button target="_blank" type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>Print</button></a>   -->
                                                     <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>"> Hapus -->
                                                     </td>
                                             </tr>
-                                            <!-- END Selesai Field Table -->  
-                                            <!-- The  Edit Modal -->
-                                            <div class="modal fade" id="edit<?=$ido;?>">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Edit Barang</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <!-- Content 1 -->
-                                                        <form method="post">
-                                                            <div class="modal-body">
-                                                                <div class="form-group">                                                                  
-                                                                    <input class="form-control py-4 mb-2" id="updateqty" name="qtyp" type="number" placeholder="Qty" value="<?=$qtyp;?>" required/>
-                                                                    <input type="hidden" name="id_o" value="<?=$ido;?>">
-                                                                    <button type="submit" class="btn btn-primary" name="updateorder" >Submit</button>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Modal stock Gudang -->
-                                            <!-- The  delete Modal -->
-                                            <div class="modal fade" id="delete<?=$ido;?>">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Hapus Pesanan ?</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <!-- Content 1 -->
-                                                        <form method="POST">
-                                                            <div class="modal-body mb-2">
-                                                                Apakah anda yakin ingin menghapus pesanan <?=$nop;?> untuk toko <?=$namat;?> ?
-                                                                <input type="hidden" name="id_p"    value="<?=$ido;?>">
-                                                                <input type="hidden" name="qtyp"         value="<?=$qtyp;?>">
-                                                                <input type="hidden" name="nama_toko"     value="<?=$namat;?>">
-                                                                <br>
-                                                                <br>
-                                                                <button type="submit" class="btn btn-danger" name="hapusorder" >Hapus</button>
-                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End aksi Crud -->
+                                            <!-- END Selesai Field Table --> 
+                                            <!-- Modal Tambah Barang -->
+                                     
+                                            
                                             <!-- Pembayaran Lunas -->
-                                            <div class="modal fade" id="lun<?=$ido;?>">
+                                            <div class="modal fade" id="lun<?=$idp;?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <!-- Modal Header -->
@@ -326,10 +174,10 @@
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     Apakah anda yakin pesanan ini sudah lunas  ?
-                                                                    <?=$nop;?> Barang <?=$namab;?> dengan tujuan <?=$namat;?>
-                                                                    <input type="hidden" name="id_o" value="<?=$ido;?>">
+                                                                    <?=$nop;?> dengan tujuan <?=$namat;?>
+                                                                    <input type="hidden" name="id_pesanan" value="<?=$idp;?>">
                                                                     <br>
-                                                                    <button type="submit" class="btn btn-primary" name="orderlunas" >Submit</button>
+                                                                    <button type="submit" class="btn btn-primary" name="orderlunas1" >Submit</button>
                                                                 </div>
                                                             </div>
                                                             <!-- Modal footer -->
@@ -342,7 +190,7 @@
                                             </div>
                                             <!-- End Pembayaran Lunas -->
                                             <!-- Barang Diproses -->
-                                            <div class="modal fade" id="pro<?=$ido;?>">
+                                            <div class="modal fade" id="pro<?=$idp;?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <!-- Modal Header -->
@@ -355,10 +203,10 @@
                                                         <form method="post">
                                                             <div class="modal-body">
                                                                 <div class="form-group">
-                                                                    Apakah anda ingin mempacking pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
-                                                                    <input type="hidden" name="id_o" value="<?=$ido;?>">
+                                                                    Apakah anda ingin mempacking pesanan <?=$nop;?> dengan tujuan <?=$namat;?> ?
+                                                                    <input type="hidden" name="id_pesanan" value="<?=$idp;?>">
                                                                     <br>
-                                                                    <button type="submit" class="btn btn-primary" name="orderproses" >Submit</button>
+                                                                    <button type="submit" class="btn btn-primary" name="orderproses1" >Submit</button>
                                                                 </div>
                                                             </div>
                                                             <!-- Modal footer -->
@@ -371,7 +219,7 @@
                                             </div>
                                             <!-- End Barang Diproses -->
                                             <!-- Barang Dikirim -->
-                                            <div class="modal fade" id="kir<?=$ido;?>">
+                                            <div class="modal fade" id="kir<?=$idp;?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <!-- Modal Header -->
@@ -385,9 +233,9 @@
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     Apakah anda ingin mengirim pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
-                                                                    <input type="hidden" name="id_o" value="<?=$ido;?>">
+                                                                    <input type="hidden" name="id_pesanan" value="<?=$idp;?>">
                                                                     <br>
-                                                                    <button type="submit" class="btn btn-primary" name="orderkirim" >Submit</button>
+                                                                    <button type="submit" class="btn btn-primary" name="orderkirim1" >Submit</button>
                                                                 </div>
                                                             </div>
                                                             <!-- Modal footer -->
@@ -401,6 +249,7 @@
                                             <!-- End Pembayaran Lunas -->                                      
                                         <?php }; ?>
                                     </tbody> 
+                                    
                                 </table>
                             </div>
                         </div>
@@ -421,6 +270,7 @@
                 </footer>
             </div>
         </div>
+        
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
@@ -431,4 +281,62 @@
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
     </body>
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Tambah Order</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <form method="POST" >
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                        <?php 
+                                                                //ambil data terbesar 
+                                                                $char = 'ORDER';
+                                                                $query=mysqli_query($koneksi,"SELECT max(no_order) as max_kode FROM pesanan 
+                                                                WHERE no_order LIKE '{$char}%' ORDER BY no_order DESC LIMIT 1");
+                                                                $data = mysqli_fetch_array($query);
+                                                                $kodeBarang = $data['max_kode'];
+
+                                                                //mengambil data menggunakan fungsi subtr, 
+                                                                //misal data BRG001 akan diambil 001 
+                                                                $no = substr($kodeBarang, -3, 3);
+
+                                                                //setelah substring bilangan diambil lantas dicasting menjadi integer
+                                                                $no = (int) $no;
+
+                                                                //bilangan yang diambil akan ditambah 1 untuk menentukan nomor urut berikutnya
+                                                                $no += 1;
+
+                                                                //perintah sprintf("%03s", $no) berguna untuk membuat string menjadi 3 karakter
+                                                                $newKodeBarang = $char . sprintf("%03s", $no);
+                                                            ?>
+                                                            <input type="text" name="no_order" id="nmr_po" value="<?= $newKodeBarang; ?>" class="form-control" readonly>
+                                                            <!-- <input class="form-control py-4 mb-2" id="inputEmailAddress" name="no_order"      type="text"     placeholder="Nomor Pesanan"   value="<?$newKodeBarang?>"/>                                 -->
+                                                            <select name="tokonya" class="form-control mb-2">
+                                                                <?php
+                                                                    $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_toko WHERE stat_to = 0");
+                                                                    while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
+                                                                        $nama_t = $fetcharray['nama_toko'];
+                                                                        $idt = $fetcharray['id_toko'];
+                                                                ?>
+                                                                    <option value="<?=$idt;?>"><?=$nama_t;?></option> 
+                                                                <?php }; ?>
+                                                            </select>
+                                                            <button type="submit" name="tambahorder1" class="btn btn-primary" >Submit</button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- Selesai modal tambah barang -->
 </html>
