@@ -89,10 +89,10 @@
                                                 <?php }; ?>
                                             </tr>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Qty</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Kode Barang</th>
+                                                <th class="text-center">Nama Barang</th>
+                                                <th class="text-center">Qty</th>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -126,10 +126,10 @@
                                                
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$kodeb;?></td>
-                                                <td><?=$namabarang;?></td>
-                                                <td><?=$qtyk;?></td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$kodeb;?></td>
+                                                <td class="text-center"><?=$namabarang;?></td>
+                                                <td class="text-center"><?=$qtyk;?></td>
                                             </tr>
                                             <!-- END Selesai Field Table -->                                                                 
                                         <?php }; ?>
@@ -179,7 +179,20 @@
         <form method="POST" >
             <div class="modal-body">
                 <div class="form-group">
-                    <select name="barangnya" class="form-control mb-2">
+                <select name="ordernya" class="form-control mb-2">
+                                                                <?php
+                                                                    $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM pesanan");
+                                                                    while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
+                                                                        $nop = $fetcharray['no_order'];
+                                                                        $idpes = $fetcharray['id_pesanan'];
+                                                                        $idp = $fetcharray['id_toko'];
+                                                                        $idb = $fetcharray['id_b'];
+                                                                        $qtyp = $fetcharray['qtyp'];
+                                                                ?>
+                                                                    <option value="<?=$idpes;?>"><?=$nop;?></option> 
+                                                                <?php }; ?>
+                                                            </select>
+                    <!-- <select name="barangnya" class="form-control mb-2">
                         <?php
                             $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
@@ -190,8 +203,8 @@
                         ?>
                             <option value="<?=$idb;?>"><?=$kodeb;?>  -  <?=$namab;?>  -  <?=$tipe;?></option>  
                         <?php };?>
-                    </select>
-                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtyk" type="number" placeholder="Qty" value="" required/>
+                    </select> -->
+                    <!-- <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtyk" type="number" placeholder="Qty" value="" required/> -->
                     <input type="hidden" name="id_kel" value="<?= $idkel; ?>">
                     <!-- <input type="hidden" name="totalh" value="<?= $totalh; ?>"> -->
                     <button type="submit" name="barangkeluar1"    class="btn btn-primary" >Submit</button>

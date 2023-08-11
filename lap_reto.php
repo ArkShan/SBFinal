@@ -3,23 +3,22 @@
 include 'function.php';
 include 'cek.php';
 
-$idkel=$_GET['id_ke'];// harusnya id pesanan
+$idro=$_GET['id_ro'];// harusnya id pesanan
 
-$data = mysqli_query($koneksi, "SELECT * from detail_k d, keluar k, pesanan p, tb_toko t where p.id_pesanan = k.id_pes AND t.id_toko = k.id_toko and k.id_kel='$idkel'");
-
+$data = mysqli_query($koneksi, "SELECT * from detail_ro d, pesanan p, returo ro, tb_toko t where ro.id_pes = p.id_pesanan AND t.id_toko = ro.id_toko and ro.id_reto ='$idro'");
 foreach ($data as $dat) {
 
     // $ido = $dat['id_pesanan']; 
-    $nokel = $dat['no_keluar'];
-    $nop = $dat['no_order'];
-    $tglm = $dat['tgl_kel'];
-    $namat = $dat['nama_toko'];
-    $alamat = $dat['no_alamat'];
+    $noro    = $dat['no_ro'];
+    $nop    = $dat['no_order'];
+    $namat    = $dat['nama_toko'];
+    $alamat     = $dat['alamat'];
+    $tglro = $dat['tgl_ro'];
 }
 ?>
 <html>
 <head>
-  <title>Nota Orderan Sinar Jaya</title>
+  <title>Laporan Retur Pabrik Sinar Jaya</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -49,17 +48,17 @@ foreach ($data as $dat) {
 
                 <div class="row">
                     <div class="col text-center">
-                        <h2 class="h3 text-dark">Laporan Barang Masuk</h2>
+                        <h2 class="h3 text-dark">Laporan Barang Retur Order</h2>
                     </div>
                 </div>
                 <br>
 
                 <table class="table table-bordered">
                     <tbody>
-                    <tr>
-                            <th scope="row">Nomor Keluar</th>
+                        <tr>
+                            <th scope="row">Nomor Retur Order</th>
 
-                            <td><input type="text" class="form-control" name="no_order" value="<?php echo $nokel ?>" readonly></td>
+                            <td><input type="text" class="form-control" name="no_order" value="<?php echo $noro ?>" readonly></td>
                         </tr>
                         <tr>
                             <th scope="row">Nomor  Order</th>
@@ -101,15 +100,15 @@ foreach ($data as $dat) {
                     <tbody>
                         <?php
                         $no = 1;
-                        $datapo = mysqli_query($koneksi, "SELECT * FROM masuk m, detail_m d, tb_barang b where m.id_mas = d.id_ma and b.id_b=d.id_b and m.id_mas='$idmas'"); // id pesanan
+                        $datapo = mysqli_query($koneksi, "SELECT * from detail_ro d, returo ro, tb_barang b, tb_toko t where d.id_b = b.id_b AND d.id_ro = ro.id_reto AND t.id_toko = ro.id_toko and ro.id_reto ='$idro'");
                         while ($show = mysqli_fetch_array($datapo)) {
-                            $qtyp = $show['qtym'];
+                            $qtyro = $show['qtyro'];
                         ?>
                             <tr>
                                 <td class="text-center"><?= $no++ ?></td>
                                 <td class="text-center"><?= $show['kode_b'] ?></td>
                                 <td class="text-center"><?= $show['nama_b'] ?></td>
-                                <td class="text-center"><?=  number_format($show['qtym']) ?></td>
+                                <td class="text-center"><?=  number_format($show['qtyro']); ?></td>
                             </tr>
                         <?php }; ?>
                     </tbody>

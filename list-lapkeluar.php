@@ -44,117 +44,7 @@
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="home.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-                            <?php if($_SESSION['role'] == "Owner"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Owner
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                        <a class="nav-link" href="masuk-revisi.php">Barang Masuk Revisi</a>
-                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="user.php">List User</a>
-                                        <a class="nav-link" href="toko.php">List Toko</a>
-                                        <a class="nav-link" href="order.php">List Order</a>
-                                        <a class="nav-link" href="order-revisi.php">List Order Revisi</a>
-                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
-                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>
-                                    </nav>
-                                </div>
-                            <?php }; ?>
-                            <?php if($_SESSION['role'] == "Admin"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Administrasi
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                        <a class="nav-link" href="masuk-revisi.php">Barang Masuk Revisi</a>
-                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="toko.php">List Toko</a>
-                                        <a class="nav-link" href="order.php">List Order</a>
-                                        <a class="nav-link" href="order-revisi.php">List Order Revisi</a>
-                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
-                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>   
-                                    </nav>
-                                </div>     
-                            <?php }; ?>
-                            <?php if($_SESSION['role'] == "Gudang"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Pergudangan
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                        <a class="nav-link" href="masuk-revisi.php">Barang Masuk Revisi</a>
-                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="order.php">List Order</a>
-                                        <a class="nav-link" href="order-revisi.php">List Order Revisi</a>
-                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>
-                                    </nav>
-                                </div>
-                            <?php }; ?>
-                            <?php if($_SESSION['role'] == "Sales"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Sales
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="order.php">List Orderan</a>
-                                    </nav>
-                                </div>
-                            <?php }; ?>
-                        </div>
-                    </div>
-                    <?php if($_SESSION['role'] == "Owner"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Owner
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Admin"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Administrasi
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Gudang"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Kepala Gudang
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Sales"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Sales
-                    </div>
-                    <?php }; ?>
-                </nav>
+                <?php require 'nav.php'; ?>
             </div>
             <div id="layoutSidenav_content">
                 <main>
@@ -162,26 +52,18 @@
                         <h1 class="mt-4">List Barang Keluar Sinar Jaya Motor</h1>    
                         <div class="card mb-4">
                             <div class="card-header">
-                                <?php if($_SESSION['role'] == "Gudang"){?>
-                                    <!-- Button to Open the Modal -->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                    Tambah Barang Keluar
-                                    </button>
-                                    <!-- end Button to Open the Modal  -->
-                                    <!-- <i class="fas fa-table mr-1"></i> -->
-                                    
-                                <?php }; ?>
+                                
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Nomor Pesanan</th>
-                                                <th>Tanggal</th>
-                                                <th>Tujuan</th>
-                                                <th>Aksi</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Nomor Pesanan</th>
+                                                <th class="text-center">Tanggal</th>
+                                                <th class="text-center">Tujuan</th>
+                                                <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -207,11 +89,11 @@
                                                     $tglo       = $data['tgl_kel'];
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$nop;?></td>
-                                                <td><?=$tglo;?></td>
-                                                <td><?=$namat;?></td>
-                                                <td><?php echo "<a href='detail-keluar.php?id_kel=$idkel'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a></td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$nop;?></td>
+                                                <td class="text-center"><?=$tglo;?></td>
+                                                <td class="text-center"><?=$namat;?></td>
+                                                <td class="text-center"><?php echo "<a href='detail-keluar.php?id_kel=$idkel'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a></td>
                                             </tr>
                                             <!-- END Selesai Field Table --> 
                                             <!-- Modal Tambah Barang -->                                     

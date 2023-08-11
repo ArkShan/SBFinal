@@ -101,15 +101,15 @@
                                         <thead>
                                             <tr>
                                                 <!-- <th>Id_MasukBarang</th> -->
-                                                <th>ID Barang</th>
-                                                <th>Kode barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Tipe Mobil</th>
-                                                <th>Kategori</th>
-                                                <th>Harga</th>
-                                                <th>Pcs/Dus</th>
-                                                <th>Harga Promo</th>
-                                                <th>Qty</th>
+                                                <th class="text-center">ID Barang</th>
+                                                <th class="text-center">Kode barang</th>
+                                                <th class="text-center">Nama Barang</th>
+                                                <th class="text-center">Tipe Mobil</th>
+                                                <th class="text-center">Kategori</th>
+                                                <th class="text-center">Harga</th>
+                                                <th class="text-center">Pcs/Dus</th>
+                                                <th class="text-center">Harga Promo</th>
+                                                <th class="text-center">Qty</th>
                                                 <!-- <?php if($_SESSION['role'] != "Sales"){?>
                                                 <th>Action</th>
                                                 <?php }; ?> -->
@@ -148,16 +148,20 @@
                                                     $stat       = $data['stat'];
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$kodebarang;?></td>
-                                                <td><?= $namabarang;?></td>
-                                                <td><?=$Tipe_Mobil;?></td>
-                                                <td><?= $Kategori;?></td>
-                                                <td>Rp <?= $Harga;?></td>
-                                                <td><?= $qtyd;?></td>
-                                                <td><?= $promo;?></td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$kodebarang;?></td>
+                                                <td class="text-center"><?=$namabarang;?></td>
+                                                <td class="text-center"><?=$Tipe_Mobil;?></td>
+                                                <td class="text-center"><?=$Kategori;?></td>
+                                                <td class="text-center">Rp <?= number_format($Harga);?></td>
+                                                <td class="text-center"><?= number_format($qtyd);?></td>
+                                                <?php if ($promo == 0) { ?>
+                                                    <td class="text-center"><?= $promo;?></td>  
+                                                <?php } else if ($promo != 0) { ?>
+                                                    <td class="text-center">Rp <?= number_format($promo);?></td>
+                                                <?php }?>
                                                 <?php if($_SESSION['role'] == "Sales"){?>
-                                                <td>
+                                                <td class="text-center">
                                                     <?php 
                                                         if($stat ==0){
                                                             echo "Tersedia";
@@ -167,12 +171,13 @@
                                                     ?>
                                                 </td>
                                                 <?php }else if($_SESSION['role'] != "Sales"){?>
-                                                <td><?= $qty;?></td>
-                                                <td>
+                                                <td class="text-center"><?= $qty;?></td>
+                                                <?php if($_SESSION['role'] != "Gudang"){?>
+                                                <td class="text-center">
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>"> Ubah </button>
                                                 <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>"> Hapus </button>-->
                                                 </td>
-                                                <?php }; ?>
+                                                <?php }}; ?>
                                             </tr>
                                             <!-- END Selesai Field Table -->
                                             <!-- Aksi CRUD -->

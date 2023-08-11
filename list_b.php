@@ -31,14 +31,14 @@ include 'cek.php';
             <table class="table table-bordered" id="exportkeluar" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>ID Barang</th>
-                        <th>Kode barang</th>
-                        <th>Nama Barang</th>
-                        <th>Tipe Mobil</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Pcs/Dus</th>
-                        <th>Harga Promo</th>
+                        <th class="text-center">ID Barang</th>
+                        <th class="text-center">Kode barang</th>
+                        <th class="text-center">Nama Barang</th>
+                        <th class="text-center">Tipe Mobil</th>
+                        <th class="text-center">Kategori</th>
+                        <th class="text-center">Harga</th>
+                        <th class="text-center">Pcs/Dus</th>
+                        <th class="text-center">Harga Promo</th>
                     </tr>
                 </thead>
                 <!-- Mulai Field Table -->
@@ -58,14 +58,18 @@ include 'cek.php';
                             $qty        = $data['qty']
                     ?>
                     <tr>
-                        <td><?=$i++?></td>
-                        <td><?php echo $kodebarang;?></td>
-                        <td><?php echo $namabarang;?></td>
-                        <td><?php echo $Tipe_Mobil;?></td>
-                        <td><?php echo $Kategori;?></td>
-                        <td>Rp <?php echo $Harga;?></td>
-                        <td><?php echo $qtyd;?></td>
-                        <td><?php echo $promo;?></td>
+                        <td class="text-center"><?=$i++?></td>
+                        <td class="text-center"><?php echo $kodebarang;?></td>
+                        <td class="text-center"><?php echo $namabarang;?></td>
+                        <td class="text-center"><?php echo $Tipe_Mobil;?></td>
+                        <td class="text-center"><?php echo $Kategori;?></td>
+                        <td class="text-center">Rp <?php echo number_format($Harga);?></td>
+                        <td class="text-center"><?php echo number_format($qtyd);?></td>
+                        <?php if ($promo == 0) { ?>
+                            <td class="text-center"><?php echo $promo;?></td>  
+                        <?php } else if ($promo != 0) { ?>
+                            <td class="text-center">Rp <?php echo number_format($promo);?></td>
+                        <?php }?>
                     </tr>
                     <?php }; ?>
                 </tbody>

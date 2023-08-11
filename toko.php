@@ -67,13 +67,13 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Nama Toko</th>
-                                                <th>Nomor Telepon</th>
-                                                <th>Alamat</th>
-                                                <th>Wilayah</th>
-                                                <th>Status</th>
-                                                <th>Aksi</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Nama Toko</th>
+                                                <th class="text-center">Nomor Telepon</th>
+                                                <th class="text-center">Alamat</th>
+                                                <th class="text-center">Wilayah</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -103,12 +103,12 @@
                                             $stat    = $data['stat_to'];
                                         ?>
                                         <tr>
-                                            <td><?=$i++?></td>
-                                            <td><?=$namat;?></td>
-                                            <td><?=$notelp;?></td>
-                                            <td><?=$alamat;?></td>
-                                            <td><?=$wilayah;?></td>
-                                            <td>
+                                            <td class="text-center"><?=$i++?></td>
+                                            <td class="text-center"><?=$namat;?></td>
+                                            <td class="text-center"><?=$notelp;?></td>
+                                            <td class="text-center"><?=$alamat;?></td>
+                                            <td class="text-center"><?=$wilayah;?></td>
+                                            <td class="text-center">
                                                 <?php 
                                                     if($stat ==0){
                                                         echo "Active";
@@ -117,7 +117,7 @@
                                                     }
                                                 ?>  
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idt;?>">
                                                 Ubah
                                                 </button>

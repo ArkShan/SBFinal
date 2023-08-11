@@ -28,9 +28,11 @@
                                         <a class="nav-link" href="returp.php">Retur Pabrik</a>
                                         <a class="nav-link" href="revisi-returp.php">Retur Pabrik Revisi</a>
                                         <a class="nav-link" href="returo.php">Retur Order</a>
-                                        <a class="nav-link" href="revisi-returp.php">Retur Order Revisi</a>
+                                        <a class="nav-link" href="revisi-returo.php">Retur Order Revisi</a>
                                         <a class="nav-link" href="list-lapmasuk.php">Laporan Barang Masuk</a>
                                         <a class="nav-link" href="list-lapkeluar.php">Laporan Barang Keluar</a>
+                                        <a class="nav-link" href="list-laprp.php">Laporan Barang Retur Pabrik</a>
+                                        <a class="nav-link" href="list-lapro.php">Laporan Barang Retur Order</a>
                                     </nav>
                                 </div>
                             <?php }; ?>
@@ -54,9 +56,11 @@
                                         <a class="nav-link" href="returp.php">Retur Pabrik</a>
                                         <a class="nav-link" href="revisi-returp.php">Retur Pabrik Revisi</a>
                                         <a class="nav-link" href="returo.php">Retur Order</a>
-                                        <a class="nav-link" href="revisi-returp.php">Retur Order Revisi</a>
+                                        <a class="nav-link" href="revisi-returo.php">Retur Order Revisi</a>
                                         <a class="nav-link" href="list-lapmasuk.php">Laporan Barang Masuk</a>
-                                        <a class="nav-link" href="list-lapkeluar.php">Laporan Barang Keluar</a>   
+                                        <a class="nav-link" href="list-lapkeluar.php">Laporan Barang Keluar</a>
+                                        <a class="nav-link" href="list-laprp.php">Laporan Barang Retur Pabrik</a>
+                                        <a class="nav-link" href="list-lapro.php">Laporan Barang Retur Order</a>   
                                     </nav>
                                 </div>     
                             <?php }; ?>
@@ -78,7 +82,7 @@
                                         <a class="nav-link" href="returp.php">Retur Pabrik</a>
                                         <a class="nav-link" href="revisi-returp.php">Retur Pabrik Revisi</a>
                                         <a class="nav-link" href="returo.php">Retur Order</a>
-                                        <a class="nav-link" href="revisi-returp.php">Retur Order Revisi</a>
+                                        <a class="nav-link" href="revisi-returo.php">Retur Order Revisi</a>
                                     </nav>
                                 </div>
                             <?php }; ?>
@@ -92,6 +96,7 @@
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="tables.php">List Barang</a>
                                         <a class="nav-link" href="order.php">List Orderan</a>
+                                        <a class="nav-link" href="order-revisi.php">List Order Revisi</a>
                                     </nav>
                                 </div>
                             <?php }; ?>

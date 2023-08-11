@@ -64,13 +64,13 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Email</th>
-                                                <th>Nama</th>
-                                                <th>Password</th>
-                                                <th>Role</th>
-                                                <th>Status Akun</th>
-                                                <th>Action</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Nama</th>
+                                                <th class="text-center">Password</th>
+                                                <th class="text-center">Role</th>
+                                                <th class="text-center">Status Akun</th>
+                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <!-- Mulai Field Table -->
@@ -88,13 +88,13 @@
                                                     $stat  = $data['status']
                                                 ?>
                                                 <tr>
-                                                    <td><?=$i++?></td>
-                                                    <td><?=$i++?></td>
-                                                    <td><?=$email;?></td>
-                                                    <td><?=$namad;?> <?=$namab;?></td>
-                                                    <td><?=$pass;?></td>
-                                                    <td><?=$role;?></td>
-                                                    <td>
+                                                    <td class="text-center"><?=$i++?></td>
+                                                    <td class="text-center"><?=$i++?></td>
+                                                    <td class="text-center"><?=$email;?></td>
+                                                    <td class="text-center"><?=$namad;?> <?=$namab;?></td>
+                                                    <td class="text-center"><?=$pass;?></td>
+                                                    <td class="text-center"><?=$role;?></td>
+                                                    <td class="text-center">
                                                         <?php 
                                                             if($stat ==0){
                                                                 echo "Active";
@@ -103,7 +103,7 @@
                                                             }
                                                         ?>  
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$id_u;?>">
                                                     Ubah
                                                     </button>

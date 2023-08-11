@@ -3,7 +3,7 @@
      include 'cek.php';
 
      $idp=$_GET['id_pesanan'];
-     $sSQL=mysqli_query($koneksi, "SELECT * FROM pesanan o, tb_toko t WHERE o.id_pesanan = '$idp' AND o.id_toko = t.id_toko limit 1");
+     $sSQL=mysqli_query($koneksi, "SELECT * FROM  detail, pesanan o, tb_toko t WHERE o.id_pesanan = '$idp' AND o.id_toko = t.id_toko limit 1");
      $i=1;
      if ($sSQL) {
         // Process the fetched data
@@ -13,6 +13,7 @@
             $wilayah    = $data['wilayah'];
             $namat      = $data['nama_toko'];
             $alamat     = $data['alamat'];
+            $kirim      = $data['kirim'];
             // Your code to handle the fetched data goes here
         }
     } else {
@@ -84,23 +85,43 @@
                                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                                     Tambah Item
                                                     </button>
-
+                                                    
+                                                    <?php
+                                                        $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM detail");
+                                                        while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                                            $sub = $fetcharray['submit'];}
+                                                        if ($sub != 1) {?>
+                                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#submit<?=$idp;?>">
+                                                            Submit</button>
+                                                    <?php }; ?>
+                                                    <!-- end Button to Open the Modal  -->
+                                                    <!-- <i class="fas fa-table mr-1"></i> -->
+                                                <?php }; ?>
+                                                <!-- <?php if($_SESSION['role'] == "Gudang"){?>
+                                                    <?php if ($kirim == 0) {?>
+                                                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#pro<?=$idp;?>">
+                                                            Proses
+                                                        </button>
+                                                    <?php } else if ($kirim == 1) {?>
+                                                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#kir<?=$idp;?>">
+                                                            Kirim
+                                                        </button>
+                                                    <?php }?>
                                                     <!-- end Button to Open the Modal  -->
                                                     <!-- <i class="fas fa-table mr-1"></i> -->
                                                 <?php }; ?>
                                             </tr>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
+                                                <th style="text-align: center">No</th>
+                                                <th style="text-align: center">Kode Barang</th>
+                                                <th style="text-align: center">Nama Barang</th>
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
-                                                <th>Harga / Dus</th>
+                                                <th style="text-align: center">Harga / Dus</th>
                                                 <?php }; ?>
-                                                <th>Qty</th>
+                                                <th style="text-align: center">Qty</th>
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
-                                                <th>Total Harga</th>
-                                                
-                                                <!-- <th>Aksi</th> -->
+                                                <th style="text-align: center">Total Harga</th>
+                                                <th style="text-align: center">Aksi</th>
                                                 <?php }; ?>
                                             </tr>
                                         </thead>
@@ -117,7 +138,7 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                               $ambilsemuadatastock = mysqli_query($koneksi, "SELECT * FROM pesanan p, detail d, tb_barang b where p.id_pesanan = d.id_pes and b.id_b=d.id_b and p.id_pesanan='$idp'");
+                                               $ambilsemuadatastock = mysqli_query($koneksi, "SELECT * FROM  pesanan p, detail d, tb_barang b where p.id_pesanan='$idp' and p.id_pesanan = d.id_pes and b.id_b=d.id_b ");
 
                                                if (!$ambilsemuadatastock) {
                                                    // Query execution failed, handle the error here
@@ -129,53 +150,175 @@
                                                while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                                                    $ido        = $data['id_det'];
                                                    $idp        = $data['id_pes']; 
+                                                   $idt        = $data['id_toko'];
                                                    $nop        = $data['no_order'];
                                                    $kodeb      = $data['kode_b']; 
                                                    $namabarang = $data['nama_b'];
                                                    $Harga      = $data['harga'];
                                                    $hargap     = $data['harga_p'];
                                                    $qtyp       = $data['qtyp'];
+                                                   $sub        = $data['submit'];
 
-                                                   if ($hargap == "-") {
+                                                   if ($hargap == 0) {
                                                        $total = $qtyp * $Harga;
-                                                   } else if ($hargap != "-") {
+                                                   } else if ($hargap != 0) {
                                                        $total = $qtyp * $hargap;
                                                    }
                                                    $tglo = $data['tgl_order'];
                                                
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$kodeb;?></td>
-                                                <td><?=$namabarang;?></td>
+                                                <td style="text-align: center"><?=$i++?></td>
+                                                <td style="text-align: center"><?=$kodeb;?></td>
+                                                <td style="text-align: center"><?=$namabarang;?></td>
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
-                                                <td>Rp <?=number_format($Harga);?></td>
+                                                    <?php if ($hargap == 0){ ?>
+                                                <td style="text-align: center">Rp <?=number_format($Harga);?></td>
+                                                <?php } else if ($hargap != 0){?>
+                                                <td style="text-align: center">Rp <?=number_format($hargap);?></td> 
+                                                <?php } ?>
                                                 <?php }; ?>
-                                                <td><?=$qtyp;?></td>
+                                                <td style="text-align: center"><?=$qtyp;?></td>
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
-                                                <td>Rp <?=number_format($total);?></td>
-                                                <?php }; ?>
-                                                <!-- <td>
-                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit<?=$idp;?>">
-                                                    Detail
-                                                    <?php if($_SESSION['role'] == "Sales" || $_SESSION['role'] == "Admin"){?>
-                                                        
-                                                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#lun<?=$ido;?>">
-                                                            Lunas
-                                                        </button>
-                                                        <?php if ($kirim != 2) {?>
+                                                <td style="text-align: center">Rp <?=number_format($total);?></td>
+                                                <?php if ($sub != 1) {?>
+                                                <td style="text-align: center">    
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>">
+                                                    Hapus</button>
+                                                </td>
+                                                <?php }}; ?>                                                
+
+                                                <td>
+                                                    <?php if($_SESSION['role'] == "Gudang"){?>
                                                          
-                                                        <?php }?> 
                                                         
                                                     <?php }; ?>
-                                                </td> -->
+                                                </td>
                                             </tr>
-                                            <!-- END Selesai Field Table -->                                                                 
+                                            <!-- END Selesai Field Table -->
+                                            <!-- The  delete Modal -->
+                                            <div class="modal fade" id="delete<?=$ido;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Hapus Pesanan ?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="POST">
+                                                            <div class="modal-body mb-2">
+                                                                Apakah anda yakin ingin menghapus item <?=$namabarang;?> pada pesanan <?=$nop;?> ?
+                                                                <input type="hidden" name="id_det"    value="<?=$ido;?>">
+                                                                <input type="hidden" name="qtyp"      value="<?=$qtyp;?>">
+                                                                <br>
+                                                                <br>
+                                                                <button type="submit" class="btn btn-danger" name="hapusorder1" >Hapus</button>
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="submit<?=$idp;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Submit Pesanan ?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="POST">
+                                                            <div class="modal-body mb-2">
+                                                                Apakah anda yakin ingin submit pesanan <?=$nop;?> ?
+                                                                <input type="hidden" name="id_pes"    value="<?=$idp;?>">
+                                                                <br>
+                                                                <br>
+                                                                <button type="submit" class="btn btn-danger" name="submit" >Submit</button>
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Barang Diproses -->
+                                            <div class="modal fade" id="pro<?=$idp;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Barang</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda ingin mempacking pesanan <?=$nop;?> dengan tujuan <?=$namat;?> ?
+                                                                    <input type="hidden" name="id_pesanan" value="<?=$idp;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="orderproses1" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End Barang Diproses -->
+                                            <!-- Barang Dikirim -->
+                                            <div class="modal fade" id="kir<?=$idp;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Barang</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda ingin mengirim pesanan <?=$nop;?> dengan tujuan <?=$namat;?> ?
+                                                                    <input type="hidden" name="id_pesanan" value="<?=$idp;?>">
+                                                                    <input type="hidden" name="id_toko" value="<?=$idt;?>">
+                                                                    <input type="hidden" name="qtyp" value="<?=$qtyp;?>">
+                                                                    <input type="hidden" name="no_order" value="<?=$nop;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="orderkirim1" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End Pembayaran Lunas -->                                                                   
                                         <?php }; ?>
                                     </tbody>
-                                    <?php if($_SESSION['role'] != "Gudang"){?>
                                     <tfoot>
-                                        <th colspan="5" style="text-align: right">Total</th>
+                                        <?php if($_SESSION['role'] != "Gudang"){?>
+                                            <th colspan="5" style="text-align: right">Total</th>
+                                        <?php } else if($_SESSION['role'] == "Gudang"){ ?>
+                                            <th colspan="3" style="text-align: right">Total</th>
+                                        <?php }; ?>
                                         <?php
                                             $query = "SELECT SUM(totalh) AS total_sum FROM pesanan WHERE id_pesanan='$idp'";
 
@@ -192,13 +335,11 @@
                                                 $jumlah = $tampil['total_sum'];
                                                 $akhir = $akhir + $jumlah;
                                         ?>
-                                            <th style="text-align: left">Rp <?= number_format($akhir) ?></th>
+                                            <th style="text-align: center">Rp <?= number_format($akhir) ?></th>
                                         <?php }; ?>
+                                        
                                     </tfoot>
-                                    
-                                    <!-- <?php echo "<a href='lap_or-revisi.php?id_det=$ido'>" ;?> <button target="_blank" type="button" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Print</button></a>- -->
                                     <a href="lap_or-revisi.php?id_pes=<?=$idp?>" target="_blank" id="exportorderrevisi" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Print</a>
-                                <?php }; ?>
                                 </table>
                             </div>
                         </div>
@@ -252,6 +393,8 @@
                                 $idb   = $fetcharray['id_b'];
                                 $kodeb   = $fetcharray['kode_b'];
                                 $tipe   = $fetcharray['tipe_mobil'];
+                                $harga = $fetcharray['harga'];
+                                $hargap = $fetcharray['harga_p'];
                         ?>
                             <option value="<?=$idb;?>"><?=$kodeb;?>  -  <?=$namab;?>  -  <?=$tipe;?></option>  
                         <?php };?>

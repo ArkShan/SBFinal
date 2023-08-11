@@ -94,8 +94,8 @@ foreach ($data as $dat) {
                         ?>
                             <tr>
                                 <td class="text-center"><?= $no++ ?></td>
-                                <td><?= $show['kode_b'] ?></td>
-                                <td><?= $show['nama_b'] ?></td>
+                                <td class="text-center"><?= $show['kode_b'] ?></td>
+                                <td class="text-center"><?= $show['nama_b'] ?></td>
                                 <td class="text-center"><?=  number_format($show['qtym']) ?></td>
                             </tr>
                         <?php }; ?>

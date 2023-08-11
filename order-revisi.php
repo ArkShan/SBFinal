@@ -67,16 +67,16 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Nomor Pesanan</th>
-                                                <th>Tanggal</th>
-                                                <th>Nama Sales</th>
-                                                <th>Tujuan</th>
-                                                <th>Pengiriman</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Nomor Pesanan</th>
+                                                <th class="text-center">Tanggal</th>
+                                                <th class="text-center">Nama Sales</th>
+                                                <th class="text-center">Tujuan</th>
+                                                <th class="text-center">Pengiriman</th>
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
-                                                <th>Pembayaran</th>
+                                                <th class="text-center">Pembayaran</th>
                                                 <?php }; ?>
-                                                <th>Aksi</th>
+                                                <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -106,12 +106,12 @@
                                                     $bayar      = $data['bayar'];
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$nop;?></td>
-                                                <td><?=$tglo;?></td>
-                                                <td><?=$namad;?></td>
-                                                <td><?=$namat;?></td>
-                                                <td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$nop;?></td>
+                                                <td class="text-center"><?=$tglo;?></td>
+                                                <td class="text-center"><?=$namad;?></td>
+                                                <td class="text-center"><?=$namat;?></td>
+                                                <td class="text-center">
                                                     <?php 
                                                         if($kirim ==0){
                                                             echo "Diterima";
@@ -158,37 +158,6 @@
                                             <!-- END Selesai Field Table --> 
                                             <!-- Modal Tambah Barang -->
                                      
-                                            
-                                            <!-- Pembayaran Lunas -->
-                                            <div class="modal fade" id="lun<?=$idp;?>">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Status Pembayaran</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <!-- Content 1 -->
-                                                        <form method="post">
-                                                            <div class="modal-body">
-                                                                <div class="form-group">
-                                                                    Apakah anda yakin pesanan ini sudah lunas  ?
-                                                                    <?=$nop;?> dengan tujuan <?=$namat;?>
-                                                                    <input type="hidden" name="id_pesanan" value="<?=$idp;?>">
-                                                                    <br>
-                                                                    <button type="submit" class="btn btn-primary" name="orderlunas1" >Submit</button>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Pembayaran Lunas -->
                                             <!-- Barang Diproses -->
                                             <div class="modal fade" id="pro<?=$idp;?>">
                                                 <div class="modal-dialog">
@@ -232,8 +201,11 @@
                                                         <form method="post">
                                                             <div class="modal-body">
                                                                 <div class="form-group">
-                                                                    Apakah anda ingin mengirim pesanan <?=$nop;?> Barang <?=$namabarang;?> dengan tujuan <?=$namat;?> ?
+                                                                    Apakah anda ingin mengirim pesanan <?=$nop;?> dengan tujuan <?=$namat;?> ?
                                                                     <input type="hidden" name="id_pesanan" value="<?=$idp;?>">
+                                                                    <input type="hidden" name="id_toko" value="<?=$idt;?>">
+                                                                    <input type="hidden" name="qtyp" value="<?=$qtyp;?>">
+                                                                    <input type="hidden" name="no_order" value="<?=$nop;?>">
                                                                     <br>
                                                                     <button type="submit" class="btn btn-primary" name="orderkirim1" >Submit</button>
                                                                 </div>
@@ -246,7 +218,38 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- End Pembayaran Lunas -->                                      
+                                            <!-- End Barang Dikirim --> 
+                                            <!-- Pembayaran Lunas -->
+                                            <div class="modal fade" id="lun<?=$idp;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Status Pembayaran</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    Apakah anda yakin pesanan ini sudah lunas  ?
+                                                                    <?=$nop;?> dengan tujuan <?=$namat;?>
+                                                                    <input type="hidden" name="id_pesanan" value="<?=$idp;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-primary" name="orderlunas1" >Submit</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End Pembayaran Lunas -->
+                                                                                
                                         <?php }; ?>
                                     </tbody> 
                                     

@@ -3,23 +3,20 @@
 include 'function.php';
 include 'cek.php';
 
-$idkel=$_GET['id_ke'];// harusnya id pesanan
+$idrp=$_GET['id_rp'];// harusnya id pesanan
 
-$data = mysqli_query($koneksi, "SELECT * from detail_k d, keluar k, pesanan p, tb_toko t where p.id_pesanan = k.id_pes AND t.id_toko = k.id_toko and k.id_kel='$idkel'");
-
+$data = mysqli_query($koneksi, "SELECT * from detail_rp d, returp rp, tb_pabrik p where d.id_rp = rp.id_retp AND p.id_p = rp.id_p and rp.id_retp ='$idrp'");
 foreach ($data as $dat) {
 
     // $ido = $dat['id_pesanan']; 
-    $nokel = $dat['no_keluar'];
-    $nop = $dat['no_order'];
-    $tglm = $dat['tgl_kel'];
-    $namat = $dat['nama_toko'];
-    $alamat = $dat['no_alamat'];
+    $norp    = $dat['no_rp'];
+    $namap    = $dat['nama_p'];
+    $tglrp = $dat['tgl_rp'];
 }
 ?>
 <html>
 <head>
-  <title>Nota Orderan Sinar Jaya</title>
+  <title>Laporan Retur Pabrik Sinar Jaya</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -49,39 +46,28 @@ foreach ($data as $dat) {
 
                 <div class="row">
                     <div class="col text-center">
-                        <h2 class="h3 text-dark">Laporan Barang Masuk</h2>
+                        <h2 class="h3 text-dark">Laporan Barang Retur Pabrik</h2>
                     </div>
                 </div>
                 <br>
 
                 <table class="table table-bordered">
                     <tbody>
-                    <tr>
-                            <th scope="row">Nomor Keluar</th>
+                        <tr>
+                            <th scope="row">Nomor Retur Pabrik</th>
 
-                            <td><input type="text" class="form-control" name="no_order" value="<?php echo $nokel ?>" readonly></td>
+                            <td><input type="text" class="form-control" name="no_order" value="<?php echo $norp ?>" readonly></td>
                         </tr>
                         <tr>
-                            <th scope="row">Nomor  Order</th>
+                            <th scope="row">Pabrik</th>
 
-                            <td><input type="text" class="form-control" name="no_order" value="<?php echo $nop ?>" readonly></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Tn / Toko</th>
-
-                            <td><input class="form-control" name="nama_toko" type="text" value="<?php echo $namat ?>" readonly />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Alamat</th>
-
-                            <td><input class="form-control" name="nama_toko" type="text" value="<?php echo $alamat ?>" readonly />
+                            <td><input class="form-control" name="nama_p" type="text" value="<?php echo $namap ?>" readonly />
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">Tanggal Order</th>
 
-                            <td><input class="form-control" name="tgl_po" type="tgl_order" placeholder="Tanggal" value="<?php echo $tglro ?>" readonly />
+                            <td><input class="form-control" name="tgl_po" type="tgl_order" placeholder="Tanggal" value="<?php echo $tglrp ?>" readonly />
                             </td>
                         </tr>
                     </tbody>
@@ -101,15 +87,22 @@ foreach ($data as $dat) {
                     <tbody>
                         <?php
                         $no = 1;
-                        $datapo = mysqli_query($koneksi, "SELECT * FROM masuk m, detail_m d, tb_barang b where m.id_mas = d.id_ma and b.id_b=d.id_b and m.id_mas='$idmas'"); // id pesanan
+                        $datapo = mysqli_query($koneksi, "SELECT * from detail_rp d, returp rp, tb_barang b where d.id_ba = b.id_b AND d.id_rp = rp.id_retp  and rp.id_retp ='$idrp'");
+                        
+                        if (!$datapo) {
+                            // Query execution failed, handle the error here
+                            echo "Error executing the query: " . mysqli_error($koneksi);
+                            exit; // Exit the script if the query failed
+                        }
+
                         while ($show = mysqli_fetch_array($datapo)) {
-                            $qtyp = $show['qtym'];
+                            $qtyrp = $show['qtyrp'];
                         ?>
                             <tr>
                                 <td class="text-center"><?= $no++ ?></td>
-                                <td class="text-center"><?= $show['kode_b'] ?></td>
-                                <td class="text-center"><?= $show['nama_b'] ?></td>
-                                <td class="text-center"><?=  number_format($show['qtym']) ?></td>
+                                <td><?= $show['kode_b'] ?></td>
+                                <td><?= $show['nama_b'] ?></td>
+                                <td class="text-center"><?=  number_format($show['qtyrp']); ?></td>
                             </tr>
                         <?php }; ?>
                     </tbody>

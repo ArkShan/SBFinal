@@ -67,10 +67,10 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Nama Pabrik</th>
-                                                <th>Status</th>
-                                                <th>Aksi</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Nama Pabrik</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -97,9 +97,9 @@
                                                 $stat  = $data['stat_p'];
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$namap;?></td>
-                                                <td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$namap;?></td>
+                                                <td class="text-center">
                                                     <?php 
                                                         if($stat ==0){
                                                             echo "Active";
@@ -108,7 +108,7 @@
                                                         }
                                                     ?>  
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idp;?>">
                                                     Ubah
                                                     </button>

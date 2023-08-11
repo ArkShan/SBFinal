@@ -67,11 +67,11 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Nomor Keluar</th>
-                                                <th>Tanggal</th>
-                                                <th>Tujuan</th>
-                                                <th>Aksi</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Nomor Keluar</th>
+                                                <th class="text-center">Tanggal</th>
+                                                <th class="text-center">Tujuan</th>
+                                                <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -87,7 +87,14 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  keluar k, pesanan p, tb_toko t WHERE k.id_pes = p.id_pesanan AND p.id_toko = t.id_toko");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  keluar k, pesanan p, tb_toko t WHERE k.id_pe = p.id_pesanan AND p.id_toko = t.id_toko");
+                                                
+                                                if (!$ambilsemuadatastock) {
+                                                    // Query execution failed, handle the error here
+                                                    echo "Error executing the query: " . mysqli_error($koneksi);
+                                                    exit; // Exit the script if the query failed
+                                                }
+
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $idkel      = $data['id_kel'];
@@ -97,14 +104,14 @@
                                                     $tglo       = $data['tgl_kel'];
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$nop;?></td>
-                                                <td><?=$tglo;?></td>
-                                                <td><?=$namat;?></td>
-                                                <td><?php echo "<a href='detail-keluar.php?id_kel=$idkel'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a></td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$nop;?></td>
+                                                <td class="text-center"><?=$tglo;?></td>
+                                                <td class="text-center"><?=$namat;?></td>
+                                                <td class="text-center"><?php echo "<a href='detail-keluar.php?id_kel=$idkel'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a></td>
                                             </tr>
                                             <!-- END Selesai Field Table --> 
-                                            <!-- Modal Tambah Barang -->                                     
+                                            <!-- Modal Tambah Barang -->                                   
                                         <?php }; ?>
                                     </tbody> 
                                     
@@ -182,6 +189,8 @@
                                                                         $nop = $fetcharray['no_order'];
                                                                         $idpes = $fetcharray['id_pesanan'];
                                                                         $idp = $fetcharray['id_toko'];
+                                                                        $idb = $fetcharray['id_b'];
+                                                                        $qtyp = $fetcharray['qtyp'];
                                                                 ?>
                                                                     <option value="<?=$idpes;?>"><?=$nop;?></option> 
                                                                 <?php }; ?>

@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>SJM - List Barang Masuk</title>
+        <title>SJM - List Barang Retur Pabrik</title>
         <link href="./css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -49,10 +49,18 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">List Barang Masuk Sinar Jaya Motor</h1>    
+                        <h1 class="mt-4">List Barang Retur Order Sinar Jaya Motor</h1>    
                         <div class="card mb-4">
                             <div class="card-header">
-
+                                <?php if($_SESSION['role'] == "Gudang"){?>
+                                    <!-- Button to Open the Modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                    Tambah Barang Retur
+                                    </button>
+                                    <!-- end Button to Open the Modal  -->
+                                    <!-- <i class="fas fa-table mr-1"></i> -->
+                                    
+                                <?php }; ?>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -60,9 +68,9 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Nomor Pesanan</th>
+                                                <th class="text-center">Nomor Retur Pabrik</th>
                                                 <th class="text-center">Tanggal</th>
-                                                <th class="text-center">Tujuan</th>
+                                                <th class="text-center">Pabrik</th>
                                                 <!-- <th>Pengiriman</th>
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
                                                 <th>Pembayaran</th> -->
@@ -83,21 +91,28 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  masuk m, tb_pabrik p WHERE m.id_p = p.id_p");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  returp rp, tb_pabrik p WHERE rp.id_p = p.id_p");
+                                                
+                                                if (!$ambilsemuadatastock) {
+                                                    // Query execution failed, handle the error here
+                                                    echo "Error executing the query: " . mysqli_error($koneksi);
+                                                    exit; // Exit the script if the query failed
+                                                }
+                                                
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                                    $idmas      = $data['id_mas'];
+                                                    $idretp     = $data['id_retp'];
                                                     $idp        = $data['id_p'];
-                                                    $nop        = $data['no_masuk'];
+                                                    $nop        = $data['no_rp'];
                                                     $namap      = $data['nama_p'];
-                                                    $tglo       = $data['tgl_mas'];
+                                                    $tglro      = $data['tgl_rp'];
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?=$i++?></td>
                                                 <td class="text-center"><?=$nop;?></td>
-                                                <td class="text-center"><?=$tglo;?></td>
+                                                <td class="text-center"><?=$tglro;?></td>
                                                 <td class="text-center"><?=$namap;?></td>
-                                                <td class="text-center"><?php echo "<a href='laporan-masuk.php?id_mas=$idmas'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a></td>
+                                                <td class="text-center"><?php echo "<a href='detail-returp.php?id_retp=$idretp'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a></td>
                                             </tr>
                                             <!-- END Selesai Field Table --> 
                                             <!-- Modal Tambah Barang -->                                     
@@ -151,9 +166,9 @@
                                                             <!-- <input class="form-control py-4 mb-2" id="inputEmailAddress" name="no_order"      type="text"     placeholder="Nomor Pesanan"   value="<?$newKodeBarang?>"/>                                 -->
                                                             <?php 
                                                                 //ambil data terbesar 
-                                                                $char = 'MAS';
-                                                                $query=mysqli_query($koneksi,"SELECT max(no_masuk) as max_kode FROM masuk 
-                                                                WHERE no_masuk LIKE '{$char}%' ORDER BY no_masuk DESC LIMIT 1");
+                                                                $char = 'RETP';
+                                                                $query=mysqli_query($koneksi,"SELECT max(no_rp) as max_kode FROM returp 
+                                                                WHERE no_rp LIKE '{$char}%' ORDER BY no_rp DESC LIMIT 1");
                                                                 $data = mysqli_fetch_array($query);
                                                                 $kodeBarang = $data['max_kode'];
 
@@ -170,7 +185,7 @@
                                                                 //perintah sprintf("%03s", $no) berguna untuk membuat string menjadi 3 karakter
                                                                 $newKodeBarang = $char . sprintf("%03s", $no);
                                                             ?>
-                                                            <input type="text" name="no_masuk" id="nmr_po" value="<?= $newKodeBarang; ?>" class="form-control" readonly>
+                                                            <input type="text" name="no_rp" id="nmr_po" value="<?= $newKodeBarang; ?>" class="form-control" readonly>
                                                             <select name="pabriknya" class="form-control mb-2">
                                                                 <?php
                                                                     $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM tb_pabrik WHERE stat_p = 0");
@@ -181,7 +196,7 @@
                                                                     <option value="<?=$idp;?>"><?=$namap;?></option> 
                                                                 <?php }; ?>
                                                             </select>
-                                                            <button type="submit" name="masuk2" class="btn btn-primary" >Submit</button>
+                                                            <button type="submit" name="rp1" class="btn btn-primary" >Submit</button>
                                                         </div>
                                                     </div>
                                                     <!-- Modal footer -->

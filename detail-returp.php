@@ -2,14 +2,14 @@
      include 'function.php';
      include 'cek.php';
 
-     $idmas=$_GET['id_mas'];
-     $sSQL=mysqli_query($koneksi, "SELECT * FROM masuk m, tb_pabrik p WHERE m.id_mas = '$idmas' AND m.id_p = p.id_p limit 1");
+     $idretp=$_GET['id_retp'];
+     $sSQL=mysqli_query($koneksi, "SELECT * FROM returp rp, tb_pabrik p WHERE rp.id_retp = '$idretp' AND rp.id_p = p.id_p limit 1");
      $i=1;
      if ($sSQL) {
         // Process the fetched data
         while ($data = mysqli_fetch_array($sSQL)) {
             // $idp        = $data['id_pesanan'];
-            $nomas        = $data['no_masuk'];;
+            $norp    = $data['no_rp'];;
             $namap    = $data['nama_p'];
             // Your code to handle the fetched data goes here
         }
@@ -26,7 +26,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>SJM - Daftar Orderan</title>
+        <title>SJM - Daftar Retur Pabrik</title>
         <link href="./css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -59,111 +59,7 @@
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="home.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-                            <?php if($_SESSION['role'] == "Owner"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Owner
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="user.php">List User</a>
-                                        <a class="nav-link" href="toko.php">List Toko</a>
-                                        <a class="nav-link" href="order.php">List Order</a>
-                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
-                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>
-                                    </nav>
-                                </div>
-                            <?php }; ?>
-                            <?php if($_SESSION['role'] == "Admin"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Administrasi
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="toko.php">List Toko</a>
-                                        <a class="nav-link" href="order.php">List Order</a>
-                                        <a class="nav-link" href="pabrik.php">List Pabrik</a>
-                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>   
-                                    </nav>
-                                </div>     
-                            <?php }; ?>
-                            <?php if($_SESSION['role'] == "Gudang"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Pergudangan
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="b_masuk.php">Barang Masuk</a>
-                                        <a class="nav-link" href="b_keluar.php">Barang Keluar</a>
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="order.php">List Order</a>
-                                        <a class="nav-link" href="returp.php">Retur Pabrik</a>
-                                        <a class="nav-link" href="returo.php">Retur Order</a>
-                                    </nav>
-                                </div>
-                            <?php }; ?>
-                            <?php if($_SESSION['role'] == "Sales"){?>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                    Sales
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="tables.php">List Barang</a>
-                                        <a class="nav-link" href="order.php">List Orderan</a>
-                                    </nav>
-                                </div>
-                            <?php }; ?>
-                        </div>
-                    </div>
-                    <?php if($_SESSION['role'] == "Owner"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Owner
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Admin"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Administrasi
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Gudang"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Kepala Gudang
-                    </div>
-                    <?php }; ?>
-                    <?php if($_SESSION['role'] == "Sales"){?>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Sales
-                    </div>
-                    <?php }; ?>
-                </nav>
+                <?php require 'nav.php'; ?>
             </div>
             <div id="layoutSidenav_content">
                 <main>
@@ -171,8 +67,8 @@
                         <h1 class="mt-4"></h1>    
                         <div class="card mb-4">
                             <div class="card-header">                            
-                                <a href="masuk-revisi.php" class="btn btn-danger mt-3"><i class="fa-solid fa-arrow-left">Kembali</i></a>
-                                <h2 class="mt-4">Nomor Masuk : <?= $nomas ?></h2>
+                                <a href="revisi-returp.php" class="btn btn-danger mt-3"><i class="fa-solid fa-arrow-left">Kembali</i></a>
+                                <h2 class="mt-4">Nomor Retur : <?= $norp ?></h2>
                                 <h2 class="mt-4">Nama Pabrik : <?= $namap ?></h2>
                             </div>
                             <div class="card-body">
@@ -191,10 +87,13 @@
                                                 <?php }; ?>
                                             </tr>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Qty</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Kode Barang</th>
+                                                <th class="text-center">Nama Barang</th>
+                                                <th class="text-center">Qty</th>
+                                                <?php if($_SESSION['role'] == "Gudang"){?>
+                                                <th class="text-center">Aksi</th>
+                                                <?php }; ?>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -210,7 +109,7 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                               $ambilsemuadatastock = mysqli_query($koneksi, "SELECT * FROM masuk m, detail_m d, tb_barang b where m.id_mas = d.id_ma and b.id_b=d.id_b and m.id_mas='$idmas'");
+                                               $ambilsemuadatastock = mysqli_query($koneksi, "SELECT * FROM returp rp, detail_rp d, tb_barang b where rp.id_retp = d.id_rp and b.id_b=d.id_ba and rp.id_retp='$idretp'");
 
                                                if (!$ambilsemuadatastock) {
                                                    // Query execution failed, handle the error here
@@ -220,24 +119,97 @@
                                                
                                                $i = 1;
                                                while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
-                                                   $ido        = $data['id_dm'];
-                                                   $idma       = $data['id_ma'];
+                                                   $ido        = $data['id_drp'];
+                                                   $idb        = $data['id_ba'];
+                                                   $idrp       = $data['id_rp'];
+                                                   $nop        = $data['no_rp'];
                                                    $kodeb      = $data['kode_b']; 
                                                    $namabarang = $data['nama_b'];
-                                                   $Harga      = $data['harga'];
-                                                   $hargap     = $data['harga_p'];
-                                                   $qtym       = $data['qtym'];
+                                                   $qtyrp      = $data['qtyrp'];
+                                                   $sub        = $data['submit'];
                                                
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$kodeb;?></td>
-                                                <td><?=$namabarang;?></td>
-                                                <td><?=$qtym;?></td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$kodeb;?></td>
+                                                <td class="text-center"><?=$namabarang;?></td>
+                                                <td class="text-center"><?=$qtyrp;?></td>
+                                                <?php if($_SESSION['role'] == "Gudang"){?>
+                                                <?php if ($sub != 1) {?>
+                                                <td class="text-center">    
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>">
+                                                    Hapus</button>
+                                                </td>
+                                                <?php }}; ?> 
                                             </tr>
-                                            <!-- END Selesai Field Table -->                                                                 
+                                            <!-- END Selesai Field Table -->
+                                            <!-- The  delete Modal -->
+                                            <div class="modal fade" id="delete<?=$ido;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Hapus Item ?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="POST">
+                                                            <div class="modal-body mb-2">
+                                                                Apakah anda yakin ingin menghapus item <?=$namabarang;?> pada pesanan <?=$nop;?> ?
+                                                                <input type="hidden" name="id_drp"    value="<?=$ido;?>">
+                                                                <input type="hidden" name="qtyrp"      value="<?=$qtyrp;?>">
+                                                                <input type="hidden" name="id_ba"    value="<?=$idb;?>">
+                                                                <br>
+                                                                <br>
+                                                                <button type="submit" class="btn btn-danger" name="hapusrp1" >Hapus</button>
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="submit<?=$ido;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Submit Pesanan ?</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <!-- Content 1 -->
+                                                        <form method="POST">
+                                                            <div class="modal-body mb-2">
+                                                                Apakah anda yakin ingin submit pesanan <?=$nop;?> ?
+                                                                <input type="hidden" name="id_drp"    value="<?=$idrp;?>">
+                                                                <br>
+                                                                <br>
+                                                                <button type="submit" class="btn btn-danger" name="submitrp" >Submit</button>
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>                                                                 
                                         <?php }; ?>
                                     </tbody>
+                                    <tfoot>
+                                        <!-- <?php if($_SESSION['role'] == "Gudang"){
+                                            $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM detail_rp");
+                                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                                $sub = $fetcharray['submit'];}
+                                        if ($sub != 1) { ?>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#submit<?=$ido;?>">
+                                            Submit</button>
+                                        <?php }}; ?> -->
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -295,10 +267,11 @@
                             <option value="<?=$idb;?>"><?=$kodeb;?>  -  <?=$namab;?>  -  <?=$tipe;?></option>  
                         <?php };?>
                     </select>
-                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtym" type="number" placeholder="Qty" value="" required/>
-                    <input type="hidden" name="id_mas" value="<?= $idmas; ?>">
+                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtyrp" type="number" placeholder="Qty" value="" required/>
+                    <input type="hidden" name="id_retp" value="<?= $idretp; ?>">
+                    <input type="hidden" name="id_drp" value="<?= $ido; ?>">
                     <!-- <input type="hidden" name="totalh" value="<?= $totalh; ?>"> -->
-                    <button type="submit" name="barangmasuk1"    class="btn btn-primary" >Submit</button>
+                    <button type="submit" name="tambahrp1"    class="btn btn-primary" >Submit</button>
                 </div>
             </div>
             <!-- Modal footer -->

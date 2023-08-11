@@ -68,7 +68,7 @@
                         <h1 class="mt-4"></h1>    
                         <div class="card mb-4">
                             <div class="card-header">                            
-                                <a href="keluar-revisi.php" class="btn btn-danger mt-3"><i class="fa-solid fa-arrow-left">Kembali</i></a>
+                                <a href="list-lapkeluar.php" class="btn btn-danger mt-3"><i class="fa-solid fa-arrow-left">Kembali</i></a>
                                 <h2 class="mt-4">Nomor Keluar : <?= $nomas ?></h2>
                                 <h2 class="mt-4">Nomor Order : <?= $nop ?></h2>
                                 <h2 class="mt-4">Nama Toko : <?= $namat ?></h2>
@@ -78,21 +78,10 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <?php if($_SESSION['role'] == "Gudang"){?>
-                                                    <!-- Button to Open the Modal -->
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                                    Tambah Item
-                                                    </button>
-                                                    <br>
-                                                    <!-- end Button to Open the Modal  -->
-                                                    <!-- <i class="fas fa-table mr-1"></i> -->
-                                                <?php }; ?>
-                                            </tr>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Qty</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Kode Barang</th>
+                                                <th class="text-center">Nama Barang</th>
+                                                <th class="text-center">Qty</th>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -126,10 +115,10 @@
                                                
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$kodeb;?></td>
-                                                <td><?=$namabarang;?></td>
-                                                <td><?=$qtyk;?></td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$kodeb;?></td>
+                                                <td class="text-center"><?=$namabarang;?></td>
+                                                <td class="text-center"><?=$qtyk;?></td>
                                             </tr>
                                             <!-- END Selesai Field Table -->                                                                 
                                         <?php }; ?>

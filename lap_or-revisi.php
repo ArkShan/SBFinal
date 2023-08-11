@@ -36,7 +36,7 @@ foreach ($data as $dat) {
         <div class="container-fluid px-4 mt-2">
             <div class="float-start" style="padding-left: 3px;">
                 <div class="float-start">
-                    <h4 style="padding-top: 1px; padding-left: 2px;"> Sinar Jaya Motor</h4>
+                    <h4 style="padding-top: 1px; padding-left:2px"> Sinar Jaya Motor</h4>
                     <h5 style="padding-top: 1px; padding-left:2px">Ruko Elang Laut Boulevard Blok A.77-78 Jalan Pantai Indah Selatan 1</h5>
                     <h5 style="padding-top: 1px; padding-left:2px">Jakarta Utara</h5>
                 </div>
@@ -88,13 +88,19 @@ foreach ($data as $dat) {
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th style="width: 100px" class="text-center">No</th>
-                            <th style="width: 200px" class="text-center">Kode Barang</th>
-                            <th style="width: 400px" class="text-center">Nama Produk</th>
-                            <th style="width: 200px" class="text-center">Harga / Pcs</th>
-                            <th style="width: 200px" class="text-center">Qty</th>
-                            <th style="width: 200px" class="text-center">Total</th>
-
+                            <?php if($_SESSION['role'] != "Gudang"){?>
+                                <th style="width: 100px" class="text-center">No</th>
+                                <th style="width: 200px" class="text-center">Kode Barang</th>
+                                <th style="width: 400px" class="text-center">Nama Produk</th>
+                                <th style="width: 200px" class="text-center">Harga / Pcs</th>
+                                <th style="width: 200px" class="text-center">Qty</th>
+                                <th style="width: 200px" class="text-center">Total</th>
+                            <?php } else if ($_SESSION['role'] == "Gudang"){ ?>
+                                <th style="width: 300px" class="text-center">No</th>
+                                <th style="width: 500px" class="text-center">Kode Barang</th>
+                                <th style="width: 500px" class="text-center">Nama Produk</th>
+                                <th style="width: 200px" class="text-center">Qty</th>
+                            <?php }; ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,18 +120,26 @@ foreach ($data as $dat) {
                         ?>
                             <tr>
                                 <td class="text-center"><?= $no++ ?></td>
-                                <td><?= $show['kode_b'] ?></td>
-                                <td><?= $show['nama_b'] ?></td>
-                                <td>Rp <?= number_format($show['harga']) ?></td>
+                                <td class="text-center"><?= $show['kode_b'] ?></td>
+                                <td class="text-center"><?= $show['nama_b'] ?></td>
+                                <?php if($_SESSION['role'] != "Gudang"){?>
+                                <td class="text-center">Rp <?= number_format($show['harga']) ?></td>
+                                <?php }; ?>
                                 <td class="text-center"><?=  number_format($show['qtyp']) ?></td>
-                                <td>Rp <?= number_format($total) ?></td>
+                                <?php if($_SESSION['role'] != "Gudang"){?>
+                                <td class="text-center">Rp <?= number_format($total) ?></td>
+                                <?php }; ?>
                             </tr>
                         <?php }; ?>
                     </tbody>
                     <tfoot>
                         <td>
-                            <th colspan="4" style="text-align: right">Total</th>
-                            <td>Rp <?= number_format($totalh) ?></td>
+                            <?php if($_SESSION['role'] != "Gudang"){?>
+                                <th colspan="4" style="text-align: right">Total</th>
+                            <?php } else if($_SESSION['role'] == "Gudang"){ ?>
+                                <th colspan="2" style="text-align: right">Total</th>
+                            <?php }; ?>
+                            <td class="text-center">Rp <?= number_format($totalh) ?></td>
                         </td>
                     </tfoot>
                 </table>

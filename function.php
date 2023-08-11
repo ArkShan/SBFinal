@@ -166,7 +166,7 @@ if(isset($_POST['keluar1'])){
     $nokel  = $_POST['no_keluar'];
     $nop    = $_POST['ordernya'];
     
-    $addtotable = mysqli_query($koneksi,"INSERT INTO keluar (id_pes,no_keluar,tgl_kel) VALUES ('$nop','$nokel','$tanggal')");
+    $addtokeluarrevisi = mysqli_query($koneksi,"INSERT INTO keluar (id_pe,no_keluar,tgl_kel) VALUES ('$nop','$nokel','$tanggal')");
     // die (mysqli_error($koneksi));
     if($addtotable){
         echo "berhasil";
@@ -383,6 +383,47 @@ if(isset($_POST['orderkirim'])){
     }
 }
 
+if(isset($_POST['orderkirim2'])){
+    date_default_timezone_set('Asia/Jakarta');
+    $tanggal = date("Y-m-d H:i:s");
+    $ido = $_POST['id_pesanan'];
+    $qtyp = $_POST['qtyp'];
+    $nop    = $_POST['no_order'];
+
+    $char = 'KEL';
+    $query=mysqli_query($koneksi,"SELECT max(no_keluar) as max_kode FROM keluar 
+    WHERE no_keluar LIKE '{$char}%' ORDER BY no_keluar DESC LIMIT 1");
+    $data = mysqli_fetch_array($query);
+    $kodeBarang = $data['max_kode'];
+    
+    //mengambil data menggunakan fungsi subtr, 
+    //misal data BRG001 akan diambil 001 
+    $no = substr($kodeBarang, -3, 3);
+
+    //setelah substring bilangan diambil lantas dicasting menjadi integer
+    $no = (int) $no;
+
+    //bilangan yang diambil akan ditambah 1 untuk menentukan nomor urut berikutnya
+    $no += 1;
+
+    //perintah sprintf("%03s", $no) berguna untuk membuat string menjadi 3 karakter
+    $newNomorKel = $char . sprintf("%03s", $no);
+
+    $addtokeluarrevisi = mysqli_query($koneksi,"INSERT INTO keluar (id_pes,no_keluar,tgl_kel) VALUES ('$ido','$newNomorKel','$tanggal')");
+     
+    $cekreq = mysqli_query($koneksi,"UPDATE pesanan SET kirim =2  WHERE  id_pesanan='$ido'");
+    if($cekreq AND $updatestokgudang){
+        // berhasil
+        // header("Location:approval.php");
+        echo'<script>
+        alert("Barang Sudah Dikirim, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "order-revisi.php"
+        </script>';
+    }else{
+        header("Location:order-revisi.php");
+    }
+}
+
 if(isset($_POST['orderkirim1'])){
     $ido = $_POST['id_pesanan'];
     // $qty = $_POST['qty'];
@@ -396,6 +437,31 @@ if(isset($_POST['orderkirim1'])){
         </script>';
     }else{
         header("Location:order-revisi.php");
+    }
+}
+
+if(isset($_POST['submit'])){
+    $ido = $_POST['id_pes'];
+    // $qty = $_POST['qty'];
+    $cekreq = mysqli_query($koneksi,"UPDATE detail SET submit =1  WHERE  id_pes='$ido'");
+    if($cekreq){
+        echo'<script>
+        alert("Order Sudah Submit, Silahkan klik tombol ok untuk melanjutkan ");
+            history.go(0);
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+}
+
+if(isset($_POST['hapusorder1'])){
+    $ido = $_POST['id_det'];
+    $hapus = mysqli_query($koneksi, "DELETE FROM detail WHERE id_det='$ido'");
+    if($hapus){
+        echo'window.location.href = "detail-order-revisi.php?id_det=<?=$ido?>"';
+    } else {
+        echo 'gagal';
+        echo'<script>history.go(0);</script';
     }
 }
 
@@ -427,13 +493,20 @@ if(isset($_POST['tambahorder2'])){
     }
 
     $cekqty = mysqli_query($koneksi, "SELECT * from tb_barang where id_b = $barang");
-    if ($data = mysqli_fetch_array($cekqty)) {
-        $harga = $data['harga'];
+    foreach ($cekqty as $data) {
+        $Harga = $data['harga'];  
+        $hargap = $data['harga_p']; 
     }
 
-    $tot = $qtyp * $harga;
+    if ($hargap == 0) {
+        $tot = $qtyp * $Harga;
+    } else if ($hargap != 0) {
+        $tot = $qtyp * $hargap;
+    }
 
-    $upd = mysqli_query($koneksi, "UPDATE pesanan SET totalh=$total+$tot where id_pesanan='$ido'");
+    $totalh = $total+$tot;
+
+    $upd = mysqli_query($koneksi, "UPDATE pesanan SET totalh=$totalh where id_pesanan='$ido'");
     
     $addtotable = mysqli_query($koneksi,"INSERT INTO detail (id_pes,id_b,qtyp) VALUES ('$ido','$barang','$qtyp')");
     
@@ -521,6 +594,148 @@ if(isset($_POST['hapuspabrik'])){
     }
 }
 
+if(isset($_POST['rp1'])){
+    date_default_timezone_set('Asia/Jakarta');
+    $tanggal = date("Y-m-d H:i:s");
+    $norp  = $_POST['no_rp'];
+    $nop    = $_POST['pabriknya'];
+    
+    $addtokeluarrevisi = mysqli_query($koneksi,"INSERT INTO returp (id_p,no_rp,tgl_rp) VALUES ('$nop','$norp','$tanggal')");
+    // die (mysqli_error($koneksi));
+    if($addtotable){
+        echo "berhasil";
+    }else{
+        echo "gagal";
+    }  
+}
+
+if(isset($_POST['tambahrp1'])){
+    $barang = $_POST['barangnya'];
+    $qtyrp  = $_POST['qtyrp'];
+    $idrp   = $_POST['id_retp'];
+    $ido    = $_POST['id_drp'];
+   
+    $cekqtyskrg = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$barang'"); 
+    $ambildata = mysqli_fetch_array($cekqtyskrg);
+    $qtysekarang= $ambildata['qty'];
+    $updateqty = $qtysekarang-$qtyrp;
+    
+    $addtorp = mysqli_query($koneksi,"INSERT INTO detail_rp (id_rp,id_ba,qtyrp) VALUES ('$idrp','$barang','$qtyrp')");
+    $updateqtyrp = mysqli_query($koneksi," UPDATE tb_barang set qty='$updateqty' WHERE id_b='$barang'");
+    
+
+    if($addtorp && $updateqtyrp){
+        echo'
+        window.location.href = "detail-returp.php?id_retp=<?=$idrp?>"';
+    } else {
+        echo 'gagal
+        window.location.href = "detail-returp.php?id_retp=<?=$idrp?>"';
+    }
+    // die (mysqli_error($koneksi));
+}
+
+if(isset($_POST['submitrp'])){
+    $ido = $_POST['id_drp'];
+    // $qty = $_POST['qty'];
+    $cekreq = mysqli_query($koneksi,"UPDATE detail_rp SET submit =1  WHERE  id_drp='$ido'");
+    if($cekreq){
+        echo'<script>
+        alert("Order Sudah Submit, Silahkan klik tombol ok untuk melanjutkan ");
+        </script>
+        window.location.href = "detail-returp.php?id_drp=<?=$ido?>"';
+    }else{
+        header("Location:home.php");
+    }
+}
+
+if(isset($_POST['hapusrp1'])){
+    $ido = $_POST['id_drp'];
+    $idb = $_POST['id_ba'];
+
+    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$idb'");
+    foreach ($lihatstock as $data) {
+        $stockskrg = $data['qty'];
+    }// jumlah stock sekarang
+    
+    $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM detail_rp WHERE id_drp='$ido'"); //lihat qty saat ini
+    foreach ($lihatdataskrg as $data) {
+        $qtyskrg = $data['qtyrp'];
+    }//jumlah skrg
+    
+    $selisih = $stockskrg+$qtyskrg;
+    $update = mysqli_query($koneksi,"UPDATE tb_barang SET qty='$selisih' WHERE id_b='$idb'");
+    $hapus = mysqli_query($koneksi, "DELETE FROM detail_rp WHERE id_drp='$ido'");
+    if($update AND $hapus){
+        echo'window.location.href = "detail-returp.php?id_drp=<?=$ido?>"';
+    } else {
+        echo 'gagal';
+        echo'<script>history.go(-1);</script';
+    }
+}
+
+if(isset($_POST['tambahro1'])){
+    $barang = $_POST['barangnya'];
+    $qtyro  = $_POST['qtyro'];
+    $idro   = $_POST['id_reto'];
+    $ido    = $_POST['id_dro'];
+   
+    $cekqtyskrg = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$barang'"); 
+    $ambildata = mysqli_fetch_array($cekqtyskrg);
+    $qtysekarang= $ambildata['qty'];
+    $updateqty = $qtysekarang+$qtyro;
+    
+    $addtoro = mysqli_query($koneksi,"INSERT INTO detail_ro (id_ro,id_b,qtyro) VALUES ('$idro','$barang','$qtyro')");
+    $updateqtyro = mysqli_query($koneksi," UPDATE tb_barang set qty='$updateqty' WHERE id_b='$barang'");
+    
+
+    if($addtoro && $updateqtyro){
+        echo'window.location.href = "detail-returo.php?id_reto=<?=$ido?>"';
+    } else {
+        echo 'gagal 
+        window.location.href = "detail-returo.php?id_reto=<?=$ido?>"';
+    }
+    // die (mysqli_error($koneksi));
+}
+
+if(isset($_POST['submitro'])){
+    $ido = $_POST['id_dro'];
+    // $qty = $_POST['qty'];
+    $cekreq = mysqli_query($koneksi,"UPDATE detail_ro SET submit =1  WHERE  id_dro='$ido'");
+    if($cekreq){
+        echo'<script>
+        alert("Order Sudah Submit, Silahkan klik tombol ok untuk melanjutkan ");
+        </script>
+        window.location.href = "detail-returo.php?id_dro=<?=$ido?>"';
+    }else{
+        header("Location:home.php");
+    }
+}
+
+if(isset($_POST['hapusro1'])){
+    $ido = $_POST['id_dro'];
+    $idb = $_POST['id_b'];
+
+    $lihatstock = mysqli_query($koneksi,"SELECT * FROM tb_barang WHERE id_b='$idb'");
+    foreach ($lihatstock as $data) {
+        $stockskrg = $data['qty'];
+    }// jumlah stock sekarang
+    
+    $lihatdataskrg = mysqli_query($koneksi,"SELECT * FROM detail_ro WHERE id_dro='$ido'"); //lihat qty saat ini
+    foreach ($lihatdataskrg as $data) {
+        $qtyskrg = $data['qtyro'];
+    }//jumlah skrg
+    
+    $selisih = $stockskrg-$qtyskrg;
+    $update = mysqli_query($koneksi,"UPDATE tb_barang SET qty='$selisih' WHERE id_b='$idb'");
+    $hapus = mysqli_query($koneksi, "DELETE FROM detail_ro WHERE id_dro='$ido'");
+    if($update AND $hapus){
+        echo'window.location.href = "detail-returo.php?id_dro=<?=$ido?>"';
+    } else {
+        echo 'gagal';
+        echo'window.location.href = "detail-returo.php?id_dro=<?=$ido?>"';
+    }
+}
+
 if(isset($_POST['tambahrp'])){
     $barang = $_POST['barang'];
     $pabrik = $_POST['pabrik'];
@@ -572,6 +787,21 @@ if(isset($_POST['hapusrp'])){
         exit;
     }   
 };
+
+if(isset($_POST['ro1'])){
+    date_default_timezone_set('Asia/Jakarta');
+    $tanggal = date("Y-m-d H:i:s");
+    $noro  = $_POST['no_ro'];
+    $nop    = $_POST['ordernya'];
+    
+    $addtokeluarrevisi = mysqli_query($koneksi,"INSERT INTO returo (id_pes,no_ro,tgl_ro) VALUES ('$nop','$noro','$tanggal')");
+    // die (mysqli_error($koneksi));
+    if($addtotable){
+        echo "berhasil";
+    }else{
+        echo "gagal";
+    }  
+}
 
 if(isset($_POST['tambahro'])){
     $barang = $_POST['barang'];
