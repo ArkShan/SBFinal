@@ -49,7 +49,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">List Barang Retur Order Sinar Jaya Motor</h1>    
+                        <h1 class="mt-4">List Barang Retur Pabrik Sinar Jaya Motor</h1>    
                         <div class="card mb-4">
                             <div class="card-header">
                                 <?php if($_SESSION['role'] == "Gudang"){?>
@@ -156,7 +156,7 @@
                                             <div class="modal-content">
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Tambah Barang Masuk</h4>
+                                                    <h4 class="modal-title">Tambah Barang Retur Pabrik</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <!-- Modal body -->

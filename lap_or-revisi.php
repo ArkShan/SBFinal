@@ -107,14 +107,21 @@ foreach ($data as $dat) {
                         <?php
                         $no = 1;
                         $datapo = mysqli_query($koneksi, "SELECT * FROM pesanan p, detail d, tb_barang b where p.id_pesanan = d.id_pes and b.id_b=d.id_b and p.id_pesanan='$ido'"); // id pesanan
+                        
+                        if (!$datapo) {
+                            // Query execution failed, handle the error here
+                            echo "Error executing the query: " . mysqli_error($koneksi);
+                            exit; // Exit the script if the query failed
+                        }
+                        
                         while ($show = mysqli_fetch_array($datapo)) {
                             $hargap = $show['harga_p'];
                             $Harga = $show['harga'];
                             $qtyp = $show['qtyp'];
                             $totalh = $show['totalh'];
-                            if ($hargap == "-") {
+                            if ($hargap == 0) {
                                 $total = $qtyp * $Harga;
-                            } else if ($hargap != "-") {
+                            } else if ($hargap != 0) {
                                 $total = $qtyp * $hargap;
                             }
                         ?>
@@ -136,10 +143,11 @@ foreach ($data as $dat) {
                         <td>
                             <?php if($_SESSION['role'] != "Gudang"){?>
                                 <th colspan="4" style="text-align: right">Total</th>
+                                <td class="text-center">Rp <?= number_format($totalh) ?></td>
                             <?php } else if($_SESSION['role'] == "Gudang"){ ?>
-                                <th colspan="2" style="text-align: right">Total</th>
+
                             <?php }; ?>
-                            <td class="text-center">Rp <?= number_format($totalh) ?></td>
+                            
                         </td>
                     </tfoot>
                 </table>

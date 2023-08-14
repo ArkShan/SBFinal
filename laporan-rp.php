@@ -67,7 +67,7 @@
                         <h1 class="mt-4"></h1>    
                         <div class="card mb-4">
                             <div class="card-header">                            
-                                <a href="revisi-returp.php" class="btn btn-danger mt-3"><i class="fa-solid fa-arrow-left">Kembali</i></a>
+                                <a href="list-laprp.php" class="btn btn-danger mt-3"><i class="fa-solid fa-arrow-left">Kembali</i></a>
                                 <h2 class="mt-4">Nomor Retur : <?= $norp ?></h2>
                                 <h2 class="mt-4">Nama Pabrik : <?= $namap ?></h2>
                             </div>

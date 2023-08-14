@@ -87,13 +87,11 @@
                                                 <?php }; ?>
                                             </tr>
                                             <tr>
-                                                <th class="text-center">No</th>
-                                                <th class="text-center">Kode Barang</th>
-                                                <th class="text-center">Nama Barang</th>
-                                                <th class="text-center">Qty</th>
-                                                <?php if($_SESSION['role'] == "Gudang"){?>
-                                                <th class="text-center">Aksi</th>
-                                                <?php }; ?>
+                                                <th style="text-align: center">No</th>
+                                                <th style="text-align: center">Kode Barang</th>
+                                                <th style="text-align: center">Nama Barang</th>
+                                                <th style="text-align: center">Qty</th>
+                                                
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>
@@ -136,10 +134,10 @@
                                                 <td class="text-center"><?=$qtyrp;?></td>
                                                 <?php if($_SESSION['role'] == "Gudang"){?>
                                                 <?php if ($sub != 1) {?>
-                                                <td class="text-center">    
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>">
+                                                <!-- <td class="text-center">    
+                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>">
                                                     Hapus</button>
-                                                </td>
+                                                </td> -->
                                                 <?php }}; ?> 
                                             </tr>
                                             <!-- END Selesai Field Table -->
@@ -248,7 +246,7 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-            <h4 class="modal-title">Tambah Barang Masuk</h4>
+            <h4 class="modal-title">Tambah Barang Retur Pabrik</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->

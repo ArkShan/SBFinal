@@ -3,7 +3,7 @@
      include 'cek.php';
 
      $idkel=$_GET['id_kel'];
-     $sSQL=mysqli_query($koneksi, "SELECT * FROM keluar k, pesanan p, tb_toko t WHERE k.id_kel = '$idkel' AND k.id_pes = p.id_pesanan AND p.id_toko = t.id_toko limit 1");
+     $sSQL=mysqli_query($koneksi, "SELECT * FROM keluar k, pesanan p, tb_toko t WHERE k.id_kel = '$idkel' AND k.id_pe = p.id_pesanan AND p.id_toko = t.id_toko limit 1");
      $i=1;
      if ($sSQL) {
         // Process the fetched data
@@ -179,20 +179,7 @@
         <form method="POST" >
             <div class="modal-body">
                 <div class="form-group">
-                <select name="ordernya" class="form-control mb-2">
-                                                                <?php
-                                                                    $ambilsemuadata = mysqli_query($koneksi,"SELECT * FROM pesanan");
-                                                                    while($fetcharray = mysqli_fetch_array($ambilsemuadata)){
-                                                                        $nop = $fetcharray['no_order'];
-                                                                        $idpes = $fetcharray['id_pesanan'];
-                                                                        $idp = $fetcharray['id_toko'];
-                                                                        $idb = $fetcharray['id_b'];
-                                                                        $qtyp = $fetcharray['qtyp'];
-                                                                ?>
-                                                                    <option value="<?=$idpes;?>"><?=$nop;?></option> 
-                                                                <?php }; ?>
-                                                            </select>
-                    <!-- <select name="barangnya" class="form-control mb-2">
+                    <select name="barangnya" class="form-control mb-2">
                         <?php
                             $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM tb_barang");
                             while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
@@ -203,8 +190,8 @@
                         ?>
                             <option value="<?=$idb;?>"><?=$kodeb;?>  -  <?=$namab;?>  -  <?=$tipe;?></option>  
                         <?php };?>
-                    </select> -->
-                    <!-- <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtyk" type="number" placeholder="Qty" value="" required/> -->
+                    </select>
+                    <input class="form-control py-4 mb-2" id="inputEmailAddress" name="qtyk" type="number" placeholder="Qty" value="" required/>
                     <input type="hidden" name="id_kel" value="<?= $idkel; ?>">
                     <!-- <input type="hidden" name="totalh" value="<?= $totalh; ?>"> -->
                     <button type="submit" name="barangkeluar1"    class="btn btn-primary" >Submit</button>

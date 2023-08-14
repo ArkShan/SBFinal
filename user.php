@@ -89,14 +89,13 @@
                                                 ?>
                                                 <tr>
                                                     <td class="text-center"><?=$i++?></td>
-                                                    <td class="text-center"><?=$i++?></td>
                                                     <td class="text-center"><?=$email;?></td>
                                                     <td class="text-center"><?=$namad;?> <?=$namab;?></td>
                                                     <td class="text-center"><?=$pass;?></td>
                                                     <td class="text-center"><?=$role;?></td>
                                                     <td class="text-center">
                                                         <?php 
-                                                            if($stat ==0){
+                                                            if($stat == 0){
                                                                 echo "Active";
                                                             }else if($stat == 1){
                                                                 echo "Inactive";

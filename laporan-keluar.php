@@ -3,7 +3,7 @@
      include 'cek.php';
 
      $idkel=$_GET['id_kel'];
-     $sSQL=mysqli_query($koneksi, "SELECT * FROM keluar k, pesanan p, tb_toko t WHERE k.id_kel = '$idkel' AND k.id_pes = p.id_pesanan AND p.id_toko = t.id_toko limit 1");
+     $sSQL=mysqli_query($koneksi, "SELECT * FROM keluar k, pesanan p, tb_toko t WHERE k.id_kel = '$idkel' AND k.id_pe = p.id_pesanan AND p.id_toko = t.id_toko limit 1");
      $i=1;
      if ($sSQL) {
         // Process the fetched data

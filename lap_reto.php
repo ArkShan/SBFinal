@@ -5,7 +5,14 @@ include 'cek.php';
 
 $idro=$_GET['id_ro'];// harusnya id pesanan
 
-$data = mysqli_query($koneksi, "SELECT * from detail_ro d, pesanan p, returo ro, tb_toko t where ro.id_pes = p.id_pesanan AND t.id_toko = ro.id_toko and ro.id_reto ='$idro'");
+$data = mysqli_query($koneksi, "SELECT * from detail_ro d, pesanan p, returo ro, tb_toko t where d.id_ro = ro.id_reto AND ro.id_pes = p.id_pesanan AND t.id_toko = ro.id_toko and ro.id_reto ='$idro'");
+
+if (!$data) {
+    // Query execution failed, handle the error here
+    echo "Error executing the query: " . mysqli_error($koneksi);
+    exit; // Exit the script if the query failed
+}
+
 foreach ($data as $dat) {
 
     // $ido = $dat['id_pesanan']; 

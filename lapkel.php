@@ -5,16 +5,21 @@ include 'cek.php';
 
 $idkel=$_GET['id_ke'];// harusnya id pesanan
 
-$data = mysqli_query($koneksi, "SELECT * from detail_k d, keluar k, pesanan p, tb_toko t where p.id_pesanan = k.id_pes AND t.id_toko = k.id_toko and k.id_kel='$idkel'");
+$data = mysqli_query($koneksi, "SELECT * from detail_k d, keluar k, pesanan p, tb_toko t where p.id_pesanan = k.id_pe AND t.id_toko = p.id_toko and k.id_kel='$idkel' limit 1");
 
-foreach ($data as $dat) {
+if (!$data) {
+    // Query execution failed, handle the error here
+    echo "Error executing the query: " . mysqli_error($koneksi);
+    exit; // Exit the script if the query failed
+}
 
-    // $ido = $dat['id_pesanan']; 
+while ($dat = mysqli_fetch_assoc($data)) {
+    // Now $dat is an associative array containing the current row's data
     $nokel = $dat['no_keluar'];
     $nop = $dat['no_order'];
-    $tglm = $dat['tgl_kel'];
+    $tglkel = $dat['tgl_kel'];
     $namat = $dat['nama_toko'];
-    $alamat = $dat['no_alamat'];
+    $alamat = $dat['alamat'];
 }
 ?>
 <html>
@@ -79,9 +84,9 @@ foreach ($data as $dat) {
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row">Tanggal Order</th>
+                            <th scope="row">Tanggal Keluar</th>
 
-                            <td><input class="form-control" name="tgl_po" type="tgl_order" placeholder="Tanggal" value="<?php echo $tglro ?>" readonly />
+                            <td><input class="form-control" name="tgl_po" type="tgl_order" placeholder="Tanggal" value="<?php echo $tglkel ?>" readonly />
                             </td>
                         </tr>
                     </tbody>
@@ -101,15 +106,15 @@ foreach ($data as $dat) {
                     <tbody>
                         <?php
                         $no = 1;
-                        $datapo = mysqli_query($koneksi, "SELECT * FROM masuk m, detail_m d, tb_barang b where m.id_mas = d.id_ma and b.id_b=d.id_b and m.id_mas='$idmas'"); // id pesanan
+                        $datapo = mysqli_query($koneksi, "SELECT * FROM keluar k, detail_k d, tb_barang b where k.id_kel = d.id_ke and b.id_b=d.id_b and k.id_kel='$idkel'"); // id pesanan
                         while ($show = mysqli_fetch_array($datapo)) {
-                            $qtyp = $show['qtym'];
+                            $qtyk = $show['qtyk'];
                         ?>
                             <tr>
                                 <td class="text-center"><?= $no++ ?></td>
                                 <td class="text-center"><?= $show['kode_b'] ?></td>
                                 <td class="text-center"><?= $show['nama_b'] ?></td>
-                                <td class="text-center"><?=  number_format($show['qtym']) ?></td>
+                                <td class="text-center"><?=  number_format($show['qtyk']) ?></td>
                             </tr>
                         <?php }; ?>
                     </tbody>

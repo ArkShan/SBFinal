@@ -79,7 +79,14 @@
                                         <!-- Mulai Field Table -->
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  keluar k, pesanan p, tb_toko t WHERE k.id_pes = p.id_pesanan AND p.id_toko = t.id_toko");
+                                                $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  keluar k, pesanan p, tb_toko t WHERE k.id_pe = p.id_pesanan AND p.id_toko = t.id_toko");
+                                                
+                                                if (!$ambilsemuadatastock) {
+                                                    // Query execution failed, handle the error here
+                                                    echo "Error executing the query: " . mysqli_error($koneksi);
+                                                    exit; // Exit the script if the query failed
+                                                }
+                                                
                                                 $i=1;
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $idkel      = $data['id_kel'];
@@ -93,7 +100,7 @@
                                                 <td class="text-center"><?=$nop;?></td>
                                                 <td class="text-center"><?=$tglo;?></td>
                                                 <td class="text-center"><?=$namat;?></td>
-                                                <td class="text-center"><?php echo "<a href='detail-keluar.php?id_kel=$idkel'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a></td>
+                                                <td class="text-center"><?php echo "<a href='laporan-keluar.php?id_kel=$idkel'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a></td>
                                             </tr>
                                             <!-- END Selesai Field Table --> 
                                             <!-- Modal Tambah Barang -->                                     

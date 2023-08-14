@@ -110,9 +110,9 @@
                                                 <th class="text-center">Pcs/Dus</th>
                                                 <th class="text-center">Harga Promo</th>
                                                 <th class="text-center">Qty</th>
-                                                <!-- <?php if($_SESSION['role'] != "Sales"){?>
-                                                <th>Action</th>
-                                                <?php }; ?> -->
+                                                <?php if($_SESSION['role'] != "Sales" && $_SESSION['role'] != "Gudang"){?>
+                                                <th>Aksi</th>
+                                                <?php }; ?>
                                             </tr>
                                         </thead>
                                         <!-- <tfoot>

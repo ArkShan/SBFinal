@@ -45,6 +45,13 @@ include 'cek.php';
                 <tbody>
                     <?php
                         $ambilsemuadatastock = mysqli_query($koneksi,"SELECT * FROM  tb_barang");
+                        
+                        if (!$ambilsemuadatastock) {
+                            // Query execution failed, handle the error here
+                            echo "Error executing the query: " . mysqli_error($koneksi);
+                            exit; // Exit the script if the query failed
+                        }
+
                         $i=1;
                         while($data=mysqli_fetch_array($ambilsemuadatastock)){
                             $idb        = $data['id_b'];

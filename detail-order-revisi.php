@@ -86,42 +86,30 @@
                                                     Tambah Item
                                                     </button>
                                                     
-                                                    <?php
+                                                    <!-- <?php
                                                         $ambilsemuadatanya = mysqli_query($koneksi,"SELECT * FROM detail");
                                                         while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
                                                             $sub = $fetcharray['submit'];}
-                                                        if ($sub != 1) {?>
+                                                        if ($sub == 0) {?>
                                                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#submit<?=$idp;?>">
                                                             Submit</button>
-                                                    <?php }; ?>
-                                                    <!-- end Button to Open the Modal  -->
-                                                    <!-- <i class="fas fa-table mr-1"></i> -->
-                                                <?php }; ?>
-                                                <!-- <?php if($_SESSION['role'] == "Gudang"){?>
-                                                    <?php if ($kirim == 0) {?>
-                                                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#pro<?=$idp;?>">
-                                                            Proses
-                                                        </button>
-                                                    <?php } else if ($kirim == 1) {?>
-                                                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#kir<?=$idp;?>">
-                                                            Kirim
-                                                        </button>
-                                                    <?php }?>
-                                                    <!-- end Button to Open the Modal  -->
-                                                    <!-- <i class="fas fa-table mr-1"></i> -->
+                                                    <?php } else if ('submit' == 1) {; ?>
+                                                    <?php }; ?> -->
                                                 <?php }; ?>
                                             </tr>
                                             <tr>
-                                                <th style="text-align: center">No</th>
-                                                <th style="text-align: center">Kode Barang</th>
-                                                <th style="text-align: center">Nama Barang</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Kode Barang</th>
+                                                <th class="text-center">Nama Barang</th>
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
-                                                <th style="text-align: center">Harga / Dus</th>
+                                                <th class="text-center">Harga / Dus</th>
                                                 <?php }; ?>
-                                                <th style="text-align: center">Qty</th>
+                                                <th class="text-center">Qty</th>
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
-                                                <th style="text-align: center">Total Harga</th>
-                                                <th style="text-align: center">Aksi</th>
+                                                <th class="text-center">Total Harga</th>
+                                                <?php }; ?>
+                                                <?php if($_SESSION['role'] == "Sales"){?>
+                                                <!-- <th class="text-center">Aksi</th>  -->
                                                 <?php }; ?>
                                             </tr>
                                         </thead>
@@ -182,10 +170,10 @@
                                                 <?php if($_SESSION['role'] != "Gudang"){?>
                                                 <td style="text-align: center">Rp <?=number_format($total);?></td>
                                                 <?php if ($sub != 1) {?>
-                                                <td style="text-align: center">    
+                                                <!-- <td style="text-align: center">    
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$ido;?>">
                                                     Hapus</button>
-                                                </td>
+                                                </td> -->
                                                 <?php }}; ?>                                                
 
                                                 <td>
@@ -317,9 +305,9 @@
                                         <?php if($_SESSION['role'] != "Gudang"){?>
                                             <th colspan="5" style="text-align: right">Total</th>
                                         <?php } else if($_SESSION['role'] == "Gudang"){ ?>
-                                            <th colspan="3" style="text-align: right">Total</th>
+                                            
                                         <?php }; ?>
-                                        <?php
+                                        <?php if($_SESSION['role'] != "Gudang"){
                                             $query = "SELECT SUM(totalh) AS total_sum FROM pesanan WHERE id_pesanan='$idp'";
 
                                             // Execute the query
@@ -336,8 +324,7 @@
                                                 $akhir = $akhir + $jumlah;
                                         ?>
                                             <th style="text-align: center">Rp <?= number_format($akhir) ?></th>
-                                        <?php }; ?>
-                                        
+                                        <?php }}; ?>
                                     </tfoot>
                                     <a href="lap_or-revisi.php?id_pes=<?=$idp?>" target="_blank" id="exportorderrevisi" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Print</a>
                                 </table>

@@ -70,10 +70,10 @@
                         <div class="card mb-4">
                             <div class="card-header">                            
                                 <a href="revisi-returo.php" class="btn btn-danger mt-3"><i class="fa-solid fa-arrow-left">Kembali</i></a>
-                                <h2 class="mt-4">Nomor Retur : <?= $noro ?></h2>
-                                <h2 class="mt-4">Nomor Order : <?= $nop ?></h2>
-                                <h2 class="mt-4">Nama Toko : <?= $namat ?></h2>
-                                <h2 class="mt-4">Alamat : <?= $alamat ?></h2>
+                                <h3 class="mt-4">Nomor Retur : <?= $noro ?></h2>
+                                <h3 class="mt-4">Nomor Order : <?= $nop ?></h2>
+                                <h3 class="mt-4">Nama Toko : <?= $namat ?></h2>
+                                <h3 class="mt-4">Alamat : <?= $alamat ?></h2>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -245,7 +245,7 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-            <h4 class="modal-title">Tambah Barang Retur</h4>
+            <h4 class="modal-title">Tambah Barang Retur Order</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->

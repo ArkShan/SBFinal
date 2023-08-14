@@ -135,11 +135,12 @@
                                                 <?php }; ?>
                                                 <td>
                                                     <?php echo "<a href='detail-order-revisi.php?id_pesanan=$idp'>" ;?><button target="_blank" type="button" class="btn btn-primary">Detail</button></a>
-                                                    <?php if($_SESSION['role'] == "Sales" || $_SESSION['role'] == "Admin"){?>
+                                                    <?php if($_SESSION['role'] == "Sales" || $_SESSION['role'] == "Admin"){
+                                                        if ($bayar != 1){?>
                                                         <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#lun<?=$idp;?>">
                                                             Lunas
                                                         </button>
-                                                    <?php }; ?>
+                                                    <?php }}; ?>
                                                     <?php if($_SESSION['role'] == "Gudang"){
                                                         if ($kirim == 0){?>
                                                             <button type="button" class="btn btn-warning mb-2" data-toggle="modal" data-target="#pro<?=$idp;?>">

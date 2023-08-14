@@ -80,12 +80,12 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Qty</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Kode Barang</th>
+                                                <th class="text-center">Nama Barang</th>
+                                                <th class="text-center">Qty</th>
                                                 <?php if($_SESSION['role'] == "Gudang"){?>
-                                                <th>Aksi</th>
+                                                <th class="text-center">Aksi</th>
                                                 <?php }; ?>
                                             </tr>
                                         </thead>
@@ -123,10 +123,10 @@
                                                
                                             ?>
                                             <tr>
-                                                <td><?=$i++?></td>
-                                                <td><?=$kodeb;?></td>
-                                                <td><?=$namabarang;?></td>
-                                                <td><?=$qtyro;?></td>
+                                                <td class="text-center"><?=$i++?></td>
+                                                <td class="text-center"><?=$kodeb;?></td>
+                                                <td class="text-center"><?=$namabarang;?></td>
+                                                <td class="text-center"><?=$qtyro;?></td>
                                                 <?php if($_SESSION['role'] == "Gudang"){?>
                                                 <?php if ($sub != 1) {?>
                                                 <!-- <td>    

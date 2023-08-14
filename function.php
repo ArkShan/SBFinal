@@ -320,6 +320,19 @@ if(isset($_POST['hapustoko'])){
     }
 }
 
+if(isset($_POST['orderlunas1'])){
+    $ido = $_POST['id_pesanan'];
+    // $qty = $_POST['qty'];
+    $cekreq = mysqli_query($koneksi,"UPDATE pesanan SET bayar =1  WHERE  id_pesanan='$ido'");
+    if($cekreq){
+        echo'<script>
+        alert("Barang Sudah Diterima di Gudang, Silahkan klik tombol ok untuk melanjutkan ");
+        window.location.href = "order-revisi.php"
+        </script>';
+    }else{
+        header("Location:home.php");
+    }
+}
 
 if(isset($_POST['orderlunas'])){
     $ido = $_POST['id_o'];
