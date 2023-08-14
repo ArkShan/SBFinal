@@ -39,6 +39,8 @@ include 'cek.php';
                         <th class="text-center">Harga</th>
                         <th class="text-center">Pcs/Dus</th>
                         <th class="text-center">Harga Promo</th>
+                        
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <!-- Mulai Field Table -->
